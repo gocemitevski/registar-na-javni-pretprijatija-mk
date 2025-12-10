@@ -1,0 +1,9 @@
+.tw-balance {
+  text-wrap: balance;
+}
+
+@include media-breakpoint-down(lg) {
+  .offcanvas {
+    --bs-offcanvas-width: 90vw;
+  }
+}
