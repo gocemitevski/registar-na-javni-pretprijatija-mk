@@ -1,6 +1,9 @@
 import { parseDecimalNumber } from "../utils/parseDecimalNumber";
+import Director from "./Director";
+import PoliticalParty from "./PoliticalParty";
 
 export default function Card({ row, numbers }) {
+  // Изработи собирање на резултатите за цела година кога Сите е избрано за Квартал
   return (
     <div className="card h-100">
       <div className="card-body">
@@ -10,16 +13,28 @@ export default function Card({ row, numbers }) {
               <span>{row.Назив}</span>
             </h5>
             <p className="card-text flex-fill">{row.Опис}</p>
-            <div className="hstack gap-2">
-              <a className="btn btn-sm btn-outline-secondary">Истражи</a>
-              <a
-                title="Мрежно место"
-                target="_blank"
-                className="btn btn-sm btn-outline-secondary"
-                href={row["Мрежно место"]}
-              >
-                <i className="bi bi-box-arrow-up-right"></i>
-              </a>
+            <div className="row">
+              <div className="col-lg-4 hstack gap-2">
+                <a className="btn btn-sm btn-outline-secondary">Истражи</a>
+                <a
+                  title={`Мрежно место на ${row.Назив}`}
+                  target="_blank"
+                  className="btn btn-sm btn-outline-secondary"
+                  href={row["Мрежно место"]}
+                >
+                  <i className="bi bi-box-arrow-up-right"></i>
+                </a>
+              </div>
+              {numbers[`Генерален директор`] && (
+                <div className="col-lg-4">
+                  <Director name={numbers[`Генерален директор`]} />
+                </div>
+              )}
+              {numbers[`Партија`] && (
+                <div className="col-lg-4">
+                  <PoliticalParty name={numbers[`Партија`]} />
+                </div>
+              )}
             </div>
           </div>
           <div className="col-lg-4">
