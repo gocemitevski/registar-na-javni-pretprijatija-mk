@@ -29,19 +29,10 @@ createRoot(root).render(
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route
-          index
-          path="/"
-          element={<App />}
-          loader={Loading}
-          ErrorBoundary={<NoResults />}
-        />
-        <Route
-          path="/:year"
-          element={<App />}
-          loader={Loading}
-          errorElement={NoResults}
-        />
+        <Route index path="/" element={<App />} />
+        <Route path="/:year" element={<App />}>
+          <Route path=":quarter" element={<App />} />
+        </Route>
         {/* <Route
           path="/prihodi"
           element={<Prihodi />}
