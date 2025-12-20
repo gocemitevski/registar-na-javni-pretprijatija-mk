@@ -3,6 +3,7 @@ import { read, utils } from "xlsx";
 import Cards from "./components/Cards";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { generateYears } from "./utils/generateYears";
+import { quarters } from "./utils/filterDefinitions";
 
 function App() {
   const { year, quarter } = useParams();
@@ -16,7 +17,6 @@ function App() {
   const [selectedQuarter, setSelectedQuarter] = useState(quarter || 0);
 
   const availableYears = generateYears();
-  const quarters = [0, 1, 2, 3, 4];
 
   /* Fetch and update the state on each file change */
   useEffect(() => {
@@ -50,7 +50,7 @@ function App() {
         })
       );
     })();
-  }, [file, selectedYear]);
+  }, [file, selectedYear, selectedQuarter]);
 
   useEffect(() => {
     navigate(
@@ -145,7 +145,14 @@ function App() {
             </div>
           </div>
         </div>
-        <Cards tableData={pretprijatija} money={money} />
+        <Cards
+          tableData={pretprijatija}
+          money={
+            selectedQuarter !== 0
+              ? money.filter((item) => item.Квартал == selectedQuarter)
+              : money
+          }
+        />
       </div>
     </div>
   );

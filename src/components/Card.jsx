@@ -1,9 +1,17 @@
-import { parseDecimalNumber } from "../utils/parseDecimalNumber";
-import Director from "./Director";
-import PoliticalParty from "./PoliticalParty";
+import { useParams } from "react-router-dom";
+import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
+// import Director from "./Director";
+// import PoliticalParty from "./PoliticalParty";
 
 export default function Card({ row, numbers }) {
-  // Изработи собирање на резултатите за цела година кога Сите е избрано за Квартал
+  const { quarter } = useParams();
+
+  const sitePrihodi = sumDecimalNumbers(numbers.map((item) => item.Приходи));
+  const siteRashodi = sumDecimalNumbers(numbers.map((item) => item.Расходи));
+  const siteFinansiskiRezultati = sumDecimalNumbers(
+    numbers.map((item) => item[`Финансиски резултат`])
+  );
+
   return (
     <div className="card h-100">
       <div className="card-body">
@@ -25,16 +33,16 @@ export default function Card({ row, numbers }) {
                   <i className="bi bi-box-arrow-up-right"></i>
                 </a>
               </div>
-              {numbers[`Генерален директор`] && (
+              {/* {numbers.Директор && (
                 <div className="col-lg-4">
-                  <Director name={numbers[`Генерален директор`]} />
+                  <Director name={numbers.Директор} />
                 </div>
               )}
               {numbers[`Партија`] && (
                 <div className="col-lg-4">
                   <PoliticalParty name={numbers[`Партија`]} />
                 </div>
-              )}
+              )} */}
             </div>
           </div>
           <div className="col-lg-4">
@@ -43,21 +51,39 @@ export default function Card({ row, numbers }) {
                 <i className="bi bi-arrow-down text-success"></i>
                 <span>Приходи</span>
               </dt>
-              <dd>{parseDecimalNumber(numbers.Приходи)}</dd>
+              <dd>
+                {quarter !== 0
+                  ? parseDecimalNumber(sitePrihodi)
+                  : parseDecimalNumber(
+                      numbers.find((item) => item.Квартал == quarter).Приходи
+                    )}
+              </dd>
             </dl>
             <dl>
               <dt className="hstack gap-2">
                 <i className="bi bi-arrow-up text-danger"></i>
                 <span>Расходи</span>
               </dt>
-              <dd>{parseDecimalNumber(numbers.Расходи)}</dd>
+              <dd>
+                {quarter !== 0
+                  ? parseDecimalNumber(siteRashodi)
+                  : parseDecimalNumber(
+                      numbers.find((item) => item.Квартал == quarter).Расходи
+                    )}
+              </dd>
             </dl>
             <dl>
               <dt className="hstack gap-2">
                 <i
                   className={`bi bi-arrow-down-up ${
                     parseInt(
-                      parseDecimalNumber(numbers[`Финансиски резултат`])
+                      quarter !== 0
+                        ? parseDecimalNumber(siteFinansiskiRezultati)
+                        : parseDecimalNumber(
+                            numbers.find((item) => item.Квартал == quarter)[
+                              `Финансиски резултат`
+                            ]
+                          )
                     ) < 0
                       ? `text-danger`
                       : `text-success`
@@ -65,7 +91,15 @@ export default function Card({ row, numbers }) {
                 ></i>
                 <span>Финансиски резултат</span>
               </dt>
-              <dd>{parseDecimalNumber(numbers[`Финансиски резултат`])}</dd>
+              <dd>
+                {quarter !== 0
+                  ? parseDecimalNumber(siteFinansiskiRezultati)
+                  : parseDecimalNumber(
+                      numbers.find((item) => item.Квартал == quarter)[
+                        `Финансиски резултат`
+                      ]
+                    )}
+              </dd>
             </dl>
           </div>
         </div>
