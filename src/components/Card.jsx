@@ -17,9 +17,7 @@ export default function Card({ row, numbers }) {
       <div className="card-body">
         <div className="row">
           <div className="col-lg-8 vstack">
-            <h5 className="card-title">
-              <span>{row.Назив}</span>
-            </h5>
+            <h5 className="card-title">{row.Назив}</h5>
             <p className="card-text flex-fill">{row.Опис}</p>
             <div className="row">
               <div className="col-lg-4 hstack gap-2">
