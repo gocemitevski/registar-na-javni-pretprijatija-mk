@@ -1,5 +1,5 @@
 // A helper function to generate a list of years for the dropdown
-export const generateYears = (startYear = 2020) => {
+export const generateYears = (startYear = 2019) => {
   const endYear = new Date().getFullYear();
   const years = [];
   for (let i = endYear; i >= startYear; i--) {
