@@ -55,7 +55,7 @@ export default function Cards({ tableData, money }) {
             <Card
               row={row}
               numbers={money.filter(
-                (el) => el["Реден број"] == row["Реден број"]
+                (el) => el.Назив == row.Назив
               )}
             />
           </div>
