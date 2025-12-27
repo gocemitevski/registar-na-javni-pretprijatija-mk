@@ -2,8 +2,6 @@ import { useState, useEffect, Fragment } from "react";
 import { read, utils } from "xlsx";
 import Cards from "./components/Cards";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { generateYears } from "./utils/generateYears";
-import { quarters } from "./utils/filterDefinitions";
 
 function App() {
   const { year, quarter } = useParams();
@@ -13,12 +11,13 @@ function App() {
 
   const file = `registar-javni-pretprijatija-r-s-makedonija.ods`;
 
-  const [selectedYear, setSelectedYear] = useState(year || generateYears()[0]);
-  const [selectedQuarter, setSelectedQuarter] = useState(quarter || 0);
+  const [availableYears, setAvailableYears] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(year || 0);
+  const [selectedQuarter, setSelectedQuarter] = useState(
+    parseInt(quarter) || parseInt(0)
+  );
 
-  const availableYears = generateYears();
-
-  /* Fetch and update the state on each file change */
+  /* Load companies reference data */
   useEffect(() => {
     (async () => {
       const f = await fetch(`./ods/${file}`);
@@ -33,9 +32,9 @@ function App() {
         })
       );
     })();
-  }, [file, selectedYear]);
+  }, [file]);
 
-  /* Fetch and update the state on each year change */
+  /* Load data for each company */
   useEffect(() => {
     (async () => {
       const f = await fetch(`./ods/${file}`);
@@ -44,17 +43,25 @@ function App() {
       /* Parse */
       const wb = read(ab);
 
+      setAvailableYears(wb.SheetNames.filter((item, key) => key > 0));
+      (year === undefined || parseInt(year) === 0) &&
+        setSelectedYear(availableYears[0]);
+
       setMoney(
         utils.sheet_to_json(wb.Sheets[selectedYear], {
           blankrows: false,
         })
       );
     })();
-  }, [file, selectedYear, selectedQuarter]);
+  }, [file, selectedYear]);
+
+  const quarters = [0, ...new Set(money.map((item) => item.Квартал))];
 
   useEffect(() => {
     navigate(
-      `/${selectedYear}${selectedQuarter > 0 ? `/${selectedQuarter}` : ``}`
+      `/${selectedYear}${
+        parseInt(selectedQuarter) > 0 ? `/${selectedQuarter}` : ``
+      }`
     );
   }, [selectedYear, selectedQuarter]);
 
@@ -67,10 +74,9 @@ function App() {
               <ul className="nav nav-pills">
                 <li className="nav-item">
                   <NavLink
-                    relative
                     className={`nav-link`}
                     to={`/${selectedYear}${
-                      selectedQuarter > 0 ? `/${selectedQuarter}` : ``
+                      parseInt(selectedQuarter) > 0 ? `/${selectedQuarter}` : ``
                     }`}
                     end
                   >
@@ -78,18 +84,17 @@ function App() {
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink relative className={`nav-link`} to="/prihodi" end>
+                  <NavLink className={`nav-link`} to="/prihodi" end>
                     Приходи
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink relative className={`nav-link`} to="/rashodi" end>
+                  <NavLink className={`nav-link`} to="/rashodi" end>
                     Расходи
                   </NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    relative
                     className={`nav-link`}
                     to="/finansiski-rezultati"
                     end
@@ -125,7 +130,7 @@ function App() {
               <div className="col-lg-6">
                 <div className="form-floating">
                   <select
-                    defaultValue={selectedQuarter}
+                    defaultValue={quarter}
                     className="form-select"
                     id="quarters"
                     onChange={(e) => {
@@ -146,10 +151,14 @@ function App() {
           </div>
         </div>
         <Cards
-          tableData={pretprijatija}
+          tableData={pretprijatija.filter((item) =>
+            [...new Set(money.map((item) => item.Назив))].includes(item.Назив)
+          )}
           money={
-            selectedQuarter !== 0
-              ? money.filter((item) => item.Квартал == selectedQuarter)
+            parseInt(selectedQuarter) !== 0
+              ? money.filter(
+                  (item) => item.Квартал === parseInt(selectedQuarter)
+                )
               : money
           }
         />
