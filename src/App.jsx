@@ -55,7 +55,9 @@ function App() {
     })();
   }, [file, selectedYear]);
 
-  const quarters = [0, ...new Set(money.map((item) => item.Квартал))];
+  const quarters = [
+    ...new Set([0, ...new Set(money.map((item) => item.Квартал))]),
+  ];
 
   useEffect(() => {
     navigate(
