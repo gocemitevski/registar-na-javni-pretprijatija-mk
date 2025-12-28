@@ -9,4 +9,11 @@ export const filterDefinitions = {
   Партија: "",
 };
 
-export const quarters = [0, 1, 2, 3, 4];
+export const sorting = [
+  "Основно",
+  "Приходи",
+  "Расходи",
+  "Финансиски резултат",
+];
+
+export const order = ["Основен", "Опаѓачки", "Растечки"];
