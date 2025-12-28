@@ -1,7 +1,10 @@
 import { useState, useEffect, Fragment } from "react";
 import { read, utils } from "xlsx";
 import Cards from "./components/Cards";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { order, sorting } from "./utils/filterDefinitions";
+import { transliterate } from "./utils/transliterate";
+import { cleanName } from "./utils/cleanName";
 
 function App() {
   const { year, quarter } = useParams();
@@ -67,105 +70,113 @@ function App() {
     );
   }, [selectedYear, selectedQuarter]);
 
+  let companiesInSheet = [...new Set(money.map((item) => item.Назив))].map(
+    (el) => pretprijatija.find((c) => el === c.Назив)
+  );
+
   return (
-    <div className="bg-light flex-fill">
-      <div className="container">
-        <div className="row align-items-center my-3 gx-3">
-          <div className="col-lg-8">
-            <nav id="main-navigation">
-              <ul className="nav nav-pills">
-                <li className="nav-item">
-                  <NavLink
-                    className={`nav-link`}
-                    to={`/${selectedYear}${
-                      parseInt(selectedQuarter) > 0 ? `/${selectedQuarter}` : ``
-                    }`}
-                    end
-                  >
-                    Регистар
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink className={`nav-link`} to="/prihodi" end>
-                    Приходи
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink className={`nav-link`} to="/rashodi" end>
-                    Расходи
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink
-                    className={`nav-link`}
-                    to="/finansiski-rezultati"
-                    end
-                  >
-                    Финансиски резултати{" "}
-                  </NavLink>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <div className="col-lg-4">
-            <div className="row g-2">
-              <div className="col-lg-6">
-                <div className="form-floating">
-                  <select
-                    defaultValue={selectedYear}
-                    className="form-select"
-                    id="years"
-                    onChange={(e) => {
-                      const currentYear = e.target.value;
-                      setSelectedYear(currentYear);
-                    }}
-                  >
-                    {availableYears.map((year, key) => (
-                      <option key={key} value={year}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
-                  <label htmlFor="years">Година</label>
-                </div>
+    <Fragment>
+      <div className="bg-primary-subtle sticky-top">
+        <div className="container">
+          <div className="row align-items-center my-3 gx-3">
+            <div className="col-lg-3">
+              <div className="form-floating">
+                <select
+                  defaultValue={selectedYear}
+                  className="form-select"
+                  id="years"
+                  onChange={(e) => {
+                    const currentYear = e.target.value;
+                    setSelectedYear(currentYear);
+                  }}
+                >
+                  {availableYears.map((year, key) => (
+                    <option key={key} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+                <label htmlFor="years">Година</label>
               </div>
-              <div className="col-lg-6">
-                <div className="form-floating">
-                  <select
-                    defaultValue={quarter}
-                    className="form-select"
-                    id="quarters"
-                    onChange={(e) => {
-                      const currentQuarter = e.target.value;
-                      setSelectedQuarter(currentQuarter);
-                    }}
-                  >
-                    {quarters.map((quarter, key) => (
-                      <option key={key} value={quarter}>
-                        {quarter === 0 ? `Сите` : quarter}
-                      </option>
-                    ))}
-                  </select>
-                  <label htmlFor="quarters">Квартал</label>
-                </div>
+            </div>
+            <div className="col-lg-3">
+              <div className="form-floating">
+                <select
+                  defaultValue={quarter}
+                  className="form-select"
+                  id="quarters"
+                  onChange={(e) => {
+                    const currentQuarter = e.target.value;
+                    setSelectedQuarter(currentQuarter);
+                  }}
+                >
+                  {quarters.map((quarter, key) => (
+                    <option key={key} value={parseInt(quarter)}>
+                      {quarter === 0 ? `Сите` : quarter}
+                    </option>
+                  ))}
+                </select>
+                <label htmlFor="quarters">Квартал</label>
+              </div>
+            </div>
+            <div className="col-lg-3">
+              <div className="form-floating">
+                <select
+                  defaultValue={quarter}
+                  className="form-select"
+                  id="sorting"
+                  onChange={(e) => {
+                    const currentQuarter = e.target.value;
+                    setSelectedQuarter(currentQuarter);
+                  }}
+                >
+                  {sorting.map((sort, key) => (
+                    <option key={key} value={cleanName(transliterate(sort))}>
+                      {sort}
+                    </option>
+                  ))}
+                </select>
+                <label htmlFor="sorting">Подредување</label>
+              </div>
+            </div>
+            <div className="col-lg-3">
+              <div className="form-floating">
+                <select
+                  defaultValue={quarter}
+                  className="form-select"
+                  id="order"
+                  onChange={(e) => {
+                    const currentQuarter = e.target.value;
+                    setSelectedQuarter(currentQuarter);
+                  }}
+                >
+                  {order.map((order, key) => (
+                    <option key={key} value={cleanName(transliterate(order))}>
+                      {order}
+                    </option>
+                  ))}
+                </select>
+                <label htmlFor="order">Редослед</label>
               </div>
             </div>
           </div>
         </div>
-        <Cards
-          tableData={pretprijatija.filter((item) =>
-            [...new Set(money.map((item) => item.Назив))].includes(item.Назив)
-          )}
-          money={
-            parseInt(selectedQuarter) !== 0
-              ? money.filter(
-                  (item) => item.Квартал === parseInt(selectedQuarter)
-                )
-              : money
-          }
-        />
       </div>
-    </div>
+      <div className="bg-light flex-fill">
+        <div className="container">
+          <Cards
+            tableData={companiesInSheet}
+            money={
+              parseInt(selectedQuarter) !== 0
+                ? money.filter(
+                    (item) => item.Квартал === parseInt(selectedQuarter)
+                  )
+                : money
+            }
+          />
+        </div>
+      </div>
+    </Fragment>
   );
 }
 
