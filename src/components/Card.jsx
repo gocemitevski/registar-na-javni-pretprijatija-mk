@@ -1,6 +1,8 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import DefinitionList from "./DefinitionList";
+import { cleanName } from "../utils/cleanName";
+import { transliterate } from "../utils/transliterate";
 
 export default function Card({ row, numbers }) {
   const { quarter } = useParams();
@@ -16,27 +18,27 @@ export default function Card({ row, numbers }) {
       <div className="card-body">
         <div className="row g-5">
           <div className="col-lg-8 vstack">
-            <h5 className="card-title">{row.Назив}</h5>
+            <h5 className="card-title">
+              <Link to={`/company/${cleanName(transliterate(row.Назив))}`}>
+                {row.Назив}
+              </Link>
+            </h5>
             <p className="card-text flex-fill">{row.Опис}</p>
-            <div className="row">
-              <div className="col-lg-4 hstack gap-2">
-                <a className="btn btn-sm btn-outline-secondary">Истражи</a>
-                <a
-                  title={`Мрежно место на ${row.Назив}`}
-                  target="_blank"
-                  className="btn btn-sm btn-outline-secondary"
-                  href={row["Мрежно место"]}
-                >
-                  <i className="bi bi-box-arrow-up-right"></i>
-                </a>
-              </div>
-            </div>
+            <a
+              title={`Мрежно место на ${row.Назив}`}
+              target="_blank"
+              className="btn btn-sm btn-outline-secondary me-auto"
+              href={row["Мрежно место"]}
+            >
+              <i className="bi bi-box-arrow-up-right"></i>
+            </a>
           </div>
-          <div className="col-lg-4 align-self-end vstack gap-2">
+          <div className="col-lg-4 align-self-center vstack gap-2">
             <DefinitionList
               title={`Приходи`}
               total={totalIncome}
               numbers={numbers}
+              quarter={quarter}
               icon={`bi-arrow-down`}
               color={`success`}
             />
@@ -44,6 +46,7 @@ export default function Card({ row, numbers }) {
               title={`Расходи`}
               total={totalOutcome}
               numbers={numbers}
+              quarter={quarter}
               icon={`bi-arrow-up`}
               color={`danger`}
             />
@@ -51,6 +54,7 @@ export default function Card({ row, numbers }) {
               title={`Финансиски резултат`}
               total={totalFinancialResults}
               numbers={numbers}
+              quarter={quarter}
               icon={`bi-arrow-down-up`}
               color={
                 parseInt(
