@@ -29,7 +29,7 @@ export default function Footer() {
               href="https://www.gocemitevski.com/"
             >
               Гоце Митевски
-            </a>
+            </a>.
           </div>
         </div>
       </footer>
