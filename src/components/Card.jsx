@@ -6,12 +6,22 @@ import { transliterate } from "../utils/transliterate";
 
 export default function Card({ row, numbers }) {
   const { quarter } = useParams();
+  const quarterNum = parseInt(quarter) || 0;
 
   const totalIncome = sumDecimalNumbers(numbers.map((item) => item.Приходи));
   const totalOutcome = sumDecimalNumbers(numbers.map((item) => item.Расходи));
   const totalFinancialResults = sumDecimalNumbers(
-    numbers.map((item) => item[`Финансиски резултат`])
+    numbers.map((item) => item["Финансиски резултат"])
   );
+
+  const getFinancialResultColor = () => {
+    if (quarterNum === 0) {
+      return parseInt(parseDecimalNumber(totalFinancialResults)) < 0 ? "danger" : "success";
+    }
+    const q = numbers.find((item) => item.Квартал === quarterNum);
+    if (!q) return "success";
+    return parseInt(parseDecimalNumber(q["Финансиски резултат"])) < 0 ? "danger" : "success";
+  };
 
   return (
     <div className="card h-100">
@@ -35,40 +45,28 @@ export default function Card({ row, numbers }) {
           </div>
           <div className="col-lg-4 align-self-center vstack gap-2">
             <DefinitionList
-              title={`Приходи`}
+              title="Приходи"
               total={totalIncome}
               numbers={numbers}
               quarter={quarter}
-              icon={`bi-arrow-down`}
-              color={`success`}
+              icon="bi-arrow-down"
+              color="success"
             />
             <DefinitionList
-              title={`Расходи`}
+              title="Расходи"
               total={totalOutcome}
               numbers={numbers}
               quarter={quarter}
-              icon={`bi-arrow-up`}
-              color={`danger`}
+              icon="bi-arrow-up"
+              color="danger"
             />
             <DefinitionList
-              title={`Финансиски резултат`}
+              title="Финансиски резултат"
               total={totalFinancialResults}
               numbers={numbers}
               quarter={quarter}
-              icon={`bi-arrow-down-up`}
-              color={
-                parseInt(
-                  parseInt(quarter) !== 0
-                    ? parseDecimalNumber(totalFinancialResults)
-                    : parseDecimalNumber(
-                        numbers.find(
-                          (item) => item.Квартал === parseInt(quarter)
-                        )[`Финансиски резултат`]
-                      )
-                ) < 0
-                  ? `danger`
-                  : `success`
-              }
+              icon="bi-arrow-down-up"
+              color={getFinancialResultColor()}
             />
           </div>
         </div>

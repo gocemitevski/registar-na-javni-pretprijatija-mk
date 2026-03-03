@@ -3,6 +3,7 @@ import SearchForm from "./SearchForm";
 import { filterDefinitions } from "../utils/filterDefinitions";
 import Card from "./Card";
 import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
+import DefinitionListTotal from "./DefinitionListTotal";
 
 export default function Cards({ tableData, money }) {
   const [filters, setFilters] = useState(filterDefinitions);
@@ -54,56 +55,64 @@ export default function Cards({ tableData, money }) {
 
   return (
     <Fragment>
-      <div className="row row-cols-1 row-cols-lg-4 g-3 mt-2 mb-3">
-        <div className="col">
-          <div className="card">
-            <div className="card-body">
-              <h5>{totalCompanies}</h5>
-              <p className="card-text">Јавни претпријатија и трговски друштва</p>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card">
-            <div className="card-body">
-              <h5>{totalIncome}</h5>
-              <p className="card-text">Приходи за избраната година и квартал</p>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card">
-            <div className="card-body">
-              <h5>{totalOutcome}</h5>
-              <p className="card-text">Расходи за избраната година и квартал</p>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card">
-            <div className="card-body">
-              <h5>{totalFinancialResults}</h5>
-              <p className="card-text">Финансиски резултат за избраната година и квартал</p>
-            </div>
+      <div className="bg-light py-3">
+        <div className="container">
+          <SearchForm
+            value={filters[Object.keys(filters)[7]]}
+            index={Object.keys(filters)[7]}
+            filters={filters}
+            setFilters={setFilters}
+            searchData={searchData}
+          />
+          <div className="row row-cols-1 g-3">
+            {results
+              .map(
+                (row, i) =>
+                  row && (
+                    <div className="col" key={i}>
+                      <Card
+                        row={row}
+                        numbers={money.filter((el) => el.Назив === row.Назив)}
+                      />
+                    </div>
+                  )
+              )}
           </div>
         </div>
       </div>
-      <SearchForm
-        value={filters[Object.keys(filters)[7]]}
-        index={Object.keys(filters)[7]}
-        filters={filters}
-        setFilters={setFilters}
-        searchData={searchData}
-      />
-      <div className="row row-cols-1 g-3 mb-4">
-        {results.map((row, i) => (
-          row && <div className="col" key={i}>
-            <Card
-              row={row}
-              numbers={money.filter((el) => el.Назив === row.Назив)}
-            />
+      <div className="bg-light pt-4 pb-5">
+        <div className="container">
+          <div className="row mx-2 mb-3">
+            <div className="col-lg-8 vstack gap-2 justify-content-center">
+              <h5 className="card-title">Вкупно</h5>
+              <p className="card-text mb-0">
+                {totalCompanies} јавни претпријатија и трговски друштва
+              </p>
+            </div>
+            <div className="col-lg-4 align-self-center vstack gap-2">
+              <DefinitionListTotal
+                title={`Приходи`}
+                total={totalIncome}
+                icon={`bi-arrow-down`}
+                color={`success`}
+              />
+              <DefinitionListTotal
+                title={`Расходи`}
+                total={totalOutcome}
+                icon={`bi-arrow-up`}
+                color={`danger`}
+              />
+              <DefinitionListTotal
+                title={`Финансиски резултат`}
+                total={totalFinancialResults}
+                icon={`bi-arrow-down-up`}
+                color={
+                  parseInt(totalFinancialResults) < 0 ? `danger` : `success`
+                }
+              />
+            </div>
           </div>
-        ))}
+        </div>
       </div>
     </Fragment>
   );
