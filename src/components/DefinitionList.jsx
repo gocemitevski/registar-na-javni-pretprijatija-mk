@@ -1,8 +1,8 @@
-import { useParams } from "react-router-dom";
 import { parseDecimalNumber } from "../utils/decimalNumbers";
 
-export default function DefinitionList({ title, total, numbers, icon, color }) {
-  const { quarter } = useParams();
+export default function DefinitionList({ title, total, numbers, quarter, icon, color }) {
+  const quarterNum = parseInt(quarter) || 0;
+  const quarterData = quarterNum !== 0 ? numbers.find((item) => item.Квартал === quarterNum) : null;
 
   return (
     <dl className="hstack gap-2 mb-0">
@@ -11,11 +11,11 @@ export default function DefinitionList({ title, total, numbers, icon, color }) {
         <span>{title}</span>
       </dt>
       <dd className="mb-0 flex-fill text-end">
-        {parseInt(quarter) !== 0
+        {quarterNum === 0
           ? parseDecimalNumber(total)
-          : parseDecimalNumber(
-              numbers.find((item) => item.Квартал === parseInt(quarter))[title]
-            )}
+          : quarterData
+            ? parseDecimalNumber(quarterData[title])
+            : "—"}
       </dd>
     </dl>
   );
