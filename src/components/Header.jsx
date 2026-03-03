@@ -5,11 +5,11 @@ export default function Header() {
   const socialLinks = socialLinkButtons();
 
   return (
-    <div className="bg-primary text-light py-3">
+    <div className="bg-primary py-4 text-light">
       <header className="container">
-        <div className="row mt-xxxl-3 mb-1 mb-xxxl-3">
+        <div className="row">
           <div className="col-xl-8 col-xxl-7">
-            <h1 className="h3 pt-4">
+            <h1 className="h3 pt-xl-4">
               <Link
                 className="hstack flex-wrap flex-sm-nowrap align-items-start align-items-md-end link-light link-underline link-underline-opacity-50 gap-0 gap-sm-3 link-offset-1"
                 to={`/`}
@@ -17,7 +17,7 @@ export default function Header() {
                 {import.meta.env.VITE_APP_META_TITLE}
               </Link>
             </h1>
-            <p className="lead mb-xl-3">
+            <p className="lead pb-xl-3">
               {import.meta.env.VITE_APP_META_DESCRIPTION}
             </p>
           </div>
