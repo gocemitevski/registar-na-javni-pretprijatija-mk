@@ -6,7 +6,7 @@ export default function SearchForm({
   searchData,
 }) {
   return (
-    <form className="mt-2 mb-4">
+    <div className="mt-2 mb-4">
       <div className="input-group flex-fill">
         <input
           id={`search`}
@@ -24,7 +24,7 @@ export default function SearchForm({
         {value && (
           <button
             className="btn btn-outline-secondary"
-            type="reset"
+            type="button"
             title={
               value
                 ? `Избриши`
@@ -47,6 +47,6 @@ export default function SearchForm({
         Пребарајте низ сите јавни претпријатија во регистарот со едноставни
         поими како: <em>електрани, железница, патишта, шуми, Скопје</em> и сл.
       </div>
-    </form>
+    </div>
   );
 }
