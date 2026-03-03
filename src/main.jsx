@@ -8,11 +8,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import ZaIzrabotkata from "./components/ZaIzrabotkata.jsx";
-import Prihodi from "./Prihodi.jsx";
-import Rashodi from "./Rashodi.jsx";
-import FinansiskiRezultati from "./FinansiskiRezultati.jsx";
-import Loading from "./components/Loading.jsx";
-import NoResults from "./components/NoResults.jsx";
+import Company from "./components/Company.jsx";
+import Breadcrumbs from "./components/Breadcrumbs.jsx";
 
 const root = document.getElementById("root");
 
@@ -30,47 +27,12 @@ createRoot(root).render(
       <Header />
       <Routes>
         <Route index path="/" element={<App />} />
+        <Route path="/company/:company" element={<Company />} />
         <Route path="/:year" element={<App />}>
           <Route path=":quarter" element={<App />} />
         </Route>
-        {/* <Route
-          path="/prihodi"
-          element={<Prihodi />}
-          loader={Loading}
-          errorElement={NoResults}
-        >
-          <Route
-            path=":year"
-            element={<Prihodi />}
-            loader={Loading}
-            errorElement={NoResults}
-          />
-        </Route> */}
-        {/* <Route
-          path="/rashodi"
-          element={<Rashodi />}
-          loader={Loading}
-          errorElement={NoResults}
-        >
-          <Route
-            path=":year"
-            element={<Rashodi />}
-            loader={Loading}
-            errorElement={NoResults}
-          />
-        </Route> */}
-        {/* <Route
-          path="/finansiski-rezultati"
-          element={<FinansiskiRezultati loader={Loading} />}
-        >
-          <Route
-            path=":year"
-            element={<FinansiskiRezultati />}
-            loader={Loading}
-            errorElement={NoResults}
-          />
-        </Route> */}
       </Routes>
+      <Breadcrumbs />
       <Footer />
       <ZaIzrabotkata />
       <CookieConsent
