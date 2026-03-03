@@ -10,13 +10,15 @@ import DefinitionList from "./DefinitionList";
 import TableFooterValue from "./TableFooterValue";
 
 function Company() {
-  const { company } = useParams();
+  const { company: currentCompanyParam } = useParams();
   const [pretprijatija, setPretprijatija] = useState([]);
   const [allMoney, setAllMoney] = useState({});
   const [availableYears, setAvailableYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [previousCompanyIndex, setPreviousCompanyIndex] = useState(-1);
+  const [nextCompanyIndex, setNextCompanyIndex] = useState(-1);
   const wbRef = useRef(null);
   const chartRef = useRef(null);
 
@@ -40,6 +42,15 @@ function Company() {
           );
         }
 
+        if (pretprijatija.length > 0) {
+          await new Promise((resolve) => setTimeout(resolve, 100));
+          const companyIndex = pretprijatija.findIndex(
+            (el) => cleanName(transliterate(el.Назив)) === currentCompanyParam,
+          );
+          setPreviousCompanyIndex(companyIndex - 1);
+          setNextCompanyIndex(companyIndex + 1);
+        }
+
         const years = wb.SheetNames.filter((item, key) => key > 0);
         setAvailableYears(years);
 
@@ -49,6 +60,7 @@ function Company() {
             blankrows: false,
           });
         });
+
         setAllMoney(moneyByYear);
         setLoading(false);
       } catch (err) {
@@ -57,11 +69,29 @@ function Company() {
         setLoading(false);
       }
     })();
-  }, [pretprijatija.length]);
+  }, [pretprijatija.length, currentCompanyParam]);
 
   const currentCompany = pretprijatija.find(
-    (el) => cleanName(transliterate(el.Назив)) === company,
+    (el) => cleanName(transliterate(el.Назив)) === currentCompanyParam,
   );
+
+  const toCleanName = (name) => cleanName(transliterate(name));
+
+  const goToCompany = (idx) => {
+    if (idx < 0 || idx >= pretprijatija.length) return;
+    const company = pretprijatija[idx];
+    const path = toCleanName(company.Назив).replace(/ /g, "%20");
+    if (path) window.location.href = `${path}`;
+  };
+
+  const previousCompanyName =
+    previousCompanyIndex >= 0 && previousCompanyIndex < pretprijatija.length
+      ? pretprijatija[previousCompanyIndex].Назив
+      : null;
+  const nextCompanyName =
+    nextCompanyIndex >= 0 && nextCompanyIndex < pretprijatija.length
+      ? pretprijatija[nextCompanyIndex].Назив
+      : null;
 
   const companyData = useMemo(() => {
     if (!currentCompany || Object.keys(allMoney).length === 0) return null;
@@ -296,10 +326,10 @@ function Company() {
 
   return (
     <div className="container my-5 flex-fill">
-      <div className="row g-5 align-items-end">
+      <div className="row g-5 align-items-end mb-3">
         <div className="col-lg-8 vstack">
           <h1 className="h3">{currentCompany.Назив}</h1>
-          <p>{currentCompany.Опис}</p>
+          <p>{currentCompany.Опис}.</p>
           {currentCompany["Мрежно место"] && (
             <a
               title={`Мрежно место на ${currentCompany.Назив}`}
@@ -311,7 +341,7 @@ function Company() {
             </a>
           )}
         </div>
-        <div className="col-lg-4">
+        <div className="col-lg-4 align-items-end">
           <div className="form-floating">
             <select
               className="form-select"
@@ -335,7 +365,7 @@ function Company() {
         <>
           {chartData && (
             <div className="my-5">
-              <h2 className="h5 mb-3">Промени низ годините</h2>
+              <h2 className="h5 mb-3 visually-hidden">Промени низ годините</h2>
               <div style={{ height: "360px" }}>
                 <canvas ref={chartRef}></canvas>
               </div>
@@ -415,13 +445,48 @@ function Company() {
                 </tr>
               </tfoot>
             </table>
-            {/* Add Previous/Next company buttons below the table data, to improve navigation */}
+          </div>
+          <div className="row row-cols-2 g-3 my-3">
+            <div className="col">
+              {previousCompanyIndex > 0 && (
+                <div className="card h-100">
+                  <div className="card-body">
+                    <h5 className="fs-6 card-title">{previousCompanyName}</h5>
+                    <button
+                      className="btn btn-sm btn-outline-secondary"
+                      onClick={() => goToCompany(previousCompanyIndex)}
+                      title="Претходно претпријатие"
+                    >
+                      <i className="bi bi-arrow-left"></i>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="col">
+              {nextCompanyIndex > 0 && (
+                <div className="card h-100 text-end">
+                  <div className="card-body">
+                    <h5 className="fs-6 card-title">{nextCompanyName}</h5>
+                    <button
+                      className="btn btn-sm btn-outline-secondary"
+                      onClick={() => goToCompany(nextCompanyIndex)}
+                      title="Следно претпријатие"
+                    >
+                      <i className="bi bi-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </>
       )}
 
       {filteredData.length === 0 && (
-        <div className="alert alert-warning mt-5">Нема податоци за избраната година.</div>
+        <div className="alert alert-warning mt-5">
+          Нема податоци за избраната година.
+        </div>
       )}
     </div>
   );
