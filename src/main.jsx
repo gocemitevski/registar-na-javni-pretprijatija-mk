@@ -25,6 +25,7 @@ createRoot(root).render(
   <StrictMode>
     <BrowserRouter>
       <Header />
+      <Breadcrumbs />
       <Routes>
         <Route index path="/" element={<App />} />
         <Route path="/company/:company" element={<Company />} />
@@ -32,7 +33,6 @@ createRoot(root).render(
           <Route path=":quarter" element={<App />} />
         </Route>
       </Routes>
-      <Breadcrumbs />
       <Footer />
       <ZaIzrabotkata />
       <CookieConsent
