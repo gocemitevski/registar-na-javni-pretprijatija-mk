@@ -429,7 +429,7 @@ function Company() {
                       title="Претходно претпријатие"
                       type="button"
                     >
-                      <h5 className="h6">{previousCompanyName}</h5>
+                      <h5 className="h6 me-5">{previousCompanyName}</h5>
                       <i className="bi bi-arrow-left text-primary"></i>
                     </button>
                   </div>
@@ -445,7 +445,7 @@ function Company() {
                       title="Претходно претпријатие"
                       type="button"
                     >
-                      <h5 className="h6">{nextCompanyName}</h5>
+                      <h5 className="h6 ms-5">{nextCompanyName}</h5>
                       <i className="bi bi-arrow-right text-primary"></i>
                     </button>
                   </div>
