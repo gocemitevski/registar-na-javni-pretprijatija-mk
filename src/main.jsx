@@ -3,29 +3,15 @@ import { createRoot } from "react-dom/client";
 import ReactGA from "react-ga4";
 import CookieConsent, { Cookies } from "react-cookie-consent";
 import "./assets/scss/style.scss";
-import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import Breadcrumbs from "./components/Breadcrumbs.jsx";
+import CompanyWrapper from "./components/CompanyWrapper.jsx";
+import Loading from "./components/Loading.jsx";
 
 const App = lazy(() => import("./App.jsx"));
-const Company = lazy(() => import("./components/Company.jsx"));
 const ZaIzrabotkata = lazy(() => import("./components/ZaIzrabotkata.jsx"));
-
-function CompanyWrapper() {
-  const { company } = useParams();
-  return <Company key={company} />;
-}
-
-function Loading() {
-  return (
-    <div className="container my-5 text-center">
-      <div className="spinner-border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>
-    </div>
-  );
-}
 
 const root = document.getElementById("root");
 
