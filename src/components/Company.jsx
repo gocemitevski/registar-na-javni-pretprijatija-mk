@@ -1,87 +1,52 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import { read, utils } from "xlsx";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Chart from "chart.js/auto";
-import { file } from "../utils/file";
 import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
 import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
+import { useData } from "../hooks/useData";
 import DefinitionList from "./DefinitionList";
 import TableFooterValue from "./TableFooterValue";
 
 function Company() {
   const { company: currentCompanyParam } = useParams();
-  const [pretprijatija, setPretprijatija] = useState([]);
-  const [allMoney, setAllMoney] = useState({});
-  const [availableYears, setAvailableYears] = useState([]);
+  const navigate = useNavigate();
+  const {
+    pretprijatija,
+    allMoney,
+    availableYears,
+    loading: dataLoading,
+    error,
+  } = useData();
   const [selectedYear, setSelectedYear] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [previousCompanyIndex, setPreviousCompanyIndex] = useState(-1);
-  const [nextCompanyIndex, setNextCompanyIndex] = useState(-1);
-  const wbRef = useRef(null);
   const chartRef = useRef(null);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        if (!wbRef.current) {
-          const f = await fetch(`/ods/${file}`);
-          if (!f.ok) throw new Error(`Failed to fetch data: ${f.status}`);
-          const ab = await f.arrayBuffer();
-          wbRef.current = read(ab);
-        }
-
-        const wb = wbRef.current;
-
-        if (pretprijatija.length === 0) {
-          setPretprijatija(
-            utils.sheet_to_json(wb.Sheets["Претпријатија"], {
-              blankrows: false,
-            }),
-          );
-        }
-
-        if (pretprijatija.length > 0) {
-          await new Promise((resolve) => setTimeout(resolve, 100));
-          const companyIndex = pretprijatija.findIndex(
-            (el) => cleanName(transliterate(el.Назив)) === currentCompanyParam,
-          );
-          setPreviousCompanyIndex(companyIndex - 1);
-          setNextCompanyIndex(companyIndex + 1);
-        }
-
-        const years = wb.SheetNames.filter((item, key) => key > 0);
-        setAvailableYears(years);
-
-        const moneyByYear = {};
-        years.forEach((y) => {
-          moneyByYear[y] = utils.sheet_to_json(wb.Sheets[y], {
-            blankrows: false,
-          });
-        });
-
-        setAllMoney(moneyByYear);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error loading company data:", err);
-        setError(err.message);
-        setLoading(false);
-      }
-    })();
-  }, [pretprijatija.length, currentCompanyParam]);
 
   const currentCompany = pretprijatija.find(
     (el) => cleanName(transliterate(el.Назив)) === currentCompanyParam,
   );
+
+  const companyIndex = pretprijatija.findIndex(
+    (el) => cleanName(transliterate(el.Назив)) === currentCompanyParam,
+  );
+  const previousCompanyIndex = companyIndex > 0 ? companyIndex - 1 : -1;
+  const nextCompanyIndex =
+    companyIndex >= 0 && companyIndex < pretprijatija.length - 1
+      ? companyIndex + 1
+      : -1;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const toCleanName = (name) => cleanName(transliterate(name));
 
   const goToCompany = (idx) => {
     if (idx < 0 || idx >= pretprijatija.length) return;
     const company = pretprijatija[idx];
-    const path = toCleanName(company.Назив).replace(/ /g, "%20");
-    if (path) window.location.href = `${path}`;
+    const path = toCleanName(company.Назив);
+    if (path) {
+      navigate(`/company/${path}`);
+    }
   };
 
   const previousCompanyName =
@@ -284,7 +249,7 @@ function Company() {
     });
   }, [chartData]);
 
-  if (loading) {
+  if (dataLoading) {
     return (
       <div className="container my-5 flex-fill">
         <div className="row">
@@ -328,7 +293,7 @@ function Company() {
     <div className="container my-5 flex-fill">
       <div className="row g-5 align-items-end mb-3">
         <div className="col-lg-8 vstack">
-          <h1 className="h3">{currentCompany.Назив}</h1>
+          <h1 className="h3 mb-3">{currentCompany.Назив}</h1>
           <p>{currentCompany.Опис}.</p>
           {currentCompany["Мрежно место"] && (
             <a
@@ -344,9 +309,9 @@ function Company() {
         <div className="col-lg-4 align-items-end">
           <div className="form-floating">
             <select
+              value={selectedYear || ""}
               className="form-select"
               id="years"
-              value={selectedYear || ""}
               onChange={(e) => setSelectedYear(e.target.value || null)}
             >
               <option value="">Сите години</option>
@@ -365,7 +330,7 @@ function Company() {
         <>
           {chartData && (
             <div className="my-5">
-              <h2 className="h5 mb-3 visually-hidden">Промени низ годините</h2>
+              <h2 className="h5 mb-3">Промени низ годините</h2>
               <div style={{ height: "360px" }}>
                 <canvas ref={chartRef}></canvas>
               </div>
@@ -447,37 +412,37 @@ function Company() {
             </table>
           </div>
           <div className="row row-cols-2 g-3 my-3">
-            <div className="col">
-              {previousCompanyIndex > 0 && (
-                <div className="card h-100">
-                  <div className="card-body">
-                    <h5 className="fs-6 card-title">{previousCompanyName}</h5>
+            <div className="col vstack">
+              {previousCompanyIndex >= 0 &&
+                previousCompanyIndex < pretprijatija.length && (
+                  <div className="list-group flex-fill">
                     <button
-                      className="btn btn-sm btn-outline-secondary"
+                      className="list-group-item list-group-item-action p-4 flex-fill"
                       onClick={() => goToCompany(previousCompanyIndex)}
                       title="Претходно претпријатие"
+                      type="button"
                     >
-                      <i className="bi bi-arrow-left"></i>
+                      <h5 className="h6">{previousCompanyName}</h5>
+                      <i className="bi bi-arrow-left text-primary"></i>
                     </button>
                   </div>
-                </div>
-              )}
+                )}
             </div>
-            <div className="col">
-              {nextCompanyIndex > 0 && (
-                <div className="card h-100 text-end">
-                  <div className="card-body">
-                    <h5 className="fs-6 card-title">{nextCompanyName}</h5>
+            <div className="col vstack">
+              {nextCompanyIndex >= 0 &&
+                nextCompanyIndex < pretprijatija.length && (
+                  <div className="list-group flex-fill text-end">
                     <button
-                      className="btn btn-sm btn-outline-secondary"
+                      className="list-group-item list-group-item-action p-4 flex-fill"
                       onClick={() => goToCompany(nextCompanyIndex)}
-                      title="Следно претпријатие"
+                      title="Претходно претпријатие"
+                      type="button"
                     >
-                      <i className="bi bi-arrow-right"></i>
+                      <h5 className="h6">{nextCompanyName}</h5>
+                      <i className="bi bi-arrow-right text-primary"></i>
                     </button>
                   </div>
-                </div>
-              )}
+                )}
             </div>
           </div>
         </>

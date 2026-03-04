@@ -1,21 +1,23 @@
-import { useState, useEffect, useRef, useMemo, Fragment } from "react";
-import { read, utils } from "xlsx";
+import { useState, useEffect, useMemo, Fragment } from "react";
 import Cards from "./components/Cards";
 import { useNavigate, useParams } from "react-router-dom";
 import { order, sorting } from "./utils/filterDefinitions";
 import { transliterate } from "./utils/transliterate";
 import { cleanName } from "./utils/cleanName";
-import { file } from "./utils/file";
-import { formatDecimalNumber } from "./utils/decimalNumbers";
+import { formatDecimalNumber, sumDecimalNumbers } from "./utils/decimalNumbers";
+import { useData } from "./hooks/useData";
 
 function App() {
   const { year, quarter } = useParams();
   const navigate = useNavigate();
-  const [pretprijatija, setPretprijatija] = useState([]);
-  const [money, setMoney] = useState([]);
-
-  const [availableYears, setAvailableYears] = useState([]);
-  const [selectedYear, setSelectedYear] = useState(year || 0);
+  const { pretprijatija, allMoney, availableYears } = useData();
+  
+  const selectedYear = useMemo(() => {
+    return year === undefined || parseInt(year) === 0
+      ? availableYears[0]
+      : year;
+  }, [year, availableYears]);
+  
   const [selectedQuarter, setSelectedQuarter] = useState(
     parseInt(quarter) || 0
   );
@@ -25,50 +27,10 @@ function App() {
   const [selectedOrder, setSelectedOrder] = useState(
     cleanName(transliterate(order[0]))
   );
-  const wbRef = useRef(null);
 
-  /* Load data - fetches once and caches workbook */
-  useEffect(() => {
-    (async () => {
-      if (!wbRef.current) {
-        const f = await fetch(`/ods/${file}`);
-        const ab = await f.arrayBuffer();
-        wbRef.current = read(ab);
-      }
-
-      const wb = wbRef.current;
-
-      if (pretprijatija.length === 0) {
-        setPretprijatija(
-          utils.sheet_to_json(wb.Sheets["Претпријатија"], {
-            blankrows: false,
-          })
-        );
-      }
-
-      const years = wb.SheetNames.filter((item, key) => key > 0);
-      setAvailableYears(years);
-
-      const targetYear = year === undefined || parseInt(year) === 0
-        ? years[0]
-        : year;
-
-      if (selectedYear !== targetYear) {
-        setSelectedYear(targetYear);
-      }
-
-      setMoney(
-        utils.sheet_to_json(wb.Sheets[targetYear], {
-          blankrows: false,
-        })
-      );
-    })();
-  }, [file, year, pretprijatija.length]);
-
-  const quarters = useMemo(
-    () => [...new Set([0, ...new Set(money.map((item) => item.Квартал))])],
-    [money]
-  );
+  const money = useMemo(() => {
+    return allMoney[selectedYear] || [];
+  }, [selectedYear, allMoney]);
 
   useEffect(() => {
     navigate(
@@ -76,19 +38,52 @@ function App() {
         parseInt(selectedQuarter) > 0 ? `/${selectedQuarter}` : ``
       }`
     );
-  }, [selectedYear, selectedQuarter]);
+  }, [selectedYear, selectedQuarter, navigate]);
+
+  const quarters = useMemo(
+    () => [...new Set([0, ...new Set(money.map((item) => item.Квартал))])],
+    [money]
+  );
 
   const companiesInSheet = useMemo(
-    () =>
-      [...new Set(money.map((item) => item.Назив))].map((el) =>
+    () => {
+      const companies = [...new Set(money.map((item) => item.Назив))].map((el) =>
         pretprijatija.find((c) => el === c.Назив)
-      ),
-    [money, pretprijatija]
+      );
+
+      if (selectedSorting === "osnovno" || selectedOrder === "osnoven") {
+        return companies;
+      }
+
+      const getCompanyValue = (companyName) => {
+        const companyMoney = money.filter((m) => m.Назив === companyName);
+        const fieldMap = {
+          prihodi: sumDecimalNumbers(companyMoney.map((m) => m.Приходи)),
+          rashodi: sumDecimalNumbers(companyMoney.map((m) => m.Расходи)),
+          "finansiski-rezultat": sumDecimalNumbers(companyMoney.map((m) => m["Финансиски резултат"])),
+        };
+        return fieldMap[selectedSorting] || 0;
+      };
+
+      const direction = selectedOrder === "rastechki" ? 1 : -1;
+
+      return [...companies].sort((a, b) => {
+        const keyA = getCompanyValue(a?.Назив);
+        const keyB = getCompanyValue(b?.Назив);
+        if (keyA < keyB) return -1 * direction;
+        if (keyA > keyB) return 1 * direction;
+        return 0;
+      });
+    },
+    [money, pretprijatija, selectedSorting, selectedOrder]
   );
 
   const filteredMoney = useMemo(() => {
     if (parseInt(selectedQuarter) !== 0) {
       return money.filter((item) => item.Квартал === parseInt(selectedQuarter));
+    }
+    if (selectedSorting === "osnovno" || selectedOrder === "osnoven") {
+      return money;
     }
     return [...money].sort((a, b) => {
       const getKey = (item) => {
@@ -102,7 +97,7 @@ function App() {
       };
       const keyA = getKey(a);
       const keyB = getKey(b);
-      const direction = selectedOrder === "rastecki" ? 1 : -1;
+      const direction = selectedOrder === "rastechki" ? 1 : -1;
       if (keyA < keyB) return -1 * direction;
       if (keyA > keyB) return 1 * direction;
       return 0;
@@ -117,12 +112,11 @@ function App() {
             <div className="col-lg-3">
               <div className="form-floating">
                 <select
-                  defaultValue={selectedYear}
+                  value={selectedYear}
                   className="form-select"
                   id="years"
                   onChange={(e) => {
-                    const currentYear = e.target.value;
-                    setSelectedYear(currentYear);
+                    navigate(`/${e.target.value}`);
                   }}
                 >
                   {availableYears.map((year, key) => (
@@ -137,7 +131,7 @@ function App() {
             <div className="col-lg-3">
               <div className="form-floating">
                 <select
-                  defaultValue={quarter}
+                  value={selectedQuarter}
                   className="form-select"
                   id="quarters"
                   onChange={(e) => setSelectedQuarter(e.target.value)}
@@ -154,7 +148,7 @@ function App() {
             <div className="col-lg-3">
               <div className="form-floating">
                 <select
-                  defaultValue={selectedSorting}
+                  value={selectedSorting}
                   className="form-select"
                   id="sorting"
                   onChange={(e) => setSelectedSorting(e.target.value)}
@@ -171,7 +165,7 @@ function App() {
             <div className="col-lg-3">
               <div className="form-floating">
                 <select
-                  defaultValue={selectedOrder}
+                  value={selectedOrder}
                   className="form-select"
                   id="order"
                   onChange={(e) => setSelectedOrder(e.target.value)}
