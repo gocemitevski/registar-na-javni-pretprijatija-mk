@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import SearchForm from "./SearchForm";
 import { filterDefinitions } from "../utils/filterDefinitions";
 import Card from "./Card";
@@ -7,7 +7,6 @@ import DefinitionListTotal from "./DefinitionListTotal";
 
 export default function Cards({ tableData, money }) {
   const [filters, setFilters] = useState(filterDefinitions);
-  const [filteredData, setFilteredData] = useState([]);
   const [searchColumn, setSearchColumn] = useState(null);
 
   const searchData = (e, column) => {
@@ -15,8 +14,10 @@ export default function Cards({ tableData, money }) {
     setFilters({ ...filters, [column]: e.target.value });
   };
 
+  const filteredData = useMemo(() => tableData || [], [tableData]);
+
   const results = useMemo(() => {
-    if (!filteredData || filteredData.length === 0) return [];
+    if (!filteredData.length) return [];
     const searchColumn = Object.keys(filters).find((key) => filters[key]);
     if (searchColumn) {
       return filteredData.filter((item) => {
@@ -24,7 +25,7 @@ export default function Cards({ tableData, money }) {
         return Object.values(item)
           .toString()
           .toLowerCase()
-          .includes(filters[searchColumn].trim().toLowerCase());
+          .includes(filters[searchColumn]?.trim().toLowerCase() || "");
       });
     } else {
       return filteredData.filter((row) => {
@@ -37,16 +38,12 @@ export default function Cards({ tableData, money }) {
               .toString()
               .trim()
               .toLowerCase()
-              .includes(filters[column].trim().toLowerCase())
+              .includes(filters[column]?.trim().toLowerCase() || "")
           );
         });
       });
     }
   }, [filteredData, filters]);
-
-  useEffect(() => {
-    setFilteredData(tableData || []);
-  }, [tableData]);
 
   if (!money || money.length === 0) return null;
 
