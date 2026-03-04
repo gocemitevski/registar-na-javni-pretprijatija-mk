@@ -5,7 +5,6 @@ import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
 import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import { useData } from "../hooks/useData";
-import DefinitionList from "./DefinitionList";
 import TableFooterValue from "./TableFooterValue";
 
 function Company() {
