@@ -298,7 +298,7 @@ function Company() {
       <div className="row g-5 align-items-end mb-3">
         <div className="col-lg-8 vstack">
           <h1 className="h3 mb-3">{currentCompany.Назив}</h1>
-          <p>{currentCompany.Опис}.</p>
+          <p>{currentCompany.Опис}</p>
           {currentCompany["Мрежно место"] && (
             <a
               title={`Мрежно место на ${currentCompany.Назив}`}
