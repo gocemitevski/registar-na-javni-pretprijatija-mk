@@ -299,7 +299,7 @@ $cyans: (
 
 // scss-docs-start theme-color-variables
 $primary:       $green !default;
-$secondary:     $gray-600 !default;
+$secondary:     $green-700 !default;
 $success:       $teal-700 !default;
 $info:          $cyan !default;
 $warning:       $yellow !default;
@@ -1637,8 +1637,8 @@ $figure-caption-color:              var(--#{$prefix}secondary-color) !default;
 // Breadcrumbs
 
 // scss-docs-start breadcrumb-variables
-$breadcrumb-font-size:              null !default;
-$breadcrumb-padding-y:              0 !default;
+$breadcrumb-font-size:              $font-size-sm !default;
+$breadcrumb-padding-y:              .5rem !default;
 $breadcrumb-padding-x:              0 !default;
 $breadcrumb-item-padding-x:         .5rem !default;
 $breadcrumb-margin-bottom:          1rem !default;
