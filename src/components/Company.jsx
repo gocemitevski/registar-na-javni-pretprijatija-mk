@@ -35,7 +35,7 @@ function Company() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [currentCompanyParam]);
 
   const toCleanName = (name) => cleanName(transliterate(name));
 
