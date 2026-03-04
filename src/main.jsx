@@ -37,6 +37,7 @@ createRoot(root).render(
           </Route>
         </Routes>
       </Suspense>
+      <Breadcrumbs />
       <Footer />
       <Suspense fallback={null}>
         <ZaIzrabotkata />
