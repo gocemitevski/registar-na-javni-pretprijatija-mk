@@ -227,6 +227,11 @@ function Company() {
           },
         },
         plugins: {
+          legend: {
+            display: true,
+            position: "top",
+            align: "end",
+          },
           tooltip: {
             callbacks: {
               label: function (context) {
