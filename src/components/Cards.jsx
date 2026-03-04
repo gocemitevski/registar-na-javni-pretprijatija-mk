@@ -112,8 +112,8 @@ export default function Cards({ tableData, money }) {
             <div className="col-lg-8 vstack gap-2 justify-content-center">
               <h5 className="card-title">Вкупно</h5>
               <p className="card-text mb-0">
-                {totalCompanies} јавни претпријатија и трговски друштва
-              </p>
+              {totalCompanies} {totalCompanies % 10 === 1 && totalCompanies !== 11 ? "јавно претпријатие или трговско друштво" : "јавни претпријатија или трговски друштва"}
+            </p>
             </div>
             <div className="col-lg-4 align-self-center vstack gap-2">
               <DefinitionListTotal
