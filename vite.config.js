@@ -13,4 +13,14 @@ export default defineConfig({
   optimizeDeps: {
     include: ['chart.js'],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'xlsx': ['xlsx'],
+          'chart': ['chart.js'],
+        },
+      },
+    },
+  },
 })
