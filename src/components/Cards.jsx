@@ -8,23 +8,29 @@ import DefinitionListTotal from "./DefinitionListTotal";
 export default function Cards({ tableData, money }) {
   const [filters, setFilters] = useState(filterDefinitions);
   const [filteredData, setFilteredData] = useState([]);
+  const [searchColumn, setSearchColumn] = useState(null);
 
   const searchData = (e, column) => {
+    setSearchColumn(column);
     setFilters({ ...filters, [column]: e.target.value });
   };
 
   const results = useMemo(() => {
-    if (filters[Object.keys(filters)[7]]) {
+    if (!filteredData || filteredData.length === 0) return [];
+    const searchColumn = Object.keys(filters).find((key) => filters[key]);
+    if (searchColumn) {
       return filteredData.filter((item) => {
+        if (!item) return false;
         return Object.values(item)
           .toString()
           .toLowerCase()
-          .includes(filters[Object.keys(filters)[7]].trim().toLowerCase());
+          .includes(filters[searchColumn].trim().toLowerCase());
       });
     } else {
-      return filteredData.filter((row) =>
-        Object.keys(filters).every((column) => {
-          if (!filters[column]) return true; // If filter is empty, include the row
+      return filteredData.filter((row) => {
+        if (!row) return false;
+        return Object.keys(filters).every((column) => {
+          if (!filters[column]) return true;
           return (
             row[column] &&
             row[column]
@@ -33,14 +39,16 @@ export default function Cards({ tableData, money }) {
               .toLowerCase()
               .includes(filters[column].trim().toLowerCase())
           );
-        })
-      );
+        });
+      });
     }
   }, [filteredData, filters]);
 
   useEffect(() => {
-    setFilteredData(tableData);
+    setFilteredData(tableData || []);
   }, [tableData]);
+
+  if (!money || money.length === 0) return null;
 
   let totalCompanies = [...new Set(money.map((item) => item.Назив))].length;
   let totalIncome = parseDecimalNumber(
@@ -58,8 +66,8 @@ export default function Cards({ tableData, money }) {
       <div className="bg-light py-3">
         <div className="container">
           <SearchForm
-            value={filters[Object.keys(filters)[7]]}
-            index={Object.keys(filters)[7]}
+            value={filters[searchColumn]}
+            index={searchColumn}
             filters={filters}
             setFilters={setFilters}
             searchData={searchData}
