@@ -45,17 +45,39 @@ export default function Cards({ tableData, money }) {
     }
   }, [filteredData, filters]);
 
-  if (!money || money.length === 0) return null;
+  const totalCompanies = useMemo(() => results.length, [results]);
 
-  let totalCompanies = [...new Set(money.map((item) => item.Назив))].length;
-  let totalIncome = parseDecimalNumber(
-    sumDecimalNumbers(money.map((item) => item.Приходи))
+  const filteredNames = useMemo(() => {
+    if (!results.length) return [];
+    const names = new Set(results.map((row) => row.Назив).filter(Boolean));
+    const filteredMoney = money ?? [];
+    return filteredMoney.filter((item) => names.has(item.Назив));
+  }, [results, money]);
+
+  const totalIncome = useMemo(
+    () =>
+      parseDecimalNumber(
+        sumDecimalNumbers(filteredNames.map((item) => item.Приходи)),
+      ),
+    [filteredNames],
   );
-  let totalOutcome = parseDecimalNumber(
-    sumDecimalNumbers(money.map((item) => item.Расходи))
+
+  const totalOutcome = useMemo(
+    () =>
+      parseDecimalNumber(
+        sumDecimalNumbers(filteredNames.map((item) => item.Расходи)),
+      ),
+    [filteredNames],
   );
-  let totalFinancialResults = parseDecimalNumber(
-    sumDecimalNumbers(money.map((item) => item[`Финансиски резултат`]))
+
+  const totalFinancialResults = useMemo(
+    () =>
+      parseDecimalNumber(
+        sumDecimalNumbers(
+          filteredNames.map((item) => item[`Финансиски резултат`]),
+        ),
+      ),
+    [filteredNames],
   );
 
   return (
@@ -70,18 +92,17 @@ export default function Cards({ tableData, money }) {
             searchData={searchData}
           />
           <div className="row row-cols-1 g-3">
-            {results
-              .map(
-                (row, i) =>
-                  row && (
-                    <div className="col" key={i}>
-                      <Card
-                        row={row}
-                        numbers={money.filter((el) => el.Назив === row.Назив)}
-                      />
-                    </div>
-                  )
-              )}
+            {results.map(
+              (row, i) =>
+                row && (
+                  <div className="col" key={i}>
+                    <Card
+                      row={row}
+                      numbers={money.filter((el) => el.Назив === row.Назив)}
+                    />
+                  </div>
+                ),
+            )}
           </div>
         </div>
       </div>
