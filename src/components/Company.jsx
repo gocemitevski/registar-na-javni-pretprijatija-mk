@@ -6,6 +6,7 @@ import { cleanName } from "../utils/cleanName";
 import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import { useData } from "../hooks/useData";
 import TableFooterValue from "./TableFooterValue";
+import { CHART_OPTIONS, INCOME_COLOR, OUTCOME_COLOR, FINRESULT_COLOR } from "../utils/charts";
 
 function Company() {
   const { company: currentCompanyParam } = useParams();
@@ -82,120 +83,75 @@ function Company() {
     return companyData.filter((item) => item.Година === selectedYear);
   }, [companyData, selectedYear]);
 
-  const totalIncome = useMemo(() => {
-    return sumDecimalNumbers(filteredData.map((item) => item.Приходи));
-  }, [filteredData]);
-
-  const totalOutcome = useMemo(() => {
-    return sumDecimalNumbers(filteredData.map((item) => item.Расходи));
-  }, [filteredData]);
-
-  const totalFinancialResults = useMemo(() => {
-    return sumDecimalNumbers(
-      filteredData.map((item) => item["Финансиски резултат"]),
-    );
+  const totals = useMemo(() => {
+    return {
+      income: sumDecimalNumbers(filteredData.map((item) => item.Приходи)),
+      outcome: sumDecimalNumbers(filteredData.map((item) => item.Расходи)),
+      financialResult: sumDecimalNumbers(
+        filteredData.map((item) => item["Финансиски резултат"]),
+      ),
+    };
   }, [filteredData]);
 
   const chartData = useMemo(() => {
     if (!filteredData || filteredData.length === 0) return null;
 
     const showQuarterly = selectedYear && selectedYear !== "";
+    const groupKey = showQuarterly ? "Квартал" : "Година";
 
-    if (showQuarterly) {
-      const quarters = [
-        ...new Set(filteredData.map((item) => item.Квартал)),
-      ].sort((a, b) => a - b);
+    const FIN_RES_KEY = "Финансиски резултат";
 
-      const incomeByQuarter = quarters.map((q) => {
-        const quarterData = filteredData.filter((item) => item.Квартал === q);
-        return sumDecimalNumbers(quarterData.map((item) => item.Приходи));
-      });
-
-      const outcomeByQuarter = quarters.map((q) => {
-        const quarterData = filteredData.filter((item) => item.Квартал === q);
-        return sumDecimalNumbers(quarterData.map((item) => item.Расходи));
-      });
-
-      const finResultByQuarter = quarters.map((q) => {
-        const quarterData = filteredData.filter((item) => item.Квартал === q);
-        return sumDecimalNumbers(
-          quarterData.map((item) => item["Финансиски резултат"]),
-        );
-      });
-
-      return {
-        labels: quarters.map((q) => (q === 0 ? "Сите квартали" : `${q}`)),
-        datasets: [
-          {
-            label: "Приходи",
-            data: incomeByQuarter,
-            borderColor: "#198754",
-            backgroundColor: "rgba(25, 135, 84, 0.5)",
-            tension: 0.5,
-          },
-          {
-            label: "Расходи",
-            data: outcomeByQuarter,
-            borderColor: "#dc3545",
-            backgroundColor: "rgba(220, 53, 69, 0.5)",
-            tension: 0.5,
-          },
-          {
-            label: "Финансиски резултат",
-            data: finResultByQuarter,
-            borderColor: "#0dcaf0",
-            backgroundColor: "rgba(13, 202, 240, 0.5)",
-            borderDash: [5, 5],
-            tension: 0.5,
-          },
-        ],
-      };
-    }
-
-    const years = [...new Set(filteredData.map((item) => item.Година))].sort();
-
-    const incomeByYear = years.map((y) => {
-      const yearData = filteredData.filter((item) => item.Година === y);
-      return sumDecimalNumbers(yearData.map((item) => item.Приходи));
+    const grouped = {};
+    filteredData.forEach((item) => {
+      const key = item[groupKey];
+      if (!grouped[key]) {
+        grouped[key] = { Приходи: [], Расходи: [], [FIN_RES_KEY]: [] };
+      }
+      grouped[key].Приходи.push(item.Приходи);
+      grouped[key].Расходи.push(item.Расходи);
+      grouped[key][FIN_RES_KEY].push(item[FIN_RES_KEY]);
     });
 
-    const outcomeByYear = years.map((y) => {
-      const yearData = filteredData.filter((item) => item.Година === y);
-      return sumDecimalNumbers(yearData.map((item) => item.Расходи));
+    const keys = Object.keys(grouped).sort((a, b) => {
+      const numA = parseInt(a);
+      const numB = parseInt(b);
+      return showQuarterly ? numA - numB : b.localeCompare(a);
     });
 
-    const finResultByYear = years.map((y) => {
-      const yearData = filteredData.filter((item) => item.Година === y);
-      return sumDecimalNumbers(
-        yearData.map((item) => item["Финансиски резултат"]),
-      );
+    const labels = keys.map((k) =>
+      showQuarterly ? (k === "0" ? "Сите квартали" : k) : k,
+    );
+
+    const createDataset = (label, data, color, isDashed) => ({
+      label,
+      data,
+      borderColor: color.border,
+      backgroundColor: color.bg,
+      borderDash: isDashed ? [5, 5] : undefined,
+      tension: 0.5,
     });
 
     return {
-      labels: years,
+      labels,
       datasets: [
-        {
-          label: "Приходи",
-          data: incomeByYear,
-          borderColor: "#198754",
-          backgroundColor: "rgba(25, 135, 84, 0.5)",
-          tension: 0.5,
-        },
-        {
-          label: "Расходи",
-          data: outcomeByYear,
-          borderColor: "#dc3545",
-          backgroundColor: "rgba(220, 53, 69, 0.5)",
-          tension: 0.5,
-        },
-        {
-          label: "Финансиски резултат",
-          data: finResultByYear,
-          borderColor: "#0dcaf0",
-          backgroundColor: "rgba(13, 202, 240, 0.5)",
-          borderDash: [5, 5],
-          tension: 0.5,
-        },
+        createDataset(
+          "Приходи",
+          keys.map((k) => sumDecimalNumbers(grouped[k].Приходи)),
+          INCOME_COLOR,
+          false,
+        ),
+        createDataset(
+          "Расходи",
+          keys.map((k) => sumDecimalNumbers(grouped[k].Расходи)),
+          OUTCOME_COLOR,
+          false,
+        ),
+        createDataset(
+          "Финансиски резултат",
+          keys.map((k) => sumDecimalNumbers(grouped[k]["Финансиски резултат"])),
+          FINRESULT_COLOR,
+          true,
+        ),
       ],
     };
   }, [filteredData, selectedYear]);
@@ -210,47 +166,17 @@ function Company() {
     chartRef.current.chart = new Chart(chartRef.current, {
       type: "line",
       data: chartData,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            ticks: {
-              callback: function (value) {
-                return new Intl.NumberFormat("mk-MK", {
-                  style: "currency",
-                  currency: "MKD",
-                  maximumFractionDigits: 0,
-                }).format(value * 1000000);
-              },
-            },
-          },
-        },
-        plugins: {
-          legend: {
-            display: true,
-            position: "top",
-            align: "end",
-          },
-          tooltip: {
-            callbacks: {
-              label: function (context) {
-                const value = context.parsed.y;
-                return (
-                  context.dataset.label +
-                  ": " +
-                  new Intl.NumberFormat("mk-MK", {
-                    style: "currency",
-                    currency: "MKD",
-                    maximumFractionDigits: 0,
-                  }).format(value * 1000000)
-                );
-              },
-            },
-          },
-        },
-      },
+      options: CHART_OPTIONS,
     });
+
+    const chartNode = chartRef.current;
+
+    return () => {
+      if (chartNode?.chart) {
+        chartNode.chart.destroy();
+        chartNode.chart = null;
+      }
+    };
   }, [chartData]);
 
   if (dataLoading) {
@@ -393,7 +319,7 @@ function Company() {
                   <th className="text-end">
                     <TableFooterValue
                       title="Приходи"
-                      total={totalIncome}
+                      total={totals.income}
                       numbers={filteredData}
                       quarter={0}
                     />
@@ -401,7 +327,7 @@ function Company() {
                   <th className="text-end">
                     <TableFooterValue
                       title="Расходи"
-                      total={totalOutcome}
+                      total={totals.outcome}
                       numbers={filteredData}
                       quarter={0}
                     />
@@ -409,7 +335,7 @@ function Company() {
                   <th className="text-end">
                     <TableFooterValue
                       title="Финансиски резултат"
-                      total={totalFinancialResults}
+                      total={totals.financialResult}
                       numbers={filteredData}
                       quarter={0}
                     />
