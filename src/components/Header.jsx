@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { useMemo } from "react";
 import { socialLinkButtons } from "../utils/socialLinkButtons";
 
 export default function Header() {
-  const socialLinks = socialLinkButtons();
+  const socialLinks = useMemo(() => socialLinkButtons(), []);
 
   return (
     <div className="bg-primary py-4 text-light">

@@ -11,22 +11,30 @@ function App() {
   const { year, quarter } = useParams();
   const navigate = useNavigate();
   const { pretprijatija, allMoney, availableYears } = useData();
-  
+
   const selectedYear = useMemo(() => {
     return year === undefined || parseInt(year) === 0
       ? availableYears[0]
       : year;
   }, [year, availableYears]);
-  
+
   const [selectedQuarter, setSelectedQuarter] = useState(
-    parseInt(quarter) || 0
+    parseInt(quarter) || 0,
   );
   const [selectedSorting, setSelectedSorting] = useState(
-    cleanName(transliterate(sorting[0]))
+    cleanName(transliterate(sorting[0])),
   );
   const [selectedOrder, setSelectedOrder] = useState(
-    cleanName(transliterate(order[0]))
+    cleanName(transliterate(order[0])),
   );
+
+  const isDefault = useMemo(() => {
+    return (
+      selectedQuarter === 0 &&
+      selectedSorting === cleanName(transliterate(sorting[0])) &&
+      selectedOrder === cleanName(transliterate(order[0]))
+    );
+  }, [selectedQuarter, selectedSorting, selectedOrder]);
 
   const money = useMemo(() => {
     return allMoney[selectedYear] || [];
@@ -36,47 +44,46 @@ function App() {
     navigate(
       `/${selectedYear}${
         parseInt(selectedQuarter) > 0 ? `/${selectedQuarter}` : ``
-      }`
+      }`,
     );
   }, [selectedYear, selectedQuarter, navigate]);
 
   const quarters = useMemo(
     () => [...new Set([0, ...new Set(money.map((item) => item.Квартал))])],
-    [money]
+    [money],
   );
 
-  const companiesInSheet = useMemo(
-    () => {
-      const companies = [...new Set(money.map((item) => item.Назив))].map((el) =>
-        pretprijatija.find((c) => el === c.Назив)
-      );
+  const companiesInSheet = useMemo(() => {
+    const companies = [...new Set(money.map((item) => item.Назив))].map((el) =>
+      pretprijatija.find((c) => el === c.Назив),
+    );
 
-      if (selectedSorting === "osnovno" || selectedOrder === "osnoven") {
-        return companies;
-      }
+    if (selectedSorting === "osnovno" || selectedOrder === "osnoven") {
+      return companies;
+    }
 
-      const getCompanyValue = (companyName) => {
-        const companyMoney = money.filter((m) => m.Назив === companyName);
-        const fieldMap = {
-          prihodi: sumDecimalNumbers(companyMoney.map((m) => m.Приходи)),
-          rashodi: sumDecimalNumbers(companyMoney.map((m) => m.Расходи)),
-          "finansiski-rezultat": sumDecimalNumbers(companyMoney.map((m) => m["Финансиски резултат"])),
-        };
-        return fieldMap[selectedSorting] || 0;
+    const getCompanyValue = (companyName) => {
+      const companyMoney = money.filter((m) => m.Назив === companyName);
+      const fieldMap = {
+        prihodi: sumDecimalNumbers(companyMoney.map((m) => m.Приходи)),
+        rashodi: sumDecimalNumbers(companyMoney.map((m) => m.Расходи)),
+        "finansiski-rezultat": sumDecimalNumbers(
+          companyMoney.map((m) => m["Финансиски резултат"]),
+        ),
       };
+      return fieldMap[selectedSorting] || 0;
+    };
 
-      const direction = selectedOrder === "rastechki" ? 1 : -1;
+    const direction = selectedOrder === "rastechki" ? 1 : -1;
 
-      return [...companies].sort((a, b) => {
-        const keyA = getCompanyValue(a?.Назив);
-        const keyB = getCompanyValue(b?.Назив);
-        if (keyA < keyB) return -1 * direction;
-        if (keyA > keyB) return 1 * direction;
-        return 0;
-      });
-    },
-    [money, pretprijatija, selectedSorting, selectedOrder]
-  );
+    return [...companies].sort((a, b) => {
+      const keyA = getCompanyValue(a?.Назив);
+      const keyB = getCompanyValue(b?.Назив);
+      if (keyA < keyB) return -1 * direction;
+      if (keyA > keyB) return 1 * direction;
+      return 0;
+    });
+  }, [money, pretprijatija, selectedSorting, selectedOrder]);
 
   const filteredMoney = useMemo(() => {
     if (parseInt(selectedQuarter) !== 0) {
@@ -91,7 +98,9 @@ function App() {
           osnovno: item["Реден број"],
           prihodi: formatDecimalNumber(item.Приходи),
           rashodi: formatDecimalNumber(item.Расходи),
-          "finansiski-rezultat": formatDecimalNumber(item["Финансиски резултат"]),
+          "finansiski-rezultat": formatDecimalNumber(
+            item["Финансиски резултат"],
+          ),
         };
         return fieldMap[selectedSorting] ?? 0;
       };
@@ -104,12 +113,18 @@ function App() {
     });
   }, [money, selectedQuarter, selectedSorting, selectedOrder]);
 
+  const resetFilters = () => {
+    setSelectedQuarter(0);
+    setSelectedSorting(cleanName(transliterate(sorting[0])));
+    setSelectedOrder(cleanName(transliterate(order[0])));
+  };
+
   return (
     <Fragment>
       <div className="bg-secondary sticky-top">
         <div className="container">
           <div className="row align-items-center pt-2 pb-3 gx-3 gy-2">
-            <div className="col-lg-3">
+            <div className="col">
               <div className="form-floating">
                 <select
                   value={selectedYear}
@@ -128,7 +143,7 @@ function App() {
                 <label htmlFor="years">Година</label>
               </div>
             </div>
-            <div className="col-lg-3">
+            <div className="col">
               <div className="form-floating">
                 <select
                   value={selectedQuarter}
@@ -145,7 +160,7 @@ function App() {
                 <label htmlFor="quarters">Квартал</label>
               </div>
             </div>
-            <div className="col-lg-3">
+            <div className="col">
               <div className="form-floating">
                 <select
                   value={selectedSorting}
@@ -162,7 +177,7 @@ function App() {
                 <label htmlFor="sorting">Подредување</label>
               </div>
             </div>
-            <div className="col-lg-3">
+            <div className="col">
               <div className="form-floating">
                 <select
                   value={selectedOrder}
@@ -179,12 +194,25 @@ function App() {
                 <label htmlFor="order">Редослед</label>
               </div>
             </div>
+            {!isDefault && (
+              <div className="col-auto">
+                <button
+                  type="button"
+                  className="btn btn-outline-light"
+                  onClick={resetFilters}
+                  title="Ресетирај филтри"
+                >
+                  <i class="bi bi-arrow-counterclockwise"></i>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
       <Cards
         tableData={companiesInSheet}
         money={filteredMoney}
+        activeSort={selectedSorting}
       />
     </Fragment>
   );
