@@ -5,6 +5,7 @@ import { order, sorting } from "./utils/filterDefinitions";
 import { transliterate } from "./utils/transliterate";
 import { cleanName } from "./utils/cleanName";
 import { formatDecimalNumber, sumDecimalNumbers } from "./utils/decimalNumbers";
+import TopLists from "./components/TopLists";
 import { useData } from "./hooks/useData";
 
 function App() {
@@ -113,6 +114,39 @@ function App() {
     });
   }, [money, selectedQuarter, selectedSorting, selectedOrder]);
 
+  // Compute top lists for expenses, income, result
+  const topLists = useMemo(() => {
+    if (!filteredMoney || filteredMoney.length === 0)
+      return {
+        expenses: [],
+        worstExpenses: [],
+        income: [],
+        worstIncome: [],
+        result: [],
+        worstResult: [],
+      };
+    const map = {};
+    filteredMoney.forEach((m) => {
+      const name = m.Назив;
+      if (!map[name]) map[name] = { expense: 0, income: 0, result: 0 };
+      map[name].expense += formatDecimalNumber(m.Расходи);
+      map[name].income += formatDecimalNumber(m.Приходи);
+      map[name].result += formatDecimalNumber(m["Финансиски резултат"]);
+    });
+    const toArray = (field) =>
+      Object.entries(map).map(([name, v]) => [name, v[field]]);
+    const sortDesc = (arr) => arr.sort((a, b) => b[1] - a[1]).slice(0, 5);
+    const sortAsc = (arr) => arr.sort((a, b) => a[1] - b[1]).slice(0, 5);
+    return {
+      expenses: sortDesc(toArray("expense")),
+      worstExpenses: sortAsc(toArray("expense")),
+      income: sortDesc(toArray("income")),
+      worstIncome: sortAsc(toArray("income")),
+      result: sortDesc(toArray("result")),
+      worstResult: sortAsc(toArray("result")),
+    };
+  }, [filteredMoney]);
+
   const resetFilters = () => {
     setSelectedQuarter(0);
     setSelectedSorting(cleanName(transliterate(sorting[0])));
@@ -200,15 +234,25 @@ function App() {
                   type="button"
                   className="btn btn-outline-light flex-fill"
                   onClick={resetFilters}
-                  title="Врати основни вредности"
+                  title="Врати ги основните вредности"
                 >
-                  <i class="bi bi-arrow-counterclockwise"></i>
+                  <i className="bi bi-arrow-counterclockwise"></i>
                 </button>
               </div>
             )}
           </div>
         </div>
       </div>
+      <TopLists
+        selectedYear={selectedYear}
+        selectedQuarter={selectedQuarter}
+        topExpenses={topLists.expenses}
+        worstExpenses={topLists.worstExpenses}
+        topIncome={topLists.income}
+        worstIncome={topLists.worstIncome}
+        topResult={topLists.result}
+        worstResult={topLists.worstResult}
+      />
       <Cards
         tableData={companiesInSheet}
         money={filteredMoney}
