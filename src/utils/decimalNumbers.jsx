@@ -2,12 +2,16 @@ export function parseDecimalNumber(number) {
   if (number == null) return "—";
   let num;
   if (typeof number === "string") {
-    num = parseFloat(number.replace(",", "."));
+    // Remove any currency symbols and spaces, then replace comma with dot for decimal
+    const cleanNumber = number.replace(/[^\d,-.]/g, '').replace(',', '.');
+    num = parseFloat(cleanNumber);
     if (isNaN(num)) return "—";
   } else {
     num = number;
   }
   if (isNaN(num)) return "—";
+  
+  // Format as currency with MKD symbol and no decimals
   return new Intl.NumberFormat("mk-MK", {
     style: "currency",
     currency: "MKD",
