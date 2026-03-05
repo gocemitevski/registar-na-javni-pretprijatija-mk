@@ -58,7 +58,7 @@ export default function Card({ row, numbers, activeSort }) {
               <i className="bi bi-box-arrow-up-right"></i>
             </a>
           </div>
-          <div className="col-lg-4 align-self-center vstack gap-2">
+          <div className="col-lg-4 align-self-center vstack gap-1">
             <DefinitionList
               title="Приходи"
               total={totalIncome}
