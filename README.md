@@ -1,18 +1,49 @@
-# React + Vite
+# Регистар на јавни претпријатија и трговски друштва
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Интерактивна веб-апликација за прегледување на финансиските податоци на јавните претпријатија и трговските друштва во Република Северна Македонија.
 
-Currently, two official plugins are available:
+## Технологии
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** со React Compiler
+- **Vite 7** - алатка за изградба
+- **Bootstrap 5** - CSS framework
+- **React Router DOM 7** - рутирање
+- **xlsx** - парсирање на Excel/ODS податоци
 
-## React Compiler
+## Инсталација
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+```bash
+npm install
+```
 
-Note: This will impact Vite dev & build performances.
+## Развој
 
-## Expanding the ESLint configuration
+```bash
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Изградба
+
+```bash
+npm run build
+```
+
+Преглед на изградбената верзија локално:
+
+```bash
+npm run preview
+```
+
+## Линтирање
+
+```bash
+npm run lint
+```
+
+## Податоци
+
+Податоците се наоѓаат во `ods/` директориумот во формат ODS (OpenDocument Spreadsheet).
+
+## Лиценца
+
+GPL-3.0
