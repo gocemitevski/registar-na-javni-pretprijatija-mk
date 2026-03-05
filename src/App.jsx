@@ -195,12 +195,12 @@ function App() {
               </div>
             </div>
             {!isDefault && (
-              <div className="col-auto">
+              <div className="col-auto vstack flex-grow-0">
                 <button
                   type="button"
-                  className="btn btn-outline-light"
+                  className="btn btn-outline-light flex-fill"
                   onClick={resetFilters}
-                  title="Ресетирај филтри"
+                  title="Врати основни вредности"
                 >
                   <i class="bi bi-arrow-counterclockwise"></i>
                 </button>
