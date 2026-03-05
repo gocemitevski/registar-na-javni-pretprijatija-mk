@@ -1,18 +1,32 @@
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, useMemo, useState, useCallback } from "react";
 import SearchForm from "./SearchForm";
 import { filterDefinitions } from "../utils/filterDefinitions";
 import Card from "./Card";
 import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import DefinitionListTotal from "./DefinitionListTotal";
 
-export default function Cards({ tableData, money }) {
+export default function Cards({ tableData, money, activeSort }) {
   const [filters, setFilters] = useState(filterDefinitions);
-  const [searchColumn, setSearchColumn] = useState(null);
 
-  const searchData = (e, column) => {
-    setSearchColumn(column);
-    setFilters({ ...filters, [column]: e.target.value });
-  };
+  const companyMoneyMap = useMemo(() => {
+    const map = {};
+    money.forEach((item) => {
+      if (!map[item.Назив]) {
+        map[item.Назив] = [];
+      }
+      map[item.Назив].push(item);
+    });
+    return map;
+  }, [money]);
+
+  const searchData = useCallback((e, column) => {
+    const searchColumn = column || "Назив";
+    setFilters((prev) => ({ ...prev, [searchColumn]: e.target.value }));
+  }, []);
+
+  const setFilterValue = useCallback((key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  }, []);
 
   const filteredData = useMemo(() => tableData || [], [tableData]);
 
@@ -47,48 +61,29 @@ export default function Cards({ tableData, money }) {
 
   const totalCompanies = useMemo(() => results.length, [results]);
 
-  const filteredNames = useMemo(() => {
-    if (!results.length) return [];
-    const names = new Set(results.map((row) => row.Назив).filter(Boolean));
-    const filteredMoney = money ?? [];
-    return filteredMoney.filter((item) => names.has(item.Назив));
+  const totals = useMemo(() => {
+    const companyNames = new Set(results.map((row) => row.Назив).filter(Boolean));
+    const relevantMoney = money.filter((item) => companyNames.has(item.Назив));
+    
+    return {
+      income: parseDecimalNumber(sumDecimalNumbers(relevantMoney.map((item) => item.Приходи))),
+      outcome: parseDecimalNumber(sumDecimalNumbers(relevantMoney.map((item) => item.Расходи))),
+      financialResult: parseDecimalNumber(
+        sumDecimalNumbers(relevantMoney.map((item) => item["Финансиски резултат"]))
+      ),
+    };
   }, [results, money]);
 
-  const totalIncome = useMemo(
-    () =>
-      parseDecimalNumber(
-        sumDecimalNumbers(filteredNames.map((item) => item.Приходи)),
-      ),
-    [filteredNames],
-  );
-
-  const totalOutcome = useMemo(
-    () =>
-      parseDecimalNumber(
-        sumDecimalNumbers(filteredNames.map((item) => item.Расходи)),
-      ),
-    [filteredNames],
-  );
-
-  const totalFinancialResults = useMemo(
-    () =>
-      parseDecimalNumber(
-        sumDecimalNumbers(
-          filteredNames.map((item) => item[`Финансиски резултат`]),
-        ),
-      ),
-    [filteredNames],
-  );
+  const activeFilter = Object.keys(filters).find((key) => filters[key]) || "Назив";
 
   return (
     <Fragment>
       <div className="bg-light py-3">
         <div className="container">
           <SearchForm
-            value={filters[searchColumn]}
-            index={searchColumn}
+            value={filters[activeFilter]}
             filters={filters}
-            setFilters={setFilters}
+            setFilterValue={setFilterValue}
             searchData={searchData}
           />
           <div className="row row-cols-1 g-3">
@@ -98,7 +93,8 @@ export default function Cards({ tableData, money }) {
                   <div className="col" key={i}>
                     <Card
                       row={row}
-                      numbers={money.filter((el) => el.Назив === row.Назив)}
+                      numbers={companyMoneyMap[row.Назив] || []}
+                      activeSort={activeSort}
                     />
                   </div>
                 ),
@@ -118,23 +114,26 @@ export default function Cards({ tableData, money }) {
             <div className="col-lg-4 align-self-center vstack gap-2">
               <DefinitionListTotal
                 title={`Приходи`}
-                total={totalIncome}
+                total={totals.income}
                 icon={`bi-arrow-down`}
                 color={`success`}
+                isActive={activeSort === "prihodi"}
               />
               <DefinitionListTotal
                 title={`Расходи`}
-                total={totalOutcome}
+                total={totals.outcome}
                 icon={`bi-arrow-up`}
                 color={`danger`}
+                isActive={activeSort === "rashodi"}
               />
               <DefinitionListTotal
                 title={`Финансиски резултат`}
-                total={totalFinancialResults}
+                total={totals.financialResult}
                 icon={`bi-arrow-down-up`}
                 color={
-                  parseInt(totalFinancialResults) < 0 ? `danger` : `success`
+                  parseInt(totals.financialResult) < 0 ? `danger` : `success`
                 }
+                isActive={activeSort === "finansiski-rezultat"}
               />
             </div>
           </div>
