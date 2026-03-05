@@ -1591,8 +1591,8 @@ $list-group-border-color:           var(--#{$prefix}border-color) !default;
 $list-group-border-width:           var(--#{$prefix}border-width) !default;
 $list-group-border-radius:          var(--#{$prefix}border-radius) !default;
 
-$list-group-item-padding-y:         $spacer * .5 !default;
-$list-group-item-padding-x:         $spacer !default;
+$list-group-item-padding-y:         $spacer !default;
+$list-group-item-padding-x:         $spacer * 2 !default;
 // fusv-disable
 $list-group-item-bg-scale:          -80% !default; // Deprecated in v5.3.0
 $list-group-item-color-scale:       40% !default; // Deprecated in v5.3.0
