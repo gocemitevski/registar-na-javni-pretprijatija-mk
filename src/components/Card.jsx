@@ -1,27 +1,42 @@
 import { Link, useParams } from "react-router-dom";
+import { useMemo } from "react";
 import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import DefinitionList from "./DefinitionList";
 import { cleanName } from "../utils/cleanName";
 import { transliterate } from "../utils/transliterate";
 
-export default function Card({ row, numbers }) {
+export default function Card({ row, numbers, activeSort }) {
   const { quarter } = useParams();
   const quarterNum = parseInt(quarter) || 0;
 
-  const totalIncome = sumDecimalNumbers(numbers.map((item) => item.Приходи));
-  const totalOutcome = sumDecimalNumbers(numbers.map((item) => item.Расходи));
-  const totalFinancialResults = sumDecimalNumbers(
-    numbers.map((item) => item["Финансиски резултат"])
+  const SORT_KEYS = {
+    prihodi: "Приходи",
+    rashodi: "Расходи",
+    "finansiski-rezultat": "Финансиски резултат",
+  };
+  const activeTitle = SORT_KEYS[activeSort] || null;
+
+  const totalIncome = useMemo(
+    () => sumDecimalNumbers(numbers.map((item) => item.Приходи)),
+    [numbers]
+  );
+  const totalOutcome = useMemo(
+    () => sumDecimalNumbers(numbers.map((item) => item.Расходи)),
+    [numbers]
+  );
+  const totalFinancialResults = useMemo(
+    () => sumDecimalNumbers(numbers.map((item) => item["Финансиски резултат"])),
+    [numbers]
   );
 
-  const getFinancialResultColor = () => {
+  const financialResultColor = useMemo(() => {
     if (quarterNum === 0) {
       return parseInt(parseDecimalNumber(totalFinancialResults)) < 0 ? "danger" : "success";
     }
     const q = numbers.find((item) => item.Квартал === quarterNum);
     if (!q) return "success";
     return parseInt(parseDecimalNumber(q["Финансиски резултат"])) < 0 ? "danger" : "success";
-  };
+  }, [quarterNum, numbers, totalFinancialResults]);
 
   return (
     <div className="card h-100">
@@ -51,6 +66,7 @@ export default function Card({ row, numbers }) {
               quarter={quarter}
               icon="bi-arrow-down"
               color="success"
+              isActive={activeTitle === "Приходи"}
             />
             <DefinitionList
               title="Расходи"
@@ -59,6 +75,7 @@ export default function Card({ row, numbers }) {
               quarter={quarter}
               icon="bi-arrow-up"
               color="danger"
+              isActive={activeTitle === "Расходи"}
             />
             <DefinitionList
               title="Финансиски резултат"
@@ -66,7 +83,8 @@ export default function Card({ row, numbers }) {
               numbers={numbers}
               quarter={quarter}
               icon="bi-arrow-down-up"
-              color={getFinancialResultColor()}
+              color={financialResultColor}
+              isActive={activeTitle === "Финансиски резултат"}
             />
           </div>
         </div>
