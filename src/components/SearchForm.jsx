@@ -1,10 +1,11 @@
 export default function SearchForm({
   value,
-  index,
   filters,
-  setFilters,
+  setFilterValue,
   searchData,
 }) {
+  const activeFilter = Object.keys(filters).find((key) => filters[key]) || "Назив";
+  
   return (
     <div className="mt-2 mb-4">
       <div className="input-group flex-fill">
@@ -13,7 +14,7 @@ export default function SearchForm({
           className="form-control"
           type="text"
           placeholder="Пребарајте..."
-          onChange={(e) => searchData(e, index)}
+          onChange={(e) => searchData(e, activeFilter)}
           value={value}
         ></input>
         {!value && (
@@ -30,12 +31,7 @@ export default function SearchForm({
                 ? `Избриши`
                 : `Внесете вредност за да можете да ја избришете`
             }
-            onClick={() =>
-              setFilters({
-                ...filters,
-                [index]: "",
-              })
-            }
+            onClick={() => setFilterValue(activeFilter, "")}
             disabled={!value}
           >
             <i className="bi bi-x-lg"></i>
