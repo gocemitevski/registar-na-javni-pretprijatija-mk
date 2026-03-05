@@ -18,7 +18,7 @@ function TopLists({
       <div className="card vstack h-100">
         <div className="card-body flex-grow-0">
           <h5 className="card-title hstack gap-2 mb-0">
-            <i class={`bi bi-${icon}`}></i>
+            <i className={`bi bi-${icon}`}></i>
             <span>
               {title} во{" "}
               {selectedQuarter > 0 ? `квартал ${selectedQuarter} на ` : ``}
