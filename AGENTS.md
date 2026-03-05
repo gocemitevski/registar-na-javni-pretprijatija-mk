@@ -51,6 +51,7 @@ npm run lint         # Run ESLint on all files
 ### File Organization
 
 - **Components**: Place in `src/components/` - one file per component
+- **Hooks**: Place custom hooks in `src/hooks/` (e.g., `useData.jsx`)
 - **Utilities**: Place in `src/utils/` - one file per utility function
 - **Routes/Pages**: Place in `src/` root - one file per page (e.g., `App.jsx`)
 - **Styles**: Place in `src/assets/scss/`
@@ -66,7 +67,7 @@ npm run lint         # Run ESLint on all files
 
 ```jsx
 // 1. React imports
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 
 // 2. Third-party library imports (grouped)
 import { read, utils } from "xlsx";
@@ -76,10 +77,23 @@ import { useParams } from "react-router-dom";
 import { file } from "../utils/file";
 import { transliterate } from "../utils/transliterate";
 
-// 4. Component definition
+// 4. Constants (outside component for module-level caching)
+const CHART_OPTIONS = { ... };
+
+// 5. Component definition
 function ComponentName() {
   // Hooks first
   const [state, setState] = useState(initialValue);
+
+  // Memoized values
+  const derivedValue = useMemo(() => {
+    return computeValue(state);
+  }, [state]);
+
+  // Callback functions (useCallback for stable references)
+  const handleEvent = useCallback((value) => {
+    // handler logic
+  }, [dependencies]);
 
   // Effects next
   useEffect(() => {
@@ -87,6 +101,11 @@ function ComponentName() {
     (async () => {
       // fetch logic
     })();
+
+    // cleanup function
+    return () => {
+      // cleanup logic
+    };
   }, [dependencies]);
 
   // Render
@@ -95,7 +114,7 @@ function ComponentName() {
   );
 }
 
-// 5. Named export at bottom
+// 6. Named export at bottom
 export default ComponentName;
 ```
 
@@ -110,10 +129,25 @@ export default ComponentName;
 ### React Patterns
 
 - **State**: Use `useState` for component-local state
+- **Memoization**: Use `useMemo` for computed values, `useCallback` for stable function references
 - **Effects**: Use `useEffect` for side effects (data fetching, subscriptions)
 - **Async operations**: Use IIFE pattern: `(async () => { ... })()`
 - **Fragment**: Use `<Fragment>` or `<>` for multiple root elements
-- **Event handlers**: Inline arrow functions for simple handlers, or define separately
+- **Event handlers**: Inline arrow functions for simple handlers, or define separately with useCallback
+
+### Scroll-to-Top Behavior
+
+For pages that need to scroll to top on navigation (e.g., company detail pages), use the `CompanyWrapper` pattern:
+
+```jsx
+// CompanyWrapper.jsx - forces remount on route change
+export default function CompanyWrapper() {
+  const { company } = useParams();
+  return <Company key={company} />;
+}
+```
+
+This triggers a full remount when the company parameter changes, resetting all state and scroll position.
 
 ### Error Handling
 
@@ -185,6 +219,22 @@ The project uses ESLint with these rules:
 2. Export function as named export
 3. Import where needed
 
+### Adding a Custom Hook
+
+1. Create file in `src/hooks/useHookName.jsx`
+2. Export function as named export
+3. Import where needed
+
+### Adding Chart Constants
+
+Chart configuration constants should be placed in `src/utils/charts.js`:
+
+```js
+export const formatCurrency = (value) => ...;
+export const CHART_OPTIONS = { ... };
+export const INCOME_COLOR = { ... };
+```
+
 ### Adding a New Route
 
 1. Import component in `main.jsx`
@@ -199,3 +249,21 @@ The project uses ESLint with these rules:
 - The app uses Macedonian language for UI text
 - No TypeScript is used - plain JavaScript with JSX
 - Memory cleanup in useEffect is required for navigation subscriptions
+- Use `useData` hook for shared data fetching to avoid duplicate loading
+- Use `CompanyWrapper` for scroll-to-top on company detail pages
+
+### Macedonian Grammar
+
+When displaying counts with singular/plural forms, use proper Macedonian grammar:
+
+```jsx
+// правилно: 1 претпријатие, 11 претпријатија
+{count} {count % 10 === 1 && count !== 11 ? "едно" : "многу"}
+```
+
+### Performance Tips
+
+- Use `useMemo` for expensive computations (filtering, sorting, aggregations)
+- Use `useCallback` for event handlers passed to child components
+- Pre-compute lookup maps instead of filtering inside loops (O(n*m) → O(n))
+- Extract constants outside components for module-level caching
