@@ -40,7 +40,7 @@ export function useData() {
           blankrows: false,
         });
 
-        const years = wb.SheetNames.filter((item, key) => key > 0);
+        const years = wb.SheetNames.filter((item, key) => key > 0).sort();
         setAvailableYears(years);
 
         const moneyByYear = {};
