@@ -1162,12 +1162,12 @@ $zindex-levels: (
 // Navs
 
 // scss-docs-start nav-variables
-$nav-link-padding-y:                .75rem !default;
-$nav-link-padding-x:                1rem !default;
+$nav-link-padding-y:                1rem !default;
+$nav-link-padding-x:                1.5rem !default;
 $nav-link-font-size:                null !default;
 $nav-link-font-weight:              700 !default;
-$nav-link-color:                    var(--#{$prefix}link-color) !default;
-$nav-link-hover-color:              var(--#{$prefix}link-hover-color) !default;
+$nav-link-color:                    var(--#{$prefix}primary-bg-subtle) !default;
+$nav-link-hover-color:              var(--#{$prefix}primary-text-emphasis) !default;
 $nav-link-transition:               color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out !default;
 $nav-link-disabled-color:           var(--#{$prefix}secondary-color) !default;
 $nav-link-focus-box-shadow:         $focus-ring-box-shadow !default;
@@ -1181,8 +1181,8 @@ $nav-tabs-link-active-bg:           var(--#{$prefix}body-bg) !default;
 $nav-tabs-link-active-border-color: $dark $dark $nav-tabs-link-active-bg !default;
 
 $nav-pills-border-radius:           var(--#{$prefix}border-radius) !default;
-$nav-pills-link-active-color:       $component-active-color !default;
-$nav-pills-link-active-bg:          $component-active-bg !default;
+$nav-pills-link-active-color:       $secondary !default;
+$nav-pills-link-active-bg:          $primary-bg-subtle !default;
 
 $nav-underline-gap:                 1.5rem !default;
 $nav-underline-border-width:        .2rem !default;
