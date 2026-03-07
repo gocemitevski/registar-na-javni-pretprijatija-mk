@@ -7,3 +7,14 @@
     --bs-offcanvas-width: 90vw;
   }
 }
+
+.bg-hero {
+  background:
+    linear-gradient(rgba($green-700, 0.9), rgba($green-900, 0.9)),
+    url("../img/macedonian-denars.webp") top;
+  background-size: cover;
+}
+
+.backdrop-blur {
+  backdrop-filter: blur($spacer * 2);
+}
