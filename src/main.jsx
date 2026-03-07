@@ -10,7 +10,9 @@ import Breadcrumbs from "./components/Breadcrumbs.jsx";
 import CompanyWrapper from "./components/CompanyWrapper.jsx";
 import Loading from "./components/Loading.jsx";
 
-const App = lazy(() => import("./App.jsx"));
+const Registry = lazy(() => import("./components/Registry.jsx"));
+const Overview = lazy(() => import("./components/Overview.jsx"));
+const FilteredCompanies = lazy(() => import("./components/FilteredCompanies.jsx"));
 const ZaIzrabotkata = lazy(() => import("./components/ZaIzrabotkata.jsx"));
 
 const root = document.getElementById("root");
@@ -30,11 +32,18 @@ createRoot(root).render(
       <Breadcrumbs />
       <Suspense fallback={<Loading />}>
         <Routes>
-          <Route index path="/" element={<App />} />
+          <Route path="/" element={<Overview />} />
+          <Route path="/:year" element={<Overview />} />
+          <Route path="/:year/:quarter" element={<Overview />} />
+          <Route path="/filtered/:filter" element={<FilteredCompanies />} />
+          <Route path="/filtered/:filter/:year" element={<FilteredCompanies />} />
+          <Route path="/filtered/:filter/:year/:quarter" element={<FilteredCompanies />} />
+          <Route path="/registry" element={<Registry />} />
+          <Route path="/registry/:year" element={<Registry />} />
+          <Route path="/registry/:year/:quarter" element={<Registry />} />
+          <Route path="/registry/:year/:quarter/:sorting" element={<Registry />} />
+          <Route path="/registry/:year/:quarter/:sorting/:order" element={<Registry />} />
           <Route path="/company/:company" element={<CompanyWrapper />} />
-          <Route path="/:year" element={<App />}>
-            <Route path=":quarter" element={<App />} />
-          </Route>
         </Routes>
       </Suspense>
       <Footer />

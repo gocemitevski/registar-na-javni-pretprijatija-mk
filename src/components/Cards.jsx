@@ -64,7 +64,7 @@ export default function Cards({ tableData, money, activeSort }) {
   const totals = useMemo(() => {
     const companyNames = new Set(results.map((row) => row.Назив).filter(Boolean));
     const relevantMoney = money.filter((item) => companyNames.has(item.Назив));
-    
+
     return {
       income: parseDecimalNumber(sumDecimalNumbers(relevantMoney.map((item) => item.Приходи))),
       outcome: parseDecimalNumber(sumDecimalNumbers(relevantMoney.map((item) => item.Расходи))),
@@ -78,7 +78,7 @@ export default function Cards({ tableData, money, activeSort }) {
 
   return (
     <Fragment>
-      <div className="bg-light py-3">
+      <div className="bg-primary-subtle py-3">
         <div className="container">
           <SearchForm
             value={filters[activeFilter]}
@@ -102,7 +102,7 @@ export default function Cards({ tableData, money, activeSort }) {
           </div>
         </div>
       </div>
-      <div className="bg-light pt-4 pb-5">
+      <div className="bg-primary-subtle pt-4 pb-5">
         <div className="container">
           <div className="row mx-2 mb-3">
             <div className="col-lg-8 vstack gap-2 justify-content-center">

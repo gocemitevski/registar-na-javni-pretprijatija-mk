@@ -6,20 +6,28 @@ export default function Header() {
   const socialLinks = useMemo(() => socialLinkButtons(), []);
 
   return (
-    <div className="bg-primary py-4 text-light">
+    <div className="bg-hero py-4 text-light">
       <header className="container">
         <div className="row">
           <div className="col-xl-8 col-xxl-7">
-            <h1 className="h3 pt-xl-4">
+            <h1 className="h3 pt-xxl-4">
               <Link
-                className="hstack flex-wrap flex-sm-nowrap align-items-start align-items-md-end link-light link-underline link-underline-opacity-50 gap-0 gap-sm-3 link-offset-1"
+                className="link-light link-underline link-underline-opacity-50 gap-0 gap-sm-3 link-offset-1"
                 to={`/`}
               >
                 {import.meta.env.VITE_APP_META_TITLE}
               </Link>
             </h1>
             <p className="lead pb-xl-3">
-              {import.meta.env.VITE_APP_META_DESCRIPTION}
+              {import.meta.env.VITE_APP_META_DESCRIPTION}, според податоци на{" "}
+              <a
+              className="link-light"
+                target="_blank"
+                href="https://finance.gov.mk/mk-MK/oblasti/javni-pretprijatija-i-trgovski-drustva-vo-drzavna-sopstvenost"
+              >
+                Министерството за финансии
+              </a>
+              .
             </p>
           </div>
           <div className="col-xl-4 col-xxl-5">
