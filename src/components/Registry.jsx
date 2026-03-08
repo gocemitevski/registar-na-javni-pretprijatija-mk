@@ -15,6 +15,9 @@ function Registry() {
   const isNavigating = useRef(false);
   const { pretprijatija, allMoney, availableYears } = useData();
 
+  const defaultSorting = cleanName(transliterate(sorting[0]));
+  const defaultOrder = cleanName(transliterate(order[0]));
+
   const selectedYear = useMemo(() => {
     const latestYear = availableYears[0];
     return year === undefined || parseInt(year) === 0
@@ -23,16 +26,21 @@ function Registry() {
   }, [year, availableYears]);
 
   const selectedQuarter = useMemo(() => {
-    return quarter ? parseInt(quarter) : 0;
+    if (!quarter) return 0;
+    const parsed = parseInt(quarter);
+    return parsed >= 1 && parsed <= 4 ? parsed : 0;
   }, [quarter]);
 
   const selectedSorting = useMemo(() => {
-    return sortingParam || cleanName(transliterate(sorting[0]));
-  }, [sortingParam]);
+    if (!sortingParam) return defaultSorting;
+    const parsed = parseInt(sortingParam);
+    if (parsed >= 1 && parsed <= 4) return defaultSorting;
+    return sortingParam;
+  }, [sortingParam, defaultSorting]);
 
   const selectedOrder = useMemo(() => {
-    return orderParam || cleanName(transliterate(order[0]));
-  }, [orderParam]);
+    return orderParam || defaultOrder;
+  }, [orderParam, defaultOrder]);
 
   const money = useMemo(() => {
     return allMoney[selectedYear] || [];
@@ -44,20 +52,27 @@ function Registry() {
       return;
     }
     let path = `/registry/${selectedYear}`;
-    if (parseInt(selectedQuarter) > 0) {
+    if (selectedQuarter > 0) {
       path += `/${selectedQuarter}`;
-    }
-    if (selectedSorting !== cleanName(transliterate(sorting[0]))) {
+      if (selectedSorting !== defaultSorting) {
+        path += `/${selectedSorting}`;
+        if (selectedOrder !== defaultOrder) {
+          path += `/${selectedOrder}`;
+        }
+      }
+    } else if (selectedSorting !== defaultSorting) {
       path += `/${selectedSorting}`;
-      if (selectedOrder !== cleanName(transliterate(order[0]))) {
+      if (selectedOrder !== defaultOrder) {
         path += `/${selectedOrder}`;
       }
+    } else if (selectedOrder !== defaultOrder) {
+      path += `/0/${selectedOrder}`;
     }
     if (location.pathname !== path) {
       isNavigating.current = true;
       navigate(path, { replace: true });
     }
-  }, [selectedYear, selectedQuarter, selectedSorting, selectedOrder, navigate, location.pathname]);
+  }, [selectedYear, selectedQuarter, selectedSorting, selectedOrder, navigate, location.pathname, defaultSorting, defaultOrder]);
 
   const companiesInSheet = useMemo(() => {
     const companies = [...new Set(money.map((item) => item.Назив))].map((el) =>

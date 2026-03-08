@@ -16,4 +16,4 @@ export const sorting = [
   "Финансиски резултат",
 ];
 
-export const order = ["Основен", "Опаѓачки", "Растечки"];
+export const order = ["Опаѓачки", "Растечки"];

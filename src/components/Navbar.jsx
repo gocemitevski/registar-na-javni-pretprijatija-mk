@@ -68,16 +68,30 @@ export default function Navbar({ showSortingFilters = false }) {
   const buildPath = (targetBase, year, quarter, sort, ord) => {
     let path = targetBase === "/" ? "" : targetBase;
     if (year) path += `/${year}`;
-    if (quarter && parseInt(quarter) > 0) path += `/${quarter}`;
-    if (
-      showSortingFilters &&
-      sort &&
-      sort !== cleanName(transliterate(sorting[0]))
-    ) {
-      path += `/${sort}`;
-      if (ord && ord !== cleanName(transliterate(order[0]))) {
-        path += `/${ord}`;
+
+    if (showSortingFilters) {
+      const isDefaultSorting = !sort || sort === cleanName(transliterate(sorting[0]));
+      const isDefaultOrder = !ord || ord === cleanName(transliterate(order[0]));
+      const quarterNum = parseInt(quarter) || 0;
+
+      if (quarterNum > 0) {
+        path += `/${quarter}`;
+        if (!isDefaultSorting) {
+          path += `/${sort}`;
+          if (!isDefaultOrder) {
+            path += `/${ord}`;
+          }
+        }
+      } else if (!isDefaultSorting) {
+        path += `/${sort}`;
+        if (!isDefaultOrder) {
+          path += `/${ord}`;
+        }
+      } else if (!isDefaultOrder) {
+        path += `/0/${ord}`;
       }
+    } else if (quarter && parseInt(quarter) > 0) {
+      path += `/${quarter}`;
     }
     return path || "/";
   };
@@ -221,21 +235,23 @@ export default function Navbar({ showSortingFilters = false }) {
                   </select>
                   <label htmlFor="sorting">Подредување</label>
                 </div>
-                <div className="form-floating flex-fill">
-                  <select
-                    value={selectedOrder}
-                    className="form-select"
-                    id="order"
-                    onChange={handleOrderChange}
-                  >
-                    {order.map((order, key) => (
-                      <option key={key} value={cleanName(transliterate(order))}>
-                        {order}
-                      </option>
-                    ))}
-                  </select>
-                  <label htmlFor="order">Редослед</label>
-                </div>
+                {selectedSorting !== cleanName(transliterate(sorting[0])) && (
+                  <div className="form-floating flex-fill">
+                    <select
+                      value={selectedOrder}
+                      className="form-select"
+                      id="order"
+                      onChange={handleOrderChange}
+                    >
+                      {order.map((order, key) => (
+                        <option key={key} value={cleanName(transliterate(order))}>
+                          {order}
+                        </option>
+                      ))}
+                    </select>
+                    <label htmlFor="order">Редослед</label>
+                  </div>
+                )}
               </>
             )}
             {!isDefault && (
