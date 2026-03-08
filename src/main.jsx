@@ -41,11 +41,11 @@ createRoot(root).render(
           <Route path="/registry" element={<Registry />} />
           <Route path="/registry/:year" element={<Registry />} />
           <Route path="/registry/:year/0/:order" element={<Registry />} />
+          <Route path="/registry/:year/:sorting" element={<Registry />} />
+          <Route path="/registry/:year/:sorting/:order" element={<Registry />} />
           <Route path="/registry/:year/:quarter" element={<Registry />} />
           <Route path="/registry/:year/:quarter/:sorting" element={<Registry />} />
           <Route path="/registry/:year/:quarter/:sorting/:order" element={<Registry />} />
-          <Route path="/registry/:year/:sorting" element={<Registry />} />
-          <Route path="/registry/:year/:sorting/:order" element={<Registry />} />
           <Route path="/company/:company" element={<CompanyWrapper />} />
         </Routes>
       </Suspense>
