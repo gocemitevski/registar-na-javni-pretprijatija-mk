@@ -117,7 +117,7 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
               <div className="card h-100 shadow">
                 <div className="card-body hstack gap-3">
                   <div className="flex-fill">
-                  <h5 className={`card-title text-${card.color} h1 mb-0`}>
+                  <h5 className={`card-title text-${card.color} h1 mb-2`}>
                     {card.value}
                   </h5>
                   <p className="card-text">{card.title}</p>
