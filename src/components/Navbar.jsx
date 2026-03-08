@@ -174,7 +174,7 @@ export default function Navbar({ showSortingFilters = false }) {
       <div className="container">
         <div className={`row align-items-center gy-2 gx-3 flex-fill`}>
           <div className="col-xl-6">
-            <ul className="nav nav-pills text-uppercase">
+            <ul className="nav nav-pills text-uppercase gap-2">
               <li className="nav-item">
                 <NavLink className="nav-link" to={overviewPath} end>
                   Почетна
