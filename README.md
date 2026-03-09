@@ -6,7 +6,7 @@
 
 - **React 19** со React Compiler
 - **Vite 7** - алатка за изградба
-- **Bootstrap 5** - CSS framework
+- **Bootstrap 5** + **SCSS** - CSS framework
 - **React Router DOM 7** - рутирање
 - **xlsx** - парсирање на Excel/ODS податоци
 
@@ -42,7 +42,18 @@ npm run lint
 
 ## Податоци
 
-Податоците се наоѓаат во `ods/` директориумот во формат ODS (OpenDocument Spreadsheet).
+Податоците се наоѓаат во `public/ods/` директориумот во формат ODS (OpenDocument Spreadsheet).
+
+## URL параметри
+
+Апликацијата користи URL параметри за чување на состојбата:
+
+- `:year` - избрана година
+- `:quarter` - избран квартал (0 = сите квартали)
+- `:sorting` - подредување (реден број, приходи, расходи, финансиски резултат)
+- `:order` - редослед (опаѓачки, растечки)
+
+Пример: `/registry/2024/1/prihodi/opagjacki`
 
 ## Лиценца
 
