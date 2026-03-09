@@ -230,7 +230,7 @@ export default function Navbar({ showSortingFilters = false }) {
             {!isDefault && (
               <button
                 type="button"
-                className={`btn btn-outline-light px-3`}
+                className={`btn btn-outline-light p-3`}
                 onClick={handleReset}
                 title="Врати ги основните вредности"
               >
