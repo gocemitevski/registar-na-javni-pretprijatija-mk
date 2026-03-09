@@ -8,6 +8,9 @@ import { useData } from "../hooks/useData";
 import TableFooterValue from "./TableFooterValue";
 import { CHART_OPTIONS, INCOME_COLOR, OUTCOME_COLOR, FINRESULT_COLOR } from "../utils/charts";
 
+const toCleanName = (name) => cleanName(transliterate(name));
+const FIN_RES_KEY = "Финансиски резултат";
+
 function Company() {
   const { company: currentCompanyParam } = useParams();
   const navigate = useNavigate();
@@ -21,42 +24,47 @@ function Company() {
   const [selectedYear, setSelectedYear] = useState(null);
   const chartRef = useRef(null);
 
-  const currentCompany = pretprijatija.find(
-    (el) => cleanName(transliterate(el.Назив)) === currentCompanyParam,
+  const companyIndex = useMemo(
+    () => pretprijatija.findIndex((el) => toCleanName(el.Назив) === currentCompanyParam),
+    [pretprijatija, currentCompanyParam],
   );
 
-  const companyIndex = pretprijatija.findIndex(
-    (el) => cleanName(transliterate(el.Назив)) === currentCompanyParam,
+  const currentCompany = useMemo(
+    () => (companyIndex >= 0 ? pretprijatija[companyIndex] : null),
+    [pretprijatija, companyIndex],
   );
-  const previousCompanyIndex = companyIndex > 0 ? companyIndex - 1 : -1;
-  const nextCompanyIndex =
-    companyIndex >= 0 && companyIndex < pretprijatija.length - 1
-      ? companyIndex + 1
-      : -1;
+
+  const previousCompanyIndex = useMemo(
+    () => (companyIndex > 0 ? companyIndex - 1 : -1),
+    [companyIndex],
+  );
+
+  const nextCompanyIndex = useMemo(
+    () => (companyIndex >= 0 && companyIndex < pretprijatija.length - 1 ? companyIndex + 1 : -1),
+    [companyIndex, pretprijatija.length],
+  );
+
+  const previousCompanyName = useMemo(
+    () => (previousCompanyIndex >= 0 ? pretprijatija[previousCompanyIndex].Назив : null),
+    [pretprijatija, previousCompanyIndex],
+  );
+
+  const nextCompanyName = useMemo(
+    () => (nextCompanyIndex >= 0 ? pretprijatija[nextCompanyIndex].Назив : null),
+    [pretprijatija, nextCompanyIndex],
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentCompanyParam]);
 
-  const toCleanName = (name) => cleanName(transliterate(name));
-
   const goToCompany = (idx) => {
     if (idx < 0 || idx >= pretprijatija.length) return;
-    const company = pretprijatija[idx];
-    const path = toCleanName(company.Назив);
+    const path = toCleanName(pretprijatija[idx].Назив);
     if (path) {
       navigate(`/company/${path}`);
     }
   };
-
-  const previousCompanyName =
-    previousCompanyIndex >= 0 && previousCompanyIndex < pretprijatija.length
-      ? pretprijatija[previousCompanyIndex].Назив
-      : null;
-  const nextCompanyName =
-    nextCompanyIndex >= 0 && nextCompanyIndex < pretprijatija.length
-      ? pretprijatija[nextCompanyIndex].Назив
-      : null;
 
   const companyData = useMemo(() => {
     if (!currentCompany || Object.keys(allMoney).length === 0) return null;
@@ -88,7 +96,7 @@ function Company() {
       income: sumDecimalNumbers(filteredData.map((item) => item.Приходи)),
       outcome: sumDecimalNumbers(filteredData.map((item) => item.Расходи)),
       financialResult: sumDecimalNumbers(
-        filteredData.map((item) => item["Финансиски резултат"]),
+        filteredData.map((item) => item[FIN_RES_KEY]),
       ),
     };
   }, [filteredData]);
@@ -98,8 +106,6 @@ function Company() {
 
     const showQuarterly = selectedYear && selectedYear !== "";
     const groupKey = showQuarterly ? "Квартал" : "Година";
-
-    const FIN_RES_KEY = "Финансиски резултат";
 
     const grouped = {};
     filteredData.forEach((item) => {
@@ -148,7 +154,7 @@ function Company() {
         ),
         createDataset(
           "Финансиски резултат",
-          keys.map((k) => sumDecimalNumbers(grouped[k]["Финансиски резултат"])),
+          keys.map((k) => sumDecimalNumbers(grouped[k][FIN_RES_KEY])),
           FINRESULT_COLOR,
           true,
         ),
@@ -256,7 +262,7 @@ function Company() {
         </div>
       </div>
 
-      {filteredData.length > 0 && (
+      {filteredData.length > 0 ? (
         <>
           {chartData && (
             <div className="my-5">
@@ -282,7 +288,7 @@ function Company() {
               </thead>
               <tbody>
                 {filteredData.map((item, idx) => {
-                  const finResult = item["Финансиски резултат"];
+                  const finResult = item[FIN_RES_KEY];
                   const finResultNum =
                     finResult != null ? parseDecimalNumber(finResult) : "—";
                   const finResultColor =
@@ -346,42 +352,38 @@ function Company() {
           </div>
           <div className="row row-cols-2 g-3 my-3">
             <div className="col vstack">
-              {previousCompanyIndex >= 0 &&
-                previousCompanyIndex < pretprijatija.length && (
-                  <div className="list-group flex-fill">
-                    <button
-                      className="list-group-item list-group-item-action p-4 flex-fill"
-                      onClick={() => goToCompany(previousCompanyIndex)}
-                      title="Претходно претпријатие"
-                      type="button"
-                    >
-                      <h5 className="h6 me-5">{previousCompanyName}</h5>
-                      <i className="bi bi-arrow-left text-primary"></i>
-                    </button>
-                  </div>
-                )}
+              {previousCompanyIndex >= 0 && (
+                <div className="list-group flex-fill">
+                  <button
+                    className="list-group-item list-group-item-action p-4 flex-fill"
+                    onClick={() => goToCompany(previousCompanyIndex)}
+                    title="Претходно претпријатие"
+                    type="button"
+                  >
+                    <h5 className="h6 me-5">{previousCompanyName}</h5>
+                    <i className="bi bi-arrow-left text-primary"></i>
+                  </button>
+                </div>
+              )}
             </div>
             <div className="col vstack">
-              {nextCompanyIndex >= 0 &&
-                nextCompanyIndex < pretprijatija.length && (
-                  <div className="list-group flex-fill text-end">
-                    <button
-                      className="list-group-item list-group-item-action p-4 flex-fill"
-                      onClick={() => goToCompany(nextCompanyIndex)}
-                      title="Претходно претпријатие"
-                      type="button"
-                    >
-                      <h5 className="h6 ms-5">{nextCompanyName}</h5>
-                      <i className="bi bi-arrow-right text-primary"></i>
-                    </button>
-                  </div>
-                )}
+              {nextCompanyIndex >= 0 && (
+                <div className="list-group flex-fill text-end">
+                  <button
+                    className="list-group-item list-group-item-action p-4 flex-fill"
+                    onClick={() => goToCompany(nextCompanyIndex)}
+                    title="Следно претпријатие"
+                    type="button"
+                  >
+                    <h5 className="h6 ms-5">{nextCompanyName}</h5>
+                    <i className="bi bi-arrow-right text-primary"></i>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </>
-      )}
-
-      {filteredData.length === 0 && (
+      ) : (
         <div className="alert alert-warning mt-5">
           Нема податоци за избраната година.
         </div>
