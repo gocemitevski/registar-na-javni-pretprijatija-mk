@@ -5,13 +5,19 @@ import Navbar from "./Navbar";
 import SummaryCards from "./SummaryCards";
 import TopLists from "./TopLists";
 import { formatDecimalNumber } from "../utils/decimalNumbers";
+import { order, sorting } from "../utils/filterDefinitions";
+import { transliterate } from "../utils/transliterate";
+import { cleanName } from "../utils/cleanName";
 
 function Overview() {
-  const { year, quarter } = useParams();
+  const { year, quarter, sorting: sortingParam, order: orderParam } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const isNavigating = useRef(false);
   const { allMoney, availableYears } = useData();
+
+  const defaultSorting = cleanName(transliterate(sorting[0]));
+  const defaultOrder = cleanName(transliterate(order[0]));
 
   const selectedYear = useMemo(() => {
     const latestYear = availableYears[0];
@@ -24,6 +30,14 @@ function Overview() {
     return quarter ? parseInt(quarter) : 0;
   }, [quarter]);
 
+  const selectedSorting = useMemo(() => {
+    return sortingParam || defaultSorting;
+  }, [sortingParam, defaultSorting]);
+
+  const selectedOrder = useMemo(() => {
+    return orderParam || defaultOrder;
+  }, [orderParam, defaultOrder]);
+
   const money = useMemo(() => {
     return allMoney[selectedYear] || [];
   }, [selectedYear, allMoney]);
@@ -33,15 +47,13 @@ function Overview() {
       isNavigating.current = false;
       return;
     }
-    const targetPath = parseInt(selectedQuarter) > 0
-      ? `/${selectedYear}/${selectedQuarter}`
-      : `/${selectedYear}`;
+    const targetPath = `/${selectedYear}/${selectedQuarter}/${selectedSorting}/${selectedOrder}`;
 
     if (location.pathname !== targetPath) {
       isNavigating.current = true;
       navigate(targetPath, { replace: true });
     }
-  }, [selectedYear, selectedQuarter, navigate, location.pathname]);
+  }, [selectedYear, selectedQuarter, selectedSorting, selectedOrder, navigate, location.pathname]);
 
   const filteredMoney = useMemo(() => {
     if (parseInt(selectedQuarter) !== 0) {

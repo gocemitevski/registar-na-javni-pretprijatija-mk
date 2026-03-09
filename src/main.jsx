@@ -35,14 +35,13 @@ createRoot(root).render(
           <Route path="/" element={<Overview />} />
           <Route path="/:year" element={<Overview />} />
           <Route path="/:year/:quarter" element={<Overview />} />
+          <Route path="/:year/:quarter/:sorting" element={<Overview />} />
+          <Route path="/:year/:quarter/:sorting/:order" element={<Overview />} />
           <Route path="/filtered/:filter" element={<FilteredCompanies />} />
           <Route path="/filtered/:filter/:year" element={<FilteredCompanies />} />
           <Route path="/filtered/:filter/:year/:quarter" element={<FilteredCompanies />} />
           <Route path="/registry" element={<Registry />} />
           <Route path="/registry/:year" element={<Registry />} />
-          <Route path="/registry/:year/0/:order" element={<Registry />} />
-          <Route path="/registry/:year/:sorting" element={<Registry />} />
-          <Route path="/registry/:year/:sorting/:order" element={<Registry />} />
           <Route path="/registry/:year/:quarter" element={<Registry />} />
           <Route path="/registry/:year/:quarter/:sorting" element={<Registry />} />
           <Route path="/registry/:year/:quarter/:sorting/:order" element={<Registry />} />

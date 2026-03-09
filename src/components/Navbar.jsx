@@ -7,6 +7,9 @@ import { order, sorting } from "../utils/filterDefinitions";
 import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
 
+const DEFAULT_SORTING = cleanName(transliterate(sorting[0]));
+const DEFAULT_ORDER = cleanName(transliterate(order[0]));
+
 export default function Navbar({ showSortingFilters = false }) {
   const navigate = useNavigate();
   const {
@@ -29,11 +32,11 @@ export default function Navbar({ showSortingFilters = false }) {
   }, [quarterParam]);
 
   const selectedSorting = useMemo(() => {
-    return sortingParam || cleanName(transliterate(sorting[0]));
+    return sortingParam || DEFAULT_SORTING;
   }, [sortingParam]);
 
   const selectedOrder = useMemo(() => {
-    return orderParam || cleanName(transliterate(order[0]));
+    return orderParam || DEFAULT_ORDER;
   }, [orderParam]);
 
   const money = useMemo(() => {
@@ -51,8 +54,8 @@ export default function Navbar({ showSortingFilters = false }) {
       return (
         selectedYear === latestYear &&
         selectedQuarter === 0 &&
-        selectedSorting === cleanName(transliterate(sorting[0])) &&
-        selectedOrder === cleanName(transliterate(order[0]))
+        selectedSorting === DEFAULT_SORTING &&
+        selectedOrder === DEFAULT_ORDER
       );
     }
     return selectedYear === latestYear && selectedQuarter === 0;
@@ -67,32 +70,7 @@ export default function Navbar({ showSortingFilters = false }) {
 
   const buildPath = (targetBase, year, quarter, sort, ord) => {
     let path = targetBase === "/" ? "" : targetBase;
-    if (year) path += `/${year}`;
-
-    if (showSortingFilters) {
-      const isDefaultSorting = !sort || sort === cleanName(transliterate(sorting[0]));
-      const isDefaultOrder = !ord || ord === cleanName(transliterate(order[0]));
-      const quarterNum = parseInt(quarter) || 0;
-
-      if (quarterNum > 0) {
-        path += `/${quarter}`;
-        if (!isDefaultSorting) {
-          path += `/${sort}`;
-          if (!isDefaultOrder) {
-            path += `/${ord}`;
-          }
-        }
-      } else if (!isDefaultSorting) {
-        path += `/${sort}`;
-        if (!isDefaultOrder) {
-          path += `/${ord}`;
-        }
-      } else if (!isDefaultOrder) {
-        path += `/0/${ord}`;
-      }
-    } else if (quarter && parseInt(quarter) > 0) {
-      path += `/${quarter}`;
-    }
+    path += `/${year}/${quarter}/${sort}/${ord}`;
     return path || "/";
   };
 
@@ -100,8 +78,8 @@ export default function Navbar({ showSortingFilters = false }) {
     "/",
     selectedYear,
     selectedQuarter,
-    null,
-    null,
+    selectedSorting,
+    selectedOrder,
   );
   const registryPath = buildPath(
     "/registry",
@@ -114,24 +92,19 @@ export default function Navbar({ showSortingFilters = false }) {
   const handleYearChange = (e) => {
     const newYear = e.target.value;
     if (showSortingFilters) {
-      navigate(`/registry/${newYear}`);
+      navigate(buildPath("/registry", newYear, selectedQuarter, selectedSorting, selectedOrder));
     } else {
-      navigate(`/${newYear}`);
+      navigate(buildPath("/", newYear, 0, DEFAULT_SORTING, DEFAULT_ORDER));
     }
   };
 
   const handleQuarterChange = (e) => {
     const newQuarter = e.target.value;
-    const targetBase = showSortingFilters ? "/registry" : "/";
-    navigate(
-      buildPath(
-        targetBase,
-        selectedYear,
-        newQuarter,
-        selectedSorting,
-        selectedOrder,
-      ),
-    );
+    if (showSortingFilters) {
+      navigate(buildPath("/registry", selectedYear, newQuarter, selectedSorting, selectedOrder));
+    } else {
+      navigate(buildPath("/", selectedYear, newQuarter, DEFAULT_SORTING, DEFAULT_ORDER));
+    }
   };
 
   const handleSortingChange = (e) => {
@@ -142,7 +115,7 @@ export default function Navbar({ showSortingFilters = false }) {
         selectedYear,
         selectedQuarter,
         newSorting,
-        selectedOrder,
+        DEFAULT_ORDER,
       ),
     );
   };
@@ -176,7 +149,7 @@ export default function Navbar({ showSortingFilters = false }) {
           <div className="col-xl-6">
             <ul className="nav nav-pills text-uppercase gap-2">
               <li className="nav-item">
-                <NavLink className="nav-link" to={overviewPath} end>
+                <NavLink className="nav-link" to={overviewPath}>
                   Почетна
                 </NavLink>
               </li>
@@ -235,7 +208,7 @@ export default function Navbar({ showSortingFilters = false }) {
                   </select>
                   <label htmlFor="sorting">Подредување</label>
                 </div>
-                {selectedSorting !== cleanName(transliterate(sorting[0])) && (
+                {selectedSorting !== DEFAULT_SORTING && (
                   <div className="form-floating flex-fill">
                     <select
                       value={selectedOrder}
