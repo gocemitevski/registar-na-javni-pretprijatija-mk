@@ -9,14 +9,15 @@ This document outlines the core skills and best practices required to work on th
 - **Styling:** Bootstrap 5 + SCSS (sass‑embedded)
 - **Routing:** react‑router‑dom 7
 - **Data Processing:** `xlsx` library for reading Excel/ODS files on the client
-- **State & Data Flow:** Local component state, custom hooks (`useData`, `useFilter`) – no external state manager
+- **State & Data Flow:** Local component state, custom hook (`useData`) – no external state manager
 - **Testing / Linting:** ESLint 9 (React Hooks + React Refresh plugins)
 - **Utilities:** Small helper modules for decimal formatting, transliteration, file reading, and chart constants.
 
 ## 📐 Architectural Principles
 
 - **Component‑first**: Each UI piece lives in its own component file (`src/components`).
-- **Hooks for logic**: Shared data fetching is encapsulated in `useData.jsx`; filtering logic lives in custom hooks.
+- **Hooks for logic**: Shared data fetching is encapsulated in `useData.jsx`.
+- **URL‑driven state**: Filter parameters (year, quarter, sorting, order) are stored in the URL, not localStorage. This ensures consistent behavior across page navigation.
 - **Server‑side rendering not used** – the app is purely client‑side; data is loaded from static ODS files bundled with the build.
 - **Performance focus**: Use `React.memo`, `useMemo`, and `useCallback` where re‑renders are expensive (e.g., list rendering, chart calculations).
 - **Accessibility**: Components use semantic HTML and Bootstrap utility classes; ARIA attributes added where necessary.
@@ -34,8 +35,15 @@ This document outlines the core skills and best practices required to work on th
 ### Data Fetching & Processing
 
 - The ODS file is loaded once in `useData.jsx`. Subsequent components read from the cached state.
-- Use `xlsx.readFileSync` to parse and convert sheets into plain JavaScript objects.
-- All numeric values are formatted using `decimalNumbers.jsx` before display.
+- Use `xlsx.read` to parse and convert sheets into plain JavaScript objects.
+- All numeric values are formatted using `decimalNumbers.jsx` (use `formatDecimalNumber` for parsing, `parseDecimalNumber` for display).
+
+### Filter & Sorting
+
+- Filter definitions are centralized in `src/utils/filterDefinitions.jsx`.
+- URL parameters: `:year`, `:quarter`, `:sorting`, `:order`.
+- Default values are computed at module level using constants (e.g., `DEFAULT_SORTING`, `DEFAULT_ORDER`).
+- Sorting/ordering logic should handle the default case specially (no sorting applied when both sorting and order are at defaults).
 
 ### Chart Rendering
 
@@ -52,4 +60,4 @@ This document outlines the core skills and best practices required to work on th
 
 ---
 
-_This skill set is intended to guide developers working on or extending this repository._
+_Skill set last updated: March 2026_
