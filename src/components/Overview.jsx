@@ -13,7 +13,12 @@ const DEFAULT_SORTING = cleanName(transliterate(sorting[0]));
 const DEFAULT_ORDER = cleanName(transliterate(order[0]));
 
 function Overview() {
-  const { year, quarter, sorting: sortingParam, order: orderParam } = useParams();
+  const {
+    year,
+    quarter,
+    sorting: sortingParam,
+    order: orderParam,
+  } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const isNavigating = useRef(false);
@@ -21,9 +26,7 @@ function Overview() {
 
   const selectedYear = useMemo(() => {
     const latestYear = availableYears[0];
-    return year === undefined || parseInt(year) === 0
-      ? latestYear
-      : year;
+    return year === undefined || parseInt(year) === 0 ? latestYear : year;
   }, [year, availableYears]);
 
   const selectedQuarter = useMemo(() => {
@@ -53,7 +56,14 @@ function Overview() {
       isNavigating.current = true;
       navigate(targetPath, { replace: true });
     }
-  }, [selectedYear, selectedQuarter, selectedSorting, selectedOrder, navigate, location.pathname]);
+  }, [
+    selectedYear,
+    selectedQuarter,
+    selectedSorting,
+    selectedOrder,
+    navigate,
+    location.pathname,
+  ]);
 
   const filteredMoney = useMemo(() => {
     if (parseInt(selectedQuarter) !== 0) {
@@ -95,7 +105,7 @@ function Overview() {
   }, [filteredMoney]);
 
   return (
-    <div>
+    <>
       <Navbar showSortingFilters={false} />
       <SummaryCards
         money={filteredMoney}
@@ -112,7 +122,7 @@ function Overview() {
         topResult={topLists.result}
         worstResult={topLists.worstResult}
       />
-    </div>
+    </>
   );
 }
 

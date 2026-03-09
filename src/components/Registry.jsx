@@ -157,14 +157,14 @@ function Registry() {
   }, [money, selectedQuarter, selectedSorting, selectedOrder]);
 
   return (
-    <div>
+    <>
       <Navbar showSortingFilters={true} />
       <Cards
         tableData={companiesInSheet}
         money={filteredMoney}
         activeSort={selectedSorting}
       />
-    </div>
+    </>
   );
 }
 
