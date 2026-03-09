@@ -9,15 +9,15 @@ import { order, sorting } from "../utils/filterDefinitions";
 import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
 
+const DEFAULT_SORTING = cleanName(transliterate(sorting[0]));
+const DEFAULT_ORDER = cleanName(transliterate(order[0]));
+
 function Overview() {
   const { year, quarter, sorting: sortingParam, order: orderParam } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const isNavigating = useRef(false);
   const { allMoney, availableYears } = useData();
-
-  const defaultSorting = cleanName(transliterate(sorting[0]));
-  const defaultOrder = cleanName(transliterate(order[0]));
 
   const selectedYear = useMemo(() => {
     const latestYear = availableYears[0];
@@ -31,12 +31,12 @@ function Overview() {
   }, [quarter]);
 
   const selectedSorting = useMemo(() => {
-    return sortingParam || defaultSorting;
-  }, [sortingParam, defaultSorting]);
+    return sortingParam || DEFAULT_SORTING;
+  }, [sortingParam]);
 
   const selectedOrder = useMemo(() => {
-    return orderParam || defaultOrder;
-  }, [orderParam, defaultOrder]);
+    return orderParam || DEFAULT_ORDER;
+  }, [orderParam]);
 
   const money = useMemo(() => {
     return allMoney[selectedYear] || [];
