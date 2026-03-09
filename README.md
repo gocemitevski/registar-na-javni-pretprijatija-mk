@@ -6,7 +6,7 @@
 
 - **React 19** со React Compiler
 - **Vite 7** - алатка за изградба
-- **Bootstrap 5** + **SCSS** - CSS framework
+- **Bootstrap 5** + **SCSS** - библиотека за каскадни стилови
 - **React Router DOM 7** - рутирање
 - **xlsx** - парсирање на Excel/ODS податоци
 

@@ -6,7 +6,7 @@ This document outlines the core skills and best practices required to work on th
 
 - **Framework:** React 19 (React Compiler) with Vite 7
 - **Build Tool:** Vite 7 – fast HMR, ES‑module based build
-- **Styling:** Bootstrap 5 + SCSS (sass‑embedded)
+- **Styling:** Bootstrap 5 + SCSS
 - **Routing:** react‑router‑dom 7
 - **Data Processing:** `xlsx` library for reading Excel/ODS files on the client
 - **State & Data Flow:** Local component state, custom hook (`useData`) – no external state manager
