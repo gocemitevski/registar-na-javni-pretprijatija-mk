@@ -267,8 +267,7 @@ function Company() {
           {chartData && (
             <div className="my-5">
               <h2 className="h5 mb-3">
-                Графички приказ на приходи, расходи и финансиски резултати низ
-                годините
+                Графички приказ на приходи, расходи и финансиски резултати
               </h2>
               <div style={{ height: "360px" }}>
                 <canvas ref={chartRef}></canvas>
