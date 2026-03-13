@@ -92,11 +92,14 @@ export default function Navbar({ showSortingFilters = false }) {
 
   const handleYearChange = (e) => {
     const newYear = e.target.value;
+    const newYearMoney = allMoney[newYear] || [];
+    const availableQuarters = new Set(newYearMoney.map((item) => item.Квартал));
+    const quarterToUse = availableQuarters.has(selectedQuarter) ? selectedQuarter : 0;
     const orderToUse = selectedSorting !== DEFAULT_SORTING ? selectedOrder : DEFAULT_ORDER;
     if (showSortingFilters) {
-      navigate(`/${currentLang}/registry?${buildQuery(newYear, selectedQuarter, selectedSorting, orderToUse)}`);
+      navigate(`/${currentLang}/registry?${buildQuery(newYear, quarterToUse, selectedSorting, orderToUse)}`);
     } else {
-      navigate(`/${currentLang}?${buildQuery(newYear, 0, DEFAULT_SORTING, DEFAULT_ORDER)}`);
+      navigate(`/${currentLang}?${buildQuery(newYear, quarterToUse, DEFAULT_SORTING, DEFAULT_ORDER)}`);
     }
   };
 
