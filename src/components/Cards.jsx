@@ -7,7 +7,8 @@ import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import DefinitionListTotal from "./DefinitionListTotal";
 
 export default function Cards({ tableData, money, activeSort }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language || "mk";
   const [filters, setFilters] = useState(filterDefinitions);
 
   const companyMoneyMap = useMemo(() => {
@@ -72,17 +73,20 @@ export default function Cards({ tableData, money, activeSort }) {
     return {
       income: parseDecimalNumber(
         sumDecimalNumbers(relevantMoney.map((item) => item.Приходи)),
+        lang,
       ),
       expenses: parseDecimalNumber(
         sumDecimalNumbers(relevantMoney.map((item) => item.Расходи)),
+        lang,
       ),
       "financial-result": parseDecimalNumber(
         sumDecimalNumbers(
           relevantMoney.map((item) => item["Финансиски резултат"]),
         ),
+        lang,
       ),
     };
-  }, [results, money]);
+  }, [results, money, lang]);
 
   const activeFilter =
     Object.keys(filters).find((key) => filters[key]) || "Назив";

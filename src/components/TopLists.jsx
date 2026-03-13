@@ -42,7 +42,7 @@ function TopLists({
                 to={`/${currentLang}/company/${cleanName(transliterate(name))}`}
               >
                 <strong className="fw-bold">{localizedName}</strong>
-                <span className="text-body-emphasis text-nowrap">{parseDecimalNumber(value)}</span>
+                <span className="text-body-emphasis text-nowrap">{parseDecimalNumber(value, currentLang)}</span>
               </Link>
             );
           })}

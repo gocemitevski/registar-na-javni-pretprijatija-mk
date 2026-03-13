@@ -309,7 +309,7 @@ function Company() {
                 {filteredData.map((item, idx) => {
                   const finResult = item[FIN_RES_KEY];
                   const finResultNum =
-                    finResult != null ? parseDecimalNumber(finResult) : "—";
+                    finResult != null ? parseDecimalNumber(finResult, currentLang) : "—";
                   const finResultColor =
                     finResult != null && parseInt(finResultNum) < 0
                       ? "danger"
@@ -324,12 +324,12 @@ function Company() {
                       </td>
                       <td className="text-end">
                         {item.Приходи != null
-                          ? parseDecimalNumber(item.Приходи)
+                          ? parseDecimalNumber(item.Приходи, currentLang)
                           : "—"}
                       </td>
                       <td className="text-end">
                         {item.Расходи != null
-                          ? parseDecimalNumber(item.Расходи)
+                          ? parseDecimalNumber(item.Расходи, currentLang)
                           : "—"}
                       </td>
                       <td className={`text-end text-${finResultColor}`}>

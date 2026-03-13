@@ -35,12 +35,12 @@ const SORT_KEYS = {
 
   const financialResultColor = useMemo(() => {
     if (quarterNum === 0) {
-      return parseInt(parseDecimalNumber(totalFinancialResults)) < 0 ? "danger" : "success";
+      return parseInt(parseDecimalNumber(totalFinancialResults, currentLang)) < 0 ? "danger" : "success";
     }
     const q = numbers.find((item) => item.Квартал === quarterNum);
     if (!q) return "success";
-    return parseInt(parseDecimalNumber(q["Финансиски резултат"])) < 0 ? "danger" : "success";
-  }, [quarterNum, numbers, totalFinancialResults]);
+    return parseInt(parseDecimalNumber(q["Финансиски резултат"], currentLang)) < 0 ? "danger" : "success";
+  }, [quarterNum, numbers, totalFinancialResults, currentLang]);
 
   return (
     <div className="card h-100">

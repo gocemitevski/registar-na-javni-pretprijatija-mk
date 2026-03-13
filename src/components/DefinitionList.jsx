@@ -1,6 +1,9 @@
+import { useTranslation } from "react-i18next";
 import { parseDecimalNumber } from "../utils/decimalNumbers";
 
 export default function DefinitionList({ title, total, numbers, quarter, icon, color, isActive }) {
+  const { i18n } = useTranslation();
+  const lang = i18n.language || "mk";
   const quarterNum = parseInt(quarter) || 0;
   const quarterData = quarterNum !== 0 ? numbers.find((item) => item.Квартал === quarterNum) : null;
 
@@ -12,9 +15,9 @@ export default function DefinitionList({ title, total, numbers, quarter, icon, c
       </dt>
       <dd className="mb-0 flex-fill text-end">
         {quarterNum === 0
-          ? parseDecimalNumber(total)
+          ? parseDecimalNumber(total, lang)
           : quarterData
-            ? parseDecimalNumber(quarterData[title])
+            ? parseDecimalNumber(quarterData[title], lang)
             : "—"}
       </dd>
     </dl>
