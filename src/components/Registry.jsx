@@ -76,7 +76,11 @@ function Registry() {
   }, [currentLang, selectedYear, selectedQuarter, selectedSorting, selectedOrder, navigate, location.pathname, location.search, availableYears]); // eslint-disable-line react-hooks/exhaustive-deps
 
    const companiesInSheet = useMemo(() => {
-     const companies = [...new Set(money.map((item) => item.Назив))].map((el) =>
+     const filteredByQuarter = selectedQuarter !== 0
+       ? money.filter((item) => item.Квартал === selectedQuarter)
+       : money;
+
+     const companies = [...new Set(filteredByQuarter.map((item) => item.Назив))].map((el) =>
        pretprijatija.find((c) => el === c.Назив),
      );
 
@@ -92,7 +96,7 @@ function Registry() {
 
      if (!isDefaultSorting) {
        const getCompanyValue = (companyName) => {
-         const companyMoney = money.filter((m) => m.Назив === companyName);
+         const companyMoney = filteredByQuarter.filter((m) => m.Назив === companyName);
          const fieldMap = {
            income: sumDecimalNumbers(companyMoney.map((m) => m.Приходи)),
            expenses: sumDecimalNumbers(companyMoney.map((m) => m.Расходи)),
@@ -113,7 +117,7 @@ function Registry() {
      }
 
      const getCompanyRedenBroj = (companyName) => {
-       const companyMoney = money.find((m) => m.Назив === companyName);
+       const companyMoney = filteredByQuarter.find((m) => m.Назив === companyName);
        return companyMoney?.["Реден број"] || 0;
      };
 
@@ -124,24 +128,25 @@ function Registry() {
        if (keyA > keyB) return 1 * direction;
        return 0;
      });
-   }, [money, pretprijatija, selectedSorting, selectedOrder, DEFAULT_SORTING, DEFAULT_ORDER, ASCENDING_ORDER]);
+   }, [money, pretprijatija, selectedQuarter, selectedSorting, selectedOrder, DEFAULT_SORTING, DEFAULT_ORDER, ASCENDING_ORDER]);
 
    const filteredMoney = useMemo(() => {
-     if (selectedQuarter !== 0) {
-       return money.filter((item) => item.Квартал === selectedQuarter);
-     }
+     let result = selectedQuarter !== 0
+       ? money.filter((item) => item.Квартал === selectedQuarter)
+       : money;
+
      if (
        selectedSorting === DEFAULT_SORTING &&
        selectedOrder === DEFAULT_ORDER
      ) {
-       return money;
+       return result;
      }
 
      const isDefaultSorting = selectedSorting === DEFAULT_SORTING;
      const direction = selectedOrder === ASCENDING_ORDER ? 1 : -1;
 
      if (!isDefaultSorting) {
-       return [...money].sort((a, b) => {
+       return [...result].sort((a, b) => {
          const getKey = (item) => {
            const fieldMap = {
              id: item["Реден број"],
@@ -159,7 +164,7 @@ function Registry() {
        });
      }
 
-     return [...money].sort((a, b) => {
+     return [...result].sort((a, b) => {
        const keyA = a["Реден број"];
        const keyB = b["Реден број"];
        if (keyA < keyB) return -1 * direction;
