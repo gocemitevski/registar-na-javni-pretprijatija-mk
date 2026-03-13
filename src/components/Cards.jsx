@@ -142,9 +142,9 @@ export default function Cards({ tableData, money, activeSort }) {
               />
               <DefinitionListTotal
                 title={t("cards.financial-result")}
-                total={totals.result}
+                total={totals["financial-result"]}
                 icon={`bi-arrow-down-up`}
-                color={parseInt(totals.result) < 0 ? `danger` : `success`}
+                color={parseInt(totals["financial-result"]) < 0 ? `danger` : `success`}
                 isActive={activeSort === "financial-result"}
               />
             </div>
