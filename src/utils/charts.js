@@ -25,5 +25,5 @@ export const CHART_OPTIONS = {
 };
 
 export const INCOME_COLOR = { border: "#198754", bg: "rgba(25, 135, 84, 0.5)" };
-export const OUTCOME_COLOR = { border: "#dc3545", bg: "rgba(220, 53, 69, 0.5)" };
+export const EXPENSES_COLOR = { border: "#dc3545", bg: "rgba(220, 53, 69, 0.5)" };
 export const FINRESULT_COLOR = { border: "#fd7e14", bg: "rgba(253,126,20, 0.5)" };
