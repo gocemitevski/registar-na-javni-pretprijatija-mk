@@ -1162,8 +1162,8 @@ $zindex-levels: (
 // Navs
 
 // scss-docs-start nav-variables
-$nav-link-padding-y:                1rem !default;
-$nav-link-padding-x:                1.5rem !default;
+$nav-link-padding-y:                .5rem !default;
+$nav-link-padding-x:                1rem !default;
 $nav-link-font-size:                null !default;
 $nav-link-font-weight:              700 !default;
 $nav-link-color:                    var(--#{$prefix}primary-bg-subtle) !default;
