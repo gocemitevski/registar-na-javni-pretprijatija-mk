@@ -235,7 +235,8 @@ function Company() {
       <div className="container my-5 flex-fill">
         <div className="row">
           <div className="col-lg-8">
-            <h1 className="h4">{t("company.notFound")}</h1>
+            <h1 className="h4 mb-3">{t("company.notFound")}</h1>
+            <p className="opacity-75">{t("company.notFoundDesc")}</p>
           </div>
         </div>
       </div>
