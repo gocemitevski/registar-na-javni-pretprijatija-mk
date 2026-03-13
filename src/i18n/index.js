@@ -101,6 +101,7 @@ const resources = {
       },
       company: {
         notFound: "Претпријатието не е пронајдено",
+        notFoundDesc: "Проверете ја уште еднаш адресата за да бидете сигурен дека е точна. Можеби сте направил мала грешка при пишувањето, или пак старата страница веќе не постои!",
         allYears: "Сите години",
         allQuarters: "Сите квартали",
         chartTitle: "Графички приказ на приходи, расходи и финансиски резултати",
@@ -152,11 +153,11 @@ const resources = {
       summary: {
         explore: "Explore",
         positiveResult: "Achieved positive financial result",
-        income: "Achieved income",
-        earnedMore: "Earned more than spent",
+        income: "With income",
+        earnedMore: "Earned more than they spent",
         negativeResult: "Achieved negative financial result",
-        noIncome: "Did not achieve income",
-        spentMore: "Spent more than earned",
+        noIncome: "Without income",
+        spentMore: "Spent more than they earned",
         quickFacts: "Quick Facts for {{year}}",
         quickFactsQuarter: "Quick Facts for Q{{quarter}} of {{year}}"
       },
@@ -203,6 +204,7 @@ const resources = {
       },
       company: {
         notFound: "Company not found",
+        notFoundDesc: "Double-check the address to make sure it's right. You might've just had a little typo, or maybe the old one isn't there anymore!",
         allYears: "All years",
         allQuarters: "All quarters",
         chartTitle: "Graphical display of income, expenses and financial results",
