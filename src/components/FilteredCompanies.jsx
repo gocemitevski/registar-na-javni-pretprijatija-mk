@@ -66,11 +66,22 @@ function FilteredCompanies() {
     return { companies, money: companyMoney };
   }, [money, pretprijatija, selectedQuarter, filter]);
 
+  const FILTER_TO_SORT = {
+    "positive-result": "financial-result",
+    "negative-result": "financial-result",
+    "earned-more": "financial-result",
+    "spent-more": "financial-result",
+    "income": "income",
+    "no-income": "income",
+  };
+
+  const activeSort = FILTER_TO_SORT[filter] || "id";
+
   return (
     <Cards
       tableData={filteredData.companies}
       money={filteredData.money}
-      activeSort="osnovno"
+      activeSort={activeSort}
     />
   );
 }
