@@ -1,5 +1,3 @@
-import i18n from "../i18n/index.js";
-
 export function parseDecimalNumber(number) {
   if (number == null) return "—";
   let num;
@@ -12,14 +10,14 @@ export function parseDecimalNumber(number) {
     num = number;
   }
   if (isNaN(num)) return "—";
-  
-  // Format with MK locale decimal/thousand separators
-  const formatted = new Intl.NumberFormat("mk-MK", {
+
+  // Format with dot as thousand separator. This is a hack, since the format should be mk-MK,
+  // but Chrome shows commas instead of dots for the thousand separator. This is a temporary workaround.
+  return new Intl.NumberFormat("de-DE", {
+    style: "currency",
+    currency: "MKD",
     maximumFractionDigits: 0,
   }).format(num * 1000000);
-  
-  const currency = i18n.language === "en" ? "MKD" : "ден.";
-  return `${formatted} ${currency}`;
 }
 
 export function formatDecimalNumber(number) {
