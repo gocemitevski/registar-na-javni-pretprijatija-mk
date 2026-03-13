@@ -114,7 +114,9 @@ function Company() {
     return {
       income: sumDecimalNumbers(filteredData.map((item) => item.Приходи)),
       expenses: sumDecimalNumbers(filteredData.map((item) => item.Расходи)),
-      "financial-result": sumDecimalNumbers(filteredData.map((item) => item[FIN_RES_KEY])),
+      "financial-result": sumDecimalNumbers(
+        filteredData.map((item) => item[FIN_RES_KEY]),
+      ),
     };
   }, [filteredData]);
 
