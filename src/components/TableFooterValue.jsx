@@ -1,11 +1,9 @@
+import { useTranslation } from "react-i18next";
 import { parseDecimalNumber } from "../utils/decimalNumbers";
 
-export default function TableFooterValue({
-  title,
-  total,
-  numbers,
-  quarter,
-}) {
+export default function TableFooterValue({ title, total, numbers, quarter }) {
+  const { t } = useTranslation();
+
   const quarterNum = parseInt(quarter) || 0;
   const quarterData =
     quarterNum !== 0
@@ -19,7 +17,7 @@ export default function TableFooterValue({
         ? parseDecimalNumber(quarterData[title])
         : "—";
 
-  const isFinancialResult = title === "Финансиски резултат";
+  const isFinancialResult = title === t("sort.result");
   const numericValue =
     typeof value === "string" && value !== "—"
       ? parseDecimalNumber(value)

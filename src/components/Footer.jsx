@@ -1,4 +1,8 @@
+import { useTranslation } from "react-i18next";
+
 export default function Footer() {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-primary text-light py-4">
       <footer className="container">
@@ -9,26 +13,26 @@ export default function Footer() {
               rel="noopener"
               href="https://github.com/gocemitevski/registar-na-javni-pretprijatija-mk"
             >
-              Изворниот код
+              {t("footer.sourceCode")}
             </a>{" "}
-            е достапен на GitHub под лиценцата „
+            {t("footer.availableOn")}{" "}
             <a
               className="link-light"
               rel="noopener"
               href="https://github.com/gocemitevski/registar-na-javni-pretprijatija-mk?tab=GPL-3.0-1-ov-file"
             >
-              GPL-3.0
+              {t("footer.license")}
             </a>
-            “.
+            .
           </div>
           <div className="col-xxl-6 text-xxl-end">
-            Изработено од{" "}
+            {t("footer.madeBy")}{" "}
             <a
               className="link-light"
               rel="noopener"
               href="https://www.gocemitevski.com/"
             >
-              Гоце Митевски
+              {t("footer.author")}
             </a>.
           </div>
         </div>

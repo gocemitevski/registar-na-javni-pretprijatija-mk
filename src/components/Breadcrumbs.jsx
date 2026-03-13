@@ -1,21 +1,28 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useData } from "../hooks/useData";
 import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
+import { getLocalizedCompanyName } from "../utils/localizeCompanyName";
 
 function Breadcrumbs() {
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const { pretprijatija, loading } = useData();
+  const { lang } = useParams();
+  const currentLang = lang || i18n.language || "mk";
 
-  const isCompanyPage = location.pathname.startsWith("/company/");
-  const isFilteredPage = location.pathname.startsWith("/filtered/");
+  const isCompanyPage = location.pathname.includes("/company/");
+  const isFilteredPage = location.pathname.includes("/filtered/");
 
   const pathParts = location.pathname.split("/").filter(Boolean);
 
-  const isFilteredPageWithFilter = isFilteredPage && pathParts[1];
-  const filter = pathParts[1];
-  const year = pathParts[2];
-  const quarter = pathParts[3];
+  const langIndex = pathParts[0] === "mk" || pathParts[0] === "en" ? 1 : 0;
+  const isFilteredPageWithFilter = isFilteredPage && pathParts[langIndex + 1];
+  const filter = pathParts[langIndex + 1];
+
+  const yearParam = new URLSearchParams(location.search).get("year");
+  const quarterParam = new URLSearchParams(location.search).get("quarter");
 
   const companySlug = isCompanyPage
     ? decodeURIComponent(location.pathname.split("/company/")[1])
@@ -34,19 +41,27 @@ function Breadcrumbs() {
   }
 
   const filterTitles = {
-    "positive-result": "Оствариле позитивен финансиски резултат",
-    "income": "Оствариле приход",
-    "earned-more": "Заработиле повеќе од што потрошиле",
-    "negative-result": "Оствариле негативен финансиски резултат",
-    "no-income": "Не оствариле приход",
-    "spent-more": "Потрошиле повеќе од што заработиле",
+    "positive-result": t("summary.positiveResult"),
+    "income": t("summary.income"),
+    "earned-more": t("summary.earnedMore"),
+    "negative-result": t("summary.negativeResult"),
+    "no-income": t("summary.noIncome"),
+    "spent-more": t("summary.spentMore"),
   };
 
   if (isFilteredPageWithFilter) {
     const filterTitle = filterTitles[filter] || filter;
-    const sectionTitle = quarter
-      ? `Брзи факти за квартал ${quarter} на ${year || "2024"}`
-      : `Брзи факти за ${year || "2024"}`;
+
+    const currentYear = yearParam || "2024";
+    const currentQuarter = quarterParam ? parseInt(quarterParam) : null;
+    const sectionTitle = currentQuarter
+      ? t("breadcrumbs.quickFactsQuarter", { year: currentYear, quarter: currentQuarter })
+      : t("breadcrumbs.quickFacts", { year: currentYear });
+
+    const queryParts = [];
+    if (yearParam) queryParts.push(`year=${yearParam}`);
+    if (quarterParam) queryParts.push(`quarter=${quarterParam}`);
+    const queryStr = queryParts.length > 0 ? "?" + queryParts.join("&") : "";
 
     return (
       <div className="bg-body-tertiary">
@@ -54,10 +69,10 @@ function Breadcrumbs() {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb mb-0">
               <li className="breadcrumb-item">
-                <Link to="/">Почетна</Link>
+                <Link to={`/${currentLang}`}>{t("breadcrumbs.home")}</Link>
               </li>
               <li className="breadcrumb-item">
-                <Link to={`/${year || "2024"}${quarter ? `/${quarter}` : ""}`}>{sectionTitle}</Link>
+                <Link to={`/${currentLang}${queryStr}`}>{sectionTitle}</Link>
               </li>
               <li className="breadcrumb-item active" aria-current="page">
                 {filterTitle}
@@ -73,7 +88,7 @@ function Breadcrumbs() {
     (el) => cleanName(transliterate(el.Назив)) === companySlug,
   );
 
-  const companyName = currentCompany?.Назив || companySlug || "...";
+  const companyName = getLocalizedCompanyName(currentCompany, currentLang) || companySlug || "...";
 
   return (
     <div className="bg-light">
@@ -81,10 +96,10 @@ function Breadcrumbs() {
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb mb-0">
             <li className="breadcrumb-item">
-              <Link to="/">Почетна</Link>
+              <Link to={`/${currentLang}`}>{t("breadcrumbs.home")}</Link>
             </li>
             <li className="breadcrumb-item">
-              <Link to="/registry">Регистар</Link>
+              <Link to={`/${currentLang}/registry`}>{t("breadcrumbs.registry")}</Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               {companyName || "..."}

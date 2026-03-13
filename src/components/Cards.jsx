@@ -1,4 +1,5 @@
 import { Fragment, useMemo, useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import SearchForm from "./SearchForm";
 import { filterDefinitions } from "../utils/filterDefinitions";
 import Card from "./Card";
@@ -6,6 +7,7 @@ import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import DefinitionListTotal from "./DefinitionListTotal";
 
 export default function Cards({ tableData, money, activeSort }) {
+  const { t } = useTranslation();
   const [filters, setFilters] = useState(filterDefinitions);
 
   const companyMoneyMap = useMemo(() => {
@@ -62,19 +64,28 @@ export default function Cards({ tableData, money, activeSort }) {
   const totalCompanies = useMemo(() => results.length, [results]);
 
   const totals = useMemo(() => {
-    const companyNames = new Set(results.map((row) => row.Назив).filter(Boolean));
+    const companyNames = new Set(
+      results.map((row) => row.Назив).filter(Boolean),
+    );
     const relevantMoney = money.filter((item) => companyNames.has(item.Назив));
 
     return {
-      income: parseDecimalNumber(sumDecimalNumbers(relevantMoney.map((item) => item.Приходи))),
-      outcome: parseDecimalNumber(sumDecimalNumbers(relevantMoney.map((item) => item.Расходи))),
-      financialResult: parseDecimalNumber(
-        sumDecimalNumbers(relevantMoney.map((item) => item["Финансиски резултат"]))
+      income: parseDecimalNumber(
+        sumDecimalNumbers(relevantMoney.map((item) => item.Приходи)),
+      ),
+      expenses: parseDecimalNumber(
+        sumDecimalNumbers(relevantMoney.map((item) => item.Расходи)),
+      ),
+      "financial-result": parseDecimalNumber(
+        sumDecimalNumbers(
+          relevantMoney.map((item) => item["Финансиски резултат"]),
+        ),
       ),
     };
   }, [results, money]);
 
-  const activeFilter = Object.keys(filters).find((key) => filters[key]) || "Назив";
+  const activeFilter =
+    Object.keys(filters).find((key) => filters[key]) || "Назив";
 
   return (
     <Fragment>
@@ -106,34 +117,35 @@ export default function Cards({ tableData, money, activeSort }) {
         <div className="container">
           <div className="row mx-2 mb-3">
             <div className="col-lg-8 vstack gap-2 justify-content-center">
-              <h5 className="card-title">Вкупно</h5>
+              <h5 className="card-title">{t("cards.total")}</h5>
               <p className="card-text mb-0">
-              {totalCompanies} {totalCompanies % 10 === 1 && totalCompanies !== 11 ? "јавно претпријатие или трговско друштво" : "јавни претпријатија или трговски друштва"}
-            </p>
+                {totalCompanies}{" "}
+                {totalCompanies % 10 === 1 && totalCompanies !== 11
+                  ? t("cards.company_singular")
+                  : t("cards.company_plural")}
+              </p>
             </div>
             <div className="col-lg-4 align-self-center vstack gap-2">
               <DefinitionListTotal
-                title={`Приходи`}
+                title={t("cards.income")}
                 total={totals.income}
                 icon={`bi-arrow-down`}
                 color={`success`}
-                isActive={activeSort === "prihodi"}
+                isActive={activeSort === "income"}
               />
               <DefinitionListTotal
-                title={`Расходи`}
-                total={totals.outcome}
+                title={t("cards.expenses")}
+                total={totals.expenses}
                 icon={`bi-arrow-up`}
                 color={`danger`}
-                isActive={activeSort === "rashodi"}
+                isActive={activeSort === "expenses"}
               />
               <DefinitionListTotal
-                title={`Финансиски резултат`}
-                total={totals.financialResult}
+                title={t("cards.financial-result")}
+                total={totals.result}
                 icon={`bi-arrow-down-up`}
-                color={
-                  parseInt(totals.financialResult) < 0 ? `danger` : `success`
-                }
-                isActive={activeSort === "finansiski-rezultat"}
+                color={parseInt(totals.result) < 0 ? `danger` : `success`}
+                isActive={activeSort === "financial-result"}
               />
             </div>
           </div>

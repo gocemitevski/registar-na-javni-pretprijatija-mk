@@ -1,9 +1,12 @@
+import { useTranslation } from "react-i18next";
+
 export default function SearchForm({
   value,
   filters,
   setFilterValue,
   searchData,
 }) {
+  const { t } = useTranslation();
   const activeFilter = Object.keys(filters).find((key) => filters[key]) || "Назив";
   
   return (
@@ -13,7 +16,7 @@ export default function SearchForm({
           id={`search`}
           className="form-control"
           type="text"
-          placeholder="Пребарајте..."
+          placeholder={t("search.placeholder")}
           onChange={(e) => searchData(e, activeFilter)}
           value={value}
         ></input>
@@ -26,22 +29,17 @@ export default function SearchForm({
           <button
             className="btn btn-outline-secondary"
             type="button"
-            title={
-              value
-                ? `Избриши`
-                : `Внесете вредност за да можете да ја избришете`
-            }
+            title={t("search.clearTitle")}
             onClick={() => setFilterValue(activeFilter, "")}
             disabled={!value}
           >
             <i className="bi bi-x-lg"></i>
-            <span className="visually-hidden">Избриши</span>
+            <span className="visually-hidden">{t("search.clear")}</span>
           </button>
         )}
       </div>
       <div className="form-text mx-3 pt-2">
-        Пребарајте низ сите јавни претпријатија во регистарот со едноставни
-        поими како: <em>електрани, железница, патишта, шуми, Скопје</em> и сл.
+        {t("search.hint", { keywords: t("search.keywords") })}
       </div>
     </div>
   );

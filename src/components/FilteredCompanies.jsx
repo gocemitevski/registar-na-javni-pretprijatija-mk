@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { useData } from "../hooks/useData";
 import { formatDecimalNumber } from "../utils/decimalNumbers";
 import Cards from "./Cards";
@@ -14,11 +14,15 @@ const FILTERS = {
 };
 
 function FilteredCompanies() {
-  const { year, quarter, filter } = useParams();
+  const { filter } = useParams();
+  const location = useLocation();
   const { pretprijatija, allMoney, availableYears } = useData();
 
-  const selectedYear = year || availableYears[0];
-  const selectedQuarter = quarter ? parseInt(quarter) : 0;
+  const yearParam = new URLSearchParams(location.search).get("year");
+  const quarterParam = new URLSearchParams(location.search).get("quarter");
+
+  const selectedYear = yearParam || availableYears?.[0] || "";
+  const selectedQuarter = quarterParam ? parseInt(quarterParam) : 0;
 
   const money = useMemo(() => {
     return allMoney[selectedYear] || [];

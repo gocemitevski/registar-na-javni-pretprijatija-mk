@@ -13,25 +13,29 @@ const DEFAULT_SORTING = cleanName(transliterate(sorting[0]));
 const DEFAULT_ORDER = cleanName(transliterate(order[0]));
 
 function Overview() {
-  const {
-    year,
-    quarter,
-    sorting: sortingParam,
-    order: orderParam,
-  } = useParams();
+  const { lang } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const isNavigating = useRef(false);
-  const { allMoney, availableYears } = useData();
+  const { allMoney, availableYears, pretprijatija } = useData();
+
+  const currentLang = lang || "mk";
+
+  const yearParam = new URLSearchParams(location.search).get("year");
+  const quarterParam = new URLSearchParams(location.search).get("quarter");
+  const sortingParam = new URLSearchParams(location.search).get("sort");
+  const orderParam = new URLSearchParams(location.search).get("order");
 
   const selectedYear = useMemo(() => {
     const latestYear = availableYears[0];
-    return year === undefined || parseInt(year) === 0 ? latestYear : year;
-  }, [year, availableYears]);
+    if (!latestYear) return "";
+    return !yearParam || parseInt(yearParam) === 0 ? latestYear : yearParam;
+  }, [yearParam, availableYears]);
 
   const selectedQuarter = useMemo(() => {
-    return quarter ? parseInt(quarter) : 0;
-  }, [quarter]);
+    const q = quarterParam ? parseInt(quarterParam) : 0;
+    return isNaN(q) ? 0 : q;
+  }, [quarterParam]);
 
   const selectedSorting = useMemo(() => {
     return sortingParam || DEFAULT_SORTING;
@@ -50,27 +54,29 @@ function Overview() {
       isNavigating.current = false;
       return;
     }
-    const targetPath = `/${selectedYear}/${selectedQuarter}/${selectedSorting}/${selectedOrder}`;
+    if (!availableYears.length) return;
+    const params = new URLSearchParams();
+    params.set("year", selectedYear);
+    if (selectedQuarter !== 0) params.set("quarter", selectedQuarter.toString());
+    if (selectedSorting !== DEFAULT_SORTING) params.set("sort", selectedSorting);
+    if (selectedOrder !== DEFAULT_ORDER) params.set("order", selectedOrder);
 
-    if (location.pathname !== targetPath) {
+    const targetPath = `/${currentLang}?${params.toString()}`;
+    const currentPath = location.pathname + location.search;
+
+    if (currentPath !== targetPath) {
       isNavigating.current = true;
       navigate(targetPath, { replace: true });
     }
-  }, [
-    selectedYear,
-    selectedQuarter,
-    selectedSorting,
-    selectedOrder,
-    navigate,
-    location.pathname,
-  ]);
+  }, [currentLang, selectedYear, selectedQuarter, selectedSorting, selectedOrder, navigate, location.pathname, location.search, availableYears]);
 
   const filteredMoney = useMemo(() => {
+    if (!selectedYear) return [];
     if (parseInt(selectedQuarter) !== 0) {
       return money.filter((item) => item.Квартал === parseInt(selectedQuarter));
     }
     return money;
-  }, [money, selectedQuarter]);
+  }, [money, selectedQuarter, selectedYear]);
 
   const topLists = useMemo(() => {
     if (!filteredMoney || filteredMoney.length === 0)
@@ -115,6 +121,7 @@ function Overview() {
       <TopLists
         selectedYear={selectedYear}
         selectedQuarter={selectedQuarter}
+        companies={pretprijatija}
         topExpenses={topLists.expenses}
         worstExpenses={topLists.worstExpenses}
         topIncome={topLists.income}

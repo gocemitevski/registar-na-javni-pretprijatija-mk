@@ -1,18 +1,22 @@
 import { Link, useParams } from "react-router-dom";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import DefinitionList from "./DefinitionList";
 import { cleanName } from "../utils/cleanName";
 import { transliterate } from "../utils/transliterate";
+import { getLocalizedCompanyName, getLocalizedCompanyDescription } from "../utils/localizeCompanyName";
 
 export default function Card({ row, numbers, activeSort }) {
-  const { quarter } = useParams();
+  const { t, i18n } = useTranslation();
+  const { lang, quarter } = useParams();
+  const currentLang = lang || i18n.language || "mk";
   const quarterNum = parseInt(quarter) || 0;
 
-  const SORT_KEYS = {
-    prihodi: "Приходи",
-    rashodi: "Расходи",
-    "finansiski-rezultat": "Финансиски резултат",
+const SORT_KEYS = {
+    income: t("cards.income"),
+    expenses: t("cards.expenses"),
+    "financial-result": t("cards.financial-result"),
   };
   const activeTitle = SORT_KEYS[activeSort] || null;
 
@@ -20,7 +24,7 @@ export default function Card({ row, numbers, activeSort }) {
     () => sumDecimalNumbers(numbers.map((item) => item.Приходи)),
     [numbers]
   );
-  const totalOutcome = useMemo(
+  const totalExpenses = useMemo(
     () => sumDecimalNumbers(numbers.map((item) => item.Расходи)),
     [numbers]
   );
@@ -44,11 +48,11 @@ export default function Card({ row, numbers, activeSort }) {
         <div className="row g-5">
           <div className="col-lg-8 vstack">
             <h5 className="card-title">
-              <Link to={`/company/${cleanName(transliterate(row.Назив))}`}>
-                {row.Назив}
+              <Link to={`/${currentLang}/company/${cleanName(transliterate(row.Назив))}`}>
+                {getLocalizedCompanyName(row, currentLang)}
               </Link>
             </h5>
-            <p className="card-text flex-fill">{row.Опис}</p>
+            <p className="card-text flex-fill">{getLocalizedCompanyDescription(row, currentLang)}</p>
             <a
               title={`Мрежно место на ${row.Назив}`}
               target="_blank"
@@ -60,31 +64,31 @@ export default function Card({ row, numbers, activeSort }) {
           </div>
           <div className="col-lg-4 align-self-center vstack gap-1">
             <DefinitionList
-              title="Приходи"
+              title={t("cards.income")}
               total={totalIncome}
               numbers={numbers}
               quarter={quarter}
               icon="bi-arrow-down"
               color="success"
-              isActive={activeTitle === "Приходи"}
+              isActive={activeTitle === t("cards.income")}
             />
             <DefinitionList
-              title="Расходи"
-              total={totalOutcome}
+              title={t("cards.expenses")}
+              total={totalExpenses}
               numbers={numbers}
               quarter={quarter}
               icon="bi-arrow-up"
               color="danger"
-              isActive={activeTitle === "Расходи"}
+              isActive={activeTitle === t("cards.expenses")}
             />
             <DefinitionList
-              title="Финансиски резултат"
+              title={t("cards.financial-result")}
               total={totalFinancialResults}
               numbers={numbers}
               quarter={quarter}
               icon="bi-arrow-down-up"
               color={financialResultColor}
-              isActive={activeTitle === "Финансиски резултат"}
+              isActive={activeTitle === t("cards.financial-result")}
             />
           </div>
         </div>
