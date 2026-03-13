@@ -2,12 +2,23 @@ import { useEffect, useMemo, useRef } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useData } from "../hooks/useData";
 import { order, sorting } from "../utils/filterDefinitions";
-import {
-  formatDecimalNumber,
-  sumDecimalNumbers,
-} from "../utils/decimalNumbers";
+import { formatDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import Navbar from "./Navbar";
 import Cards from "./Cards";
+
+const DEFAULT_SORTING = sorting[0];
+const DEFAULT_ORDER = order[0];
+const ASCENDING_ORDER = order[1];
+
+function sortByField(items, getValue, direction) {
+  return [...items].sort((a, b) => {
+    const keyA = getValue(a);
+    const keyB = getValue(b);
+    if (keyA < keyB) return -1 * direction;
+    if (keyA > keyB) return 1 * direction;
+    return 0;
+  });
+}
 
 function Registry() {
   const { lang } = useParams();
@@ -23,10 +34,6 @@ function Registry() {
   const sortingParam = new URLSearchParams(location.search).get("sort");
   const orderParam = new URLSearchParams(location.search).get("order");
 
-  const DEFAULT_SORTING = sorting[0]; // "id" - language independent
-  const DEFAULT_ORDER = order[0]; // "desc" - language independent
-  const ASCENDING_ORDER = order[1]; // "asc"
-
   const selectedYear = useMemo(() => {
     const latestYear = availableYears[0];
     if (!latestYear) return "";
@@ -38,21 +45,23 @@ function Registry() {
     return isNaN(q) ? 0 : q;
   }, [quarterParam]);
 
-   const selectedSorting = useMemo(() => {
-     if (!sortingParam) return DEFAULT_SORTING;
-     if (sorting.includes(sortingParam)) return sortingParam;
-     return DEFAULT_SORTING;
-   }, [sortingParam, DEFAULT_SORTING]);
+  const selectedSorting = useMemo(() => {
+    if (!sortingParam) return DEFAULT_SORTING;
+    if (sorting.includes(sortingParam)) return sortingParam;
+    return DEFAULT_SORTING;
+  }, [sortingParam]);
 
-   const selectedOrder = useMemo(() => {
-     if (!orderParam) return DEFAULT_ORDER;
-     if (order.includes(orderParam)) return orderParam;
-     return DEFAULT_ORDER;
-   }, [orderParam, DEFAULT_ORDER]);
+  const selectedOrder = useMemo(() => {
+    if (!orderParam) return DEFAULT_ORDER;
+    if (order.includes(orderParam)) return orderParam;
+    return DEFAULT_ORDER;
+  }, [orderParam]);
 
   const money = useMemo(() => {
     return allMoney[selectedYear] || [];
   }, [selectedYear, allMoney]);
+
+  const direction = selectedOrder === ASCENDING_ORDER ? 1 : -1;
 
   useEffect(() => {
     if (isNavigating.current) {
@@ -73,105 +82,64 @@ function Registry() {
       isNavigating.current = true;
       navigate(targetPath, { replace: true });
     }
-  }, [currentLang, selectedYear, selectedQuarter, selectedSorting, selectedOrder, navigate, location.pathname, location.search, availableYears]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentLang, selectedYear, selectedQuarter, selectedSorting, selectedOrder, navigate, location.pathname, location.search, availableYears]);
 
-   const companiesInSheet = useMemo(() => {
-     const filteredByQuarter = selectedQuarter !== 0
-       ? money.filter((item) => item.Квартал === selectedQuarter)
-       : money;
+  const companiesInSheet = useMemo(() => {
+    const filteredByQuarter = selectedQuarter !== 0
+      ? money.filter((item) => item.Квартал === selectedQuarter)
+      : money;
 
-     const companies = [...new Set(filteredByQuarter.map((item) => item.Назив))].map((el) =>
-       pretprijatija.find((c) => el === c.Назив),
-     );
+    const companies = [...new Set(filteredByQuarter.map((item) => item.Назив))].map((el) =>
+      pretprijatija.find((c) => el === c.Назив),
+    );
 
-     if (
-       selectedSorting === DEFAULT_SORTING &&
-       selectedOrder === DEFAULT_ORDER
-     ) {
-       return companies;
-     }
+    if (selectedSorting === DEFAULT_SORTING && selectedOrder === DEFAULT_ORDER) {
+      return companies;
+    }
 
-     const isDefaultSorting = selectedSorting === DEFAULT_SORTING;
-     const direction = selectedOrder === ASCENDING_ORDER ? 1 : -1;
+    if (selectedSorting === DEFAULT_SORTING) {
+      return sortByField(companies, (c) => {
+        const companyMoney = filteredByQuarter.find((m) => m.Назив === c?.Назив);
+        return companyMoney?.["Реден број"] || 0;
+      }, direction);
+    }
 
-     if (!isDefaultSorting) {
-       const getCompanyValue = (companyName) => {
-         const companyMoney = filteredByQuarter.filter((m) => m.Назив === companyName);
-         const fieldMap = {
-           income: sumDecimalNumbers(companyMoney.map((m) => m.Приходи)),
-           expenses: sumDecimalNumbers(companyMoney.map((m) => m.Расходи)),
-           "financial-result": sumDecimalNumbers(
-             companyMoney.map((m) => m["Финансиски резултат"]),
-           ),
-         };
-         return fieldMap[selectedSorting] || 0;
-       };
+    const getCompanyValue = (companyName) => {
+      const companyMoney = filteredByQuarter.filter((m) => m.Назив === companyName);
+      const fieldMap = {
+        income: sumDecimalNumbers(companyMoney.map((m) => m.Приходи)),
+        expenses: sumDecimalNumbers(companyMoney.map((m) => m.Расходи)),
+        "financial-result": sumDecimalNumbers(companyMoney.map((m) => m["Финансиски резултат"])),
+      };
+      return fieldMap[selectedSorting] || 0;
+    };
 
-       return [...companies].sort((a, b) => {
-         const keyA = getCompanyValue(a?.Назив);
-         const keyB = getCompanyValue(b?.Назив);
-         if (keyA < keyB) return -1 * direction;
-         if (keyA > keyB) return 1 * direction;
-         return 0;
-       });
-     }
+    return sortByField(companies, (c) => getCompanyValue(c?.Назив), direction);
+  }, [money, pretprijatija, selectedQuarter, selectedSorting, selectedOrder, direction]);
 
-     const getCompanyRedenBroj = (companyName) => {
-       const companyMoney = filteredByQuarter.find((m) => m.Назив === companyName);
-       return companyMoney?.["Реден број"] || 0;
-     };
+  const filteredMoney = useMemo(() => {
+    let result = selectedQuarter !== 0
+      ? money.filter((item) => item.Квартал === selectedQuarter)
+      : money;
 
-     return [...companies].sort((a, b) => {
-       const keyA = getCompanyRedenBroj(a?.Назив);
-       const keyB = getCompanyRedenBroj(b?.Назив);
-       if (keyA < keyB) return -1 * direction;
-       if (keyA > keyB) return 1 * direction;
-       return 0;
-     });
-   }, [money, pretprijatija, selectedQuarter, selectedSorting, selectedOrder, DEFAULT_SORTING, DEFAULT_ORDER, ASCENDING_ORDER]);
+    if (selectedSorting === DEFAULT_SORTING && selectedOrder === DEFAULT_ORDER) {
+      return result;
+    }
 
-   const filteredMoney = useMemo(() => {
-     let result = selectedQuarter !== 0
-       ? money.filter((item) => item.Квартал === selectedQuarter)
-       : money;
+    if (selectedSorting === DEFAULT_SORTING) {
+      return sortByField(result, (item) => item["Реден број"], direction);
+    }
 
-     if (
-       selectedSorting === DEFAULT_SORTING &&
-       selectedOrder === DEFAULT_ORDER
-     ) {
-       return result;
-     }
-
-     const isDefaultSorting = selectedSorting === DEFAULT_SORTING;
-     const direction = selectedOrder === ASCENDING_ORDER ? 1 : -1;
-
-     if (!isDefaultSorting) {
-       return [...result].sort((a, b) => {
-         const getKey = (item) => {
-           const fieldMap = {
-             id: item["Реден број"],
-             income: formatDecimalNumber(item.Приходи),
-             expenses: formatDecimalNumber(item.Расходи),
-             "financial-result": formatDecimalNumber(item["Финансиски резултат"]),
-           };
-           return fieldMap[selectedSorting] ?? 0;
-         };
-         const keyA = getKey(a);
-         const keyB = getKey(b);
-         if (keyA < keyB) return -1 * direction;
-         if (keyA > keyB) return 1 * direction;
-         return 0;
-       });
-     }
-
-     return [...result].sort((a, b) => {
-       const keyA = a["Реден број"];
-       const keyB = b["Реден број"];
-       if (keyA < keyB) return -1 * direction;
-       if (keyA > keyB) return 1 * direction;
-       return 0;
-     });
-   }, [money, selectedQuarter, selectedSorting, selectedOrder, DEFAULT_SORTING, DEFAULT_ORDER, ASCENDING_ORDER]);
+    return sortByField(result, (item) => {
+      const fieldMap = {
+        id: item["Реден број"],
+        income: formatDecimalNumber(item.Приходи),
+        expenses: formatDecimalNumber(item.Расходи),
+        "financial-result": formatDecimalNumber(item["Финансиски резултат"]),
+      };
+      return fieldMap[selectedSorting] ?? 0;
+    }, direction);
+  }, [money, selectedQuarter, selectedSorting, selectedOrder, direction]);
 
   return (
     <>
