@@ -8,23 +8,6 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
   const { lang } = useParams();
   const currentLang = lang || i18n.language || "mk";
 
-  const CARDS = [
-    {
-      title: t("summary.positiveResult"),
-      color: "success",
-      filter: "positive-result",
-    },
-    { title: t("summary.income"), color: "success", filter: "income" },
-    { title: t("summary.earnedMore"), color: "success", filter: "earned-more" },
-    {
-      title: t("summary.negativeResult"),
-      color: "danger",
-      filter: "negative-result",
-    },
-    { title: t("summary.noIncome"), color: "danger", filter: "no-income" },
-    { title: t("summary.spentMore"), color: "danger", filter: "spent-more" },
-  ];
-
   const year = selectedYear;
   const quarter = selectedQuarter;
 
@@ -79,6 +62,67 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
   }, [money, quarter]);
 
   if (!summaryData) return null;
+
+  const getTitle = (singularKey, pluralKey, count) => {
+    return count % 10 === 1 && count !== 11 ? t(singularKey) : t(pluralKey);
+  };
+
+  const CARDS = [
+    {
+      title: getTitle(
+        "summary.positiveResult_singular",
+        "summary.positiveResult",
+        summaryData.positiveResults,
+      ),
+      color: "success",
+      filter: "positive-result",
+    },
+    {
+      title: getTitle(
+        "summary.income_singular",
+        "summary.income",
+        summaryData.companiesWithIncome,
+      ),
+      color: "success",
+      filter: "income",
+    },
+    {
+      title: getTitle(
+        "summary.earnedMore_singular",
+        "summary.earnedMore",
+        summaryData.earningMoreThanSpending,
+      ),
+      color: "success",
+      filter: "earned-more",
+    },
+    {
+      title: getTitle(
+        "summary.negativeResult_singular",
+        "summary.negativeResult",
+        summaryData.negativeResults,
+      ),
+      color: "danger",
+      filter: "negative-result",
+    },
+    {
+      title: getTitle(
+        "summary.noIncome_singular",
+        "summary.noIncome",
+        summaryData.companiesWithoutIncome,
+      ),
+      color: "danger",
+      filter: "no-income",
+    },
+    {
+      title: getTitle(
+        "summary.spentMore_singular",
+        "summary.spentMore",
+        summaryData.spendingMoreThanIncome,
+      ),
+      color: "danger",
+      filter: "spent-more",
+    },
+  ];
 
   const getLink = (filter) => {
     const params = new URLSearchParams();
