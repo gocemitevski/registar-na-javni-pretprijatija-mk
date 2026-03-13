@@ -1,3 +1,5 @@
+import i18n from "../i18n/index.js";
+
 export function parseDecimalNumber(number) {
   if (number == null) return "—";
   let num;
@@ -11,12 +13,13 @@ export function parseDecimalNumber(number) {
   }
   if (isNaN(num)) return "—";
   
-  // Format as currency with MKD symbol and no decimals
-  return new Intl.NumberFormat("mk-MK", {
-    style: "currency",
-    currency: "MKD",
+  // Format with MK locale decimal/thousand separators
+  const formatted = new Intl.NumberFormat("mk-MK", {
     maximumFractionDigits: 0,
   }).format(num * 1000000);
+  
+  const currency = i18n.language === "en" ? "MKD" : "ден.";
+  return `${formatted} ${currency}`;
 }
 
 export function formatDecimalNumber(number) {
