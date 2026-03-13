@@ -34,7 +34,7 @@ function TopLists({
         <div className="list-group list-group-flush flex-fill">
           {items.map(([name, value], idx) => {
             const company = companies?.find((c) => c.Назив === name);
-            const localizedName = getLocalizedCompanyName(company, currentLang);
+            const localizedName = getLocalizedCompanyName(company, currentLang) || name;
             return (
               <Link
                 key={idx}
