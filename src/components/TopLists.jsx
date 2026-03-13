@@ -52,9 +52,9 @@ function TopLists({
   );
 
   return (
-    <div className="bg-primary-subtle pb-5">
+    <div className="bg-primary-subtle py-5">
       <div className="container">
-        <h1 className="fw-light mx-3 text-secondary">
+        <h1 className="fw-light m-3 text-secondary">
           {t("toplists.title")} {selectedQuarter > 0 ? t("toplists.titleQuarter", { year: selectedYear, quarter: selectedQuarter }) : t("toplists.titleYear", { year: selectedYear })}
         </h1>
         <div className="row row-cols-1 row-cols-xl-2 g-4 py-4">

@@ -141,9 +141,9 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
   ];
 
   return (
-    <div className="bg-primary-subtle py-5">
+    <div className="bg-primary-subtle pt-5">
       <div className="container">
-        <h1 className="fw-light mx-3 mt-2 text-secondary">
+        <h1 className="fw-light m-3 text-secondary">
           {quarter > 0
             ? t("summary.quickFactsQuarter", { year, quarter })
             : t("summary.quickFacts", { year })}
