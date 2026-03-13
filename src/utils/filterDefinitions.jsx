@@ -7,11 +7,6 @@ export const filterDefinitions = {
   "Финансиски резултат": "",
 };
 
-export const sorting = [
-  "Реден број",
-  "Приходи",
-  "Расходи",
-  "Финансиски резултат",
-];
+export const sorting = ["id", "income", "expenses", "financial-result"];
 
-export const order = ["Опаѓачки", "Растечки"];
+export const order = ["desc", "asc"];
