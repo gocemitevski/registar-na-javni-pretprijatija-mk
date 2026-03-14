@@ -53,7 +53,7 @@ function FilteredCompanies() {
     );
 
     const companies = filteredCompanyNames
-      .map((name) => pretprijatija.find((c) => c.Назив === name))
+      .map((name) => pretprijatija.find((c) => c.Назив === name) || { Назив: name })
       .filter(Boolean);
 
     const companyMoney = filteredByQuarter
@@ -82,6 +82,8 @@ function FilteredCompanies() {
       tableData={filteredData.companies}
       money={filteredData.money}
       activeSort={activeSort}
+      selectedYear={selectedYear}
+      selectedQuarter={selectedQuarter}
     />
   );
 }
