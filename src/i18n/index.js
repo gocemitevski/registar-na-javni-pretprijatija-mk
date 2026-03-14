@@ -18,7 +18,7 @@ const resources = {
         description: "Интерактивен регистар на јавни претпријатија и трговски друштва во државна сопственост на Република Северна Македонија, според податоци на",
         ministry: "Министерството за финансии"
       },
-      header: { project: "За изработката", shareOn: "Сподели на {{title}}" },
+      header: { shareOn: "Сподели на {{title}}" },
       footer: {
         sourceCode: "Изворниот код",
         license: "GPL-3.0",
@@ -29,6 +29,7 @@ const resources = {
       nav: {
         home: "Почетна",
         registry: "Регистар",
+        about: "За проектот",
         year: "Година",
         quarter: "Квартал",
         all: "Сите",
@@ -59,16 +60,17 @@ const resources = {
         positiveResult_singular: "Остварило позитивен финансиски резултат",
         income: "Оствариле приход",
         income_singular: "Остварило приход",
-        earnedMore: "Заработиле повеќе од што потрошиле",
-        earnedMore_singular: "Заработило повеќе од што потрошило",
+        earnedMore: "Заработиле повеќе отколку што потрошиле",
+        earnedMore_singular: "Заработило повеќе отколку што потрошило",
         negativeResult: "Оствариле негативен финансиски резултат",
         negativeResult_singular: "Остварило негативен финансиски резултат",
         noIncome: "Не оствариле приход",
         noIncome_singular: "Не остварило приход",
-        spentMore: "Потрошиле повеќе од што заработиле",
-        spentMore_singular: "Потрошило повеќе од што заработило",
+        spentMore: "Потрошиле повеќе отколку што заработиле",
+        spentMore_singular: "Потрошило повеќе отколку што заработило",
         quickFacts: "Брзи факти за {{year}} година",
-        quickFactsQuarter: "Брзи факти за квартал {{quarter}} на {{year}} година"
+        quickFactsQuarter: "Брзи факти за квартал {{quarter}} на {{year}} година",
+        chartTitle: "Тренд на финансиски показатели"
       },
       breadcrumbs: {
         home: "Почетна",
@@ -80,9 +82,13 @@ const resources = {
         income: "Приходи",
         expenses: "Расходи",
         "financial-result": "Финансиски резултат",
-        total: "Вкупно",
+        total: "Вкупно за {{year}} година",
+        totalQuarter: "Вкупно за квартал {{quarter}} на {{year}} година",
         company_singular: "јавно претпријатие или трговско друштво",
         company_plural: "јавни претпријатија или трговски друштва"
+      },
+      table: {
+        total: "Вкупно"
       },
       sort: {
         id: "Реден број",
@@ -104,6 +110,10 @@ const resources = {
         lowestExpenses: "Најниски расходи",
         bestResult: "Најдобри финансиски резултати",
         worstResult: "Најлоши финансиски резултати"
+      },
+      overview: {
+        chartTitle: "Финансиски показатели за {{year}} година",
+        chartTitleQuarter: "Финансиски показатели за квартал {{quarter}} на {{year}} година"
       },
       company: {
         notFound: "Претпријатието не е пронајдено",
@@ -127,7 +137,7 @@ const resources = {
         description: "Interactive registry of public enterprises and trading companies in state ownership of the Republic of North Macedonia, according to data of",
         ministry: "Ministry of Finance"
       },
-      header: { project: "About", shareOn: "Share on {{title}}" },
+      header: { shareOn: "Share on {{title}}" },
       footer: {
         sourceCode: "The source code",
         license: "GPL-3.0",
@@ -138,6 +148,7 @@ const resources = {
       nav: {
         home: "Home",
         registry: "Registry",
+        about: "About",
         year: "Year",
         quarter: "Quarter",
         all: "All",
@@ -171,7 +182,8 @@ const resources = {
         spentMore: "Spent more than they earned",
         spentMore_singular: "Spent more than it earned",
         quickFacts: "Quick Facts for {{year}}",
-        quickFactsQuarter: "Quick Facts for Q{{quarter}} of {{year}}"
+        quickFactsQuarter: "Quick Facts for Q{{quarter}} of {{year}}",
+        chartTitle: "Financial Indicators Trend"
       },
       breadcrumbs: {
         home: "Home",
@@ -183,9 +195,13 @@ const resources = {
         income: "Income",
         expenses: "Expenses",
         "financial-result": "Financial Result",
-        total: "Total",
-        company_singular: "public enterprise",
-        company_plural: "public enterprises"
+        total: "Total for {{year}}",
+        totalQuarter: "Total for Q{{quarter}} of {{year}}",
+        company_singular: "public enterprise or company",
+        company_plural: "public enterprises or companies"
+      },
+      table: {
+        total: "Total"
       },
       filters: {
         id: "Record Number",
@@ -213,6 +229,10 @@ const resources = {
         lowestExpenses: "Lowest expenses",
         bestResult: "Best financial results",
         worstResult: "Worst financial results"
+      },
+      overview: {
+        chartTitle: "Financial Indicators for {{year}}",
+        chartTitleQuarter: "Financial Indicators for Q{{quarter}} of {{year}}"
       },
       company: {
         notFound: "Company not found",
