@@ -6,7 +6,13 @@ import Card from "./Card";
 import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import DefinitionListTotal from "./DefinitionListTotal";
 
-export default function Cards({ tableData, money, activeSort }) {
+export default function Cards({
+  tableData,
+  money,
+  activeSort,
+  selectedYear,
+  selectedQuarter,
+}) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language || "mk";
   const [filters, setFilters] = useState(filterDefinitions);
@@ -116,41 +122,52 @@ export default function Cards({ tableData, money, activeSort }) {
             )}
           </div>
         </div>
-      </div>
-      <div className="bg-primary-subtle pt-4 pb-5">
-        <div className="container">
-          <div className="row mx-2 mb-3">
-            <div className="col-lg-8 vstack gap-2 justify-content-center">
-              <h5 className="card-title">{t("cards.total")}</h5>
-              <p className="card-text mb-0">
-                {totalCompanies}{" "}
-                {totalCompanies % 10 === 1 && totalCompanies !== 11
-                  ? t("cards.company_singular")
-                  : t("cards.company_plural")}
-              </p>
-            </div>
-            <div className="col-lg-4 align-self-center vstack gap-2">
-              <DefinitionListTotal
-                title={t("cards.income")}
-                total={totals.income}
-                icon={`bi-arrow-down`}
-                color={`success`}
-                isActive={activeSort === "income"}
-              />
-              <DefinitionListTotal
-                title={t("cards.expenses")}
-                total={totals.expenses}
-                icon={`bi-arrow-up`}
-                color={`danger`}
-                isActive={activeSort === "expenses"}
-              />
-              <DefinitionListTotal
-                title={t("cards.financial-result")}
-                total={totals["financial-result"]}
-                icon={`bi-arrow-down-up`}
-                color={parseInt(totals["financial-result"]) < 0 ? `danger` : `success`}
-                isActive={activeSort === "financial-result"}
-              />
+        <div className="sticky-bottom py-4">
+          <div className="container bg-total totals bg-opacity-25 backdrop-blur border border-light shadow-lg py-5 rounded">
+            <div className="row mx-2">
+              <div className="col-lg-8 vstack gap-2 justify-content-center">
+                <h5 className="card-title">
+                  {selectedQuarter > 0
+                    ? t("cards.totalQuarter", {
+                        year: selectedYear,
+                        quarter: selectedQuarter,
+                      })
+                    : t("cards.total", { year: selectedYear })}
+                </h5>
+                <p className="card-text mb-0">
+                  {totalCompanies}{" "}
+                  {totalCompanies % 10 === 1 && totalCompanies !== 11
+                    ? t("cards.company_singular")
+                    : t("cards.company_plural")}
+                </p>
+              </div>
+              <div className="col-lg-4 align-self-center vstack gap-2">
+                <DefinitionListTotal
+                  title={t("cards.income")}
+                  total={totals.income}
+                  icon={`bi-arrow-down`}
+                  color={`success`}
+                  isActive={activeSort === "income"}
+                />
+                <DefinitionListTotal
+                  title={t("cards.expenses")}
+                  total={totals.expenses}
+                  icon={`bi-arrow-up`}
+                  color={`danger`}
+                  isActive={activeSort === "expenses"}
+                />
+                <DefinitionListTotal
+                  title={t("cards.financial-result")}
+                  total={totals["financial-result"]}
+                  icon={`bi-arrow-down-up`}
+                  color={
+                    parseInt(totals["financial-result"]) < 0
+                      ? `danger`
+                      : `success`
+                  }
+                  isActive={activeSort === "financial-result"}
+                />
+              </div>
             </div>
           </div>
         </div>
