@@ -8,10 +8,11 @@ import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import { useData } from "../hooks/useData";
 import TableFooterValue from "./TableFooterValue";
 import {
-  CHART_OPTIONS,
   INCOME_COLOR,
   EXPENSES_COLOR,
   FINRESULT_COLOR,
+  createChartOptions,
+  CHART_HEIGHT,
 } from "../utils/charts";
 import {
   getLocalizedCompanyName,
@@ -140,7 +141,7 @@ function Company() {
     const keys = Object.keys(grouped).sort((a, b) => {
       const numA = parseInt(a);
       const numB = parseInt(b);
-      return showQuarterly ? numA - numB : b.localeCompare(a);
+      return showQuarterly ? numA - numB : a.localeCompare(b);
     });
 
     const labels = keys.map((k) =>
@@ -181,6 +182,11 @@ function Company() {
     };
   }, [filteredData, selectedYear, t]);
 
+  const chartOptions = useMemo(
+    () => createChartOptions(currentLang, true),
+    [currentLang],
+  );
+
   useEffect(() => {
     if (!chartRef.current || !chartData) return;
 
@@ -191,7 +197,7 @@ function Company() {
     chartRef.current.chart = new Chart(chartRef.current, {
       type: "line",
       data: chartData,
-      options: CHART_OPTIONS,
+      options: chartOptions,
     });
 
     const chartNode = chartRef.current;
@@ -202,7 +208,7 @@ function Company() {
         chartNode.chart = null;
       }
     };
-  }, [chartData]);
+  }, [chartData, chartOptions]);
 
   if (dataLoading) {
     return (
@@ -289,7 +295,7 @@ function Company() {
           {chartData && (
             <div className="my-5">
               <h2 className="h5 mb-3">{t("company.chartTitle")}</h2>
-              <div style={{ height: "360px" }}>
+              <div style={{ height: CHART_HEIGHT }}>
                 <canvas ref={chartRef}></canvas>
               </div>
             </div>
@@ -309,7 +315,9 @@ function Company() {
                 {filteredData.map((item, idx) => {
                   const finResult = item[FIN_RES_KEY];
                   const finResultNum =
-                    finResult != null ? parseDecimalNumber(finResult, currentLang) : "—";
+                    finResult != null
+                      ? parseDecimalNumber(finResult, currentLang)
+                      : "—";
                   const finResultColor =
                     finResult != null && parseInt(finResultNum) < 0
                       ? "danger"
@@ -341,7 +349,7 @@ function Company() {
               </tbody>
               <tfoot>
                 <tr>
-                  <th>{t("cards.total")}</th>
+                  <th>{t("table.total")}</th>
                   <th></th>
                   <th className="text-end">
                     <TableFooterValue
@@ -376,7 +384,7 @@ function Company() {
               {previousCompanyIndex >= 0 && (
                 <div className="list-group flex-fill">
                   <button
-                    className="list-group-item list-group-item-action p-4 flex-fill"
+                    className="list-group-item list-group-item-action btn-link-arrow-prev p-4 flex-fill"
                     onClick={() => goToCompany(previousCompanyIndex)}
                     title={t("company.prevCompany")}
                     type="button"
@@ -393,7 +401,7 @@ function Company() {
               {nextCompanyIndex >= 0 && (
                 <div className="list-group flex-fill text-end">
                   <button
-                    className="list-group-item list-group-item-action p-4 flex-fill"
+                    className="list-group-item list-group-item-action btn-link-arrow-next p-4 flex-fill"
                     onClick={() => goToCompany(nextCompanyIndex)}
                     title={t("company.nextCompany")}
                     type="button"
