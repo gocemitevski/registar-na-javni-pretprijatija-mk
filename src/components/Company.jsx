@@ -105,6 +105,12 @@ function Company() {
     });
   }, [currentCompany, allMoney, availableYears]);
 
+  const companyYears = useMemo(() => {
+    if (!companyData) return [];
+    const years = [...new Set(companyData.map((item) => item.Година))];
+    return years.sort((a, b) => b.localeCompare(a));
+  }, [companyData]);
+
   const filteredData = useMemo(() => {
     if (!companyData) return [];
     if (!selectedYear || selectedYear === "") return companyData;
@@ -279,7 +285,7 @@ function Company() {
               onChange={(e) => setSelectedYear(e.target.value || null)}
             >
               <option value="">{t("company.allYears")}</option>
-              {availableYears.map((y) => (
+              {companyYears.map((y) => (
                 <option key={y} value={y}>
                   {y}
                 </option>
