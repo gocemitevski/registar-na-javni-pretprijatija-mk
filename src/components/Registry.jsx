@@ -148,6 +148,8 @@ function Registry() {
         tableData={companiesInSheet}
         money={filteredMoney}
         activeSort={selectedSorting}
+        selectedYear={selectedYear}
+        selectedQuarter={selectedQuarter}
       />
     </>
   );
