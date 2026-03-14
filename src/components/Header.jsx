@@ -42,15 +42,6 @@ export default function Header() {
           </div>
           <div className="col-xl-4 col-xxl-5">
             <div className="hstack justify-content-xl-end gap-3">
-              <button
-                className="btn btn-sm btn-outline-light"
-                data-bs-target="#zaIzrabotkata"
-                data-bs-toggle="offcanvas"
-                role="button"
-                aria-controls="zaIzrabotkata"
-              >
-                {t("header.project")}
-              </button>
               <LanguageSwitcher />
               {socialLinks.length ? (
                 <ul className="nav justify-content-end">
