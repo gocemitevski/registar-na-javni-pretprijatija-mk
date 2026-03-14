@@ -89,6 +89,7 @@ export default function Navbar({ showSortingFilters = false }) {
 
   const overviewPath = `/${currentLang}?${buildQuery(selectedYear, selectedQuarter, selectedSorting, selectedOrder)}`;
   const registryPath = `/${currentLang}/registry?${buildQuery(selectedYear, selectedQuarter, selectedSorting, selectedOrder)}`;
+  const aboutPath = `/${currentLang}/about`;
 
   const handleYearChange = (e) => {
     const newYear = e.target.value;
@@ -146,6 +147,11 @@ export default function Navbar({ showSortingFilters = false }) {
               <li className="nav-item">
                 <NavLink className="nav-link p-3" to={registryPath}>
                   {t("nav.registry")}
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link p-3" to={aboutPath}>
+                  {t("nav.about")}
                 </NavLink>
               </li>
             </ul>
