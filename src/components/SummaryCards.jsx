@@ -151,7 +151,7 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 py-4">
           {CARDS.map((card, index) => (
             <div key={index} className="col">
-              <div className="card h-100 shadow">
+              <div className={`card h-100 shadow ${cardValues[index] !== 0 ? `btn-link-arrow btn-link-shadow` : ``}`}>
                 <div className="card-body hstack gap-3">
                   <div className="flex-fill vstack gap-3">
                     <h5
