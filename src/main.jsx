@@ -15,7 +15,7 @@ import Loading from "./components/Loading.jsx";
 const Registry = lazy(() => import("./components/Registry.jsx"));
 const Overview = lazy(() => import("./components/Overview.jsx"));
 const FilteredCompanies = lazy(() => import("./components/FilteredCompanies.jsx"));
-const ZaIzrabotkata = lazy(() => import("./components/ZaIzrabotkata.jsx"));
+const AboutWrapper = lazy(() => import("./components/AboutWrapper.jsx"));
 
 const root = document.getElementById("root");
 
@@ -39,13 +39,11 @@ createRoot(root).render(
             <Route path="/:lang/filtered/:filter" element={<FilteredCompanies />} />
             <Route path="/:lang/registry" element={<Registry />} />
             <Route path="/:lang/company/:company" element={<CompanyWrapper />} />
+            <Route path="/:lang/about" element={<AboutWrapper />} />
             <Route path="/:lang" element={<Overview />} />
           </Routes>
         </Suspense>
         <Footer />
-        <Suspense fallback={null}>
-          <ZaIzrabotkata />
-        </Suspense>
         <CookieConsent
           location="bottom"
           buttonText="Во ред"

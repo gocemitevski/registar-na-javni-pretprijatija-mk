@@ -14,6 +14,7 @@ function Breadcrumbs() {
 
   const isCompanyPage = location.pathname.includes("/company/");
   const isFilteredPage = location.pathname.includes("/filtered/");
+  const isAboutPage = location.pathname.includes("/about");
 
   const pathParts = location.pathname.split("/").filter(Boolean);
 
@@ -28,15 +29,11 @@ function Breadcrumbs() {
     ? decodeURIComponent(location.pathname.split("/company/")[1])
     : null;
 
-  if (!isCompanyPage && !isFilteredPageWithFilter) {
+  if (!isCompanyPage && !isFilteredPageWithFilter && !isAboutPage) {
     return null;
   }
 
-  if (isFilteredPageWithFilter && loading) {
-    return null;
-  }
-
-  if (isCompanyPage && loading) {
+  if ((isFilteredPageWithFilter || isCompanyPage) && loading) {
     return null;
   }
 
@@ -49,9 +46,13 @@ function Breadcrumbs() {
     "spent-more": t("summary.spentMore"),
   };
 
-  if (isFilteredPageWithFilter) {
-    const filterTitle = filterTitles[filter] || filter;
+  const breadcrumbs = [
+    { label: t("breadcrumbs.home"), href: `/${currentLang}` },
+  ];
 
+  if (isAboutPage) {
+    breadcrumbs.push({ label: t("nav.about"), href: null });
+  } else if (isFilteredPageWithFilter) {
     const currentYear = yearParam || "2024";
     const currentQuarter = quarterParam ? parseInt(quarterParam) : null;
     const sectionTitle = currentQuarter
@@ -63,47 +64,35 @@ function Breadcrumbs() {
     if (quarterParam) queryParts.push(`quarter=${quarterParam}`);
     const queryStr = queryParts.length > 0 ? "?" + queryParts.join("&") : "";
 
-    return (
-      <div className="bg-body-tertiary">
-        <div className="container py-2">
-          <nav aria-label="breadcrumb">
-            <ol className="breadcrumb mb-0">
-              <li className="breadcrumb-item">
-                <Link to={`/${currentLang}`}>{t("breadcrumbs.home")}</Link>
-              </li>
-              <li className="breadcrumb-item">
-                <Link to={`/${currentLang}${queryStr}`}>{sectionTitle}</Link>
-              </li>
-              <li className="breadcrumb-item active" aria-current="page">
-                {filterTitle}
-              </li>
-            </ol>
-          </nav>
-        </div>
-      </div>
+    breadcrumbs.push({ label: sectionTitle, href: `/${currentLang}${queryStr}` });
+    breadcrumbs.push({ label: filterTitles[filter] || filter, href: null });
+  } else if (isCompanyPage) {
+    const currentCompany = pretprijatija.find(
+      (el) => cleanName(transliterate(el.Назив)) === companySlug,
     );
+    const companyName = getLocalizedCompanyName(currentCompany, currentLang) || companySlug || "...";
+    breadcrumbs.push({ label: t("breadcrumbs.registry"), href: `/${currentLang}/registry` });
+    breadcrumbs.push({ label: companyName, href: null });
   }
 
-  const currentCompany = pretprijatija.find(
-    (el) => cleanName(transliterate(el.Назив)) === companySlug,
-  );
-
-  const companyName = getLocalizedCompanyName(currentCompany, currentLang) || companySlug || "...";
-
   return (
-    <div className="bg-light">
+    <div className="bg-body-tertiary">
       <div className="container py-2">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb mb-0">
-            <li className="breadcrumb-item">
-              <Link to={`/${currentLang}`}>{t("breadcrumbs.home")}</Link>
-            </li>
-            <li className="breadcrumb-item">
-              <Link to={`/${currentLang}/registry`}>{t("breadcrumbs.registry")}</Link>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page">
-              {companyName || "..."}
-            </li>
+            {breadcrumbs.map((crumb, idx) => (
+              <li
+                key={idx}
+                className={`breadcrumb-item ${idx === breadcrumbs.length - 1 ? "active" : ""}`}
+                aria-current={idx === breadcrumbs.length - 1 ? "page" : undefined}
+              >
+                {crumb.href ? (
+                  <Link to={crumb.href}>{crumb.label}</Link>
+                ) : (
+                  crumb.label
+                )}
+              </li>
+            ))}
           </ol>
         </nav>
       </div>
