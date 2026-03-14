@@ -42,8 +42,8 @@
 // @import "bootstrap/scss/popover";
 // @import "bootstrap/scss/carousel";
 @import "bootstrap/scss/spinners";
-@import "bootstrap/scss/offcanvas";
-@import "bootstrap/scss/placeholders";
+// @import "bootstrap/scss/offcanvas";
+// @import "bootstrap/scss/placeholders";
 
 // Helpers
 @import "bootstrap/scss/helpers";
@@ -51,6 +51,9 @@
 // Utilities
 @import "bootstrap/scss/utilities/api";
 // scss-docs-end import-stack
+
+// Animations
+@import "animations";
 
 // Custom SCSS
 @import "custom";

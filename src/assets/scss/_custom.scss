@@ -18,3 +18,39 @@
 .backdrop-blur {
   backdrop-filter: blur($spacer * 2);
 }
+
+.backdrop-blur-sm {
+  backdrop-filter: blur($spacer);
+}
+
+.btn-link-arrow,
+.btn-link-arrow-next {
+  &:hover {
+    .bi {
+      &:before {
+        animation: 600ms arrowSlideRight ease-in-out infinite;
+      }
+    }
+  }
+}
+
+.btn-link-arrow-prev {
+  &:hover {
+    .bi {
+      &:before {
+        animation: 600ms arrowSlideLeft ease-in-out infinite;
+      }
+    }
+  }
+}
+
+.btn-link-shadow {
+  &:hover {
+    @extend .shadow-lg;
+  }
+}
+
+.totals {
+  opacity: 1;
+  animation: 300ms fadeIn ease-in-out;
+}
