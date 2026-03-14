@@ -68,15 +68,15 @@ const resources = {
         noIncome_singular: "Не остварило приход",
         spentMore: "Потрошиле повеќе отколку што заработиле",
         spentMore_singular: "Потрошило повеќе отколку што заработило",
-        quickFacts: "Брзи факти за {{year}} година",
-        quickFactsQuarter: "Брзи факти за квартал {{quarter}} на {{year}} година",
+        quickFacts: "{{year}} година низ бројки",
+        quickFactsQuarter: "Квартал {{quarter}} на {{year}} година низ бројки",
         chartTitle: "Тренд на финансиски показатели"
       },
       breadcrumbs: {
         home: "Почетна",
         registry: "Регистар",
-        quickFacts: "Брзи факти за {{year}} година",
-        quickFactsQuarter: "Брзи факти за квартал {{quarter}} на {{year}} година"
+        quickFacts: "{{year}} година низ бројки",
+        quickFactsQuarter: "Квартал {{quarter}} на {{year}} година низ бројки"
       },
       cards: {
         income: "Приходи",
@@ -133,7 +133,7 @@ const resources = {
   en: {
     translation: {
       app: {
-        title: "Registry of public enterprises and trading companies in state ownership of R. N. Macedonia",
+        title: "Registry of Public Enterprises and Trading Companies in State Ownership of R. N. Macedonia",
         description: "Interactive registry of public enterprises and trading companies in state ownership of the Republic of North Macedonia, according to data of",
         ministry: "Ministry of Finance"
       },
@@ -169,27 +169,27 @@ const resources = {
       },
       summary: {
         explore: "Explore",
-        positiveResult: "Achieved positive financial result",
-        positiveResult_singular: "Achieved positive financial result",
-        income: "With income",
-        income_singular: "With income",
-        earnedMore: "Earned more than they spent",
-        earnedMore_singular: "Earned more than it spent",
-        negativeResult: "Achieved negative financial result",
-        negativeResult_singular: "Achieved negative financial result",
-        noIncome: "Without income",
-        noIncome_singular: "Without income",
-        spentMore: "Spent more than they earned",
-        spentMore_singular: "Spent more than it earned",
-        quickFacts: "Quick Facts for {{year}}",
-        quickFactsQuarter: "Quick Facts for Q{{quarter}} of {{year}}",
+        positiveResult: "Achieved Positive Financial Result",
+        positiveResult_singular: "Achieved Positive Financial Result",
+        income: "Made Income",
+        income_singular: "Made Income",
+        earnedMore: "Earned More than They Spent",
+        earnedMore_singular: "Earned More than It Spent",
+        negativeResult: "Achieved Negative Financial Result",
+        negativeResult_singular: "Achieved Negative Financial Result",
+        noIncome: "Didn't Make Income",
+        noIncome_singular: "Didn't Make Income",
+        spentMore: "Spent More than They Earned",
+        spentMore_singular: "Spent More than It Earned",
+        quickFacts: "{{year}} in Numbers",
+        quickFactsQuarter: "Q{{quarter}} of {{year}} in Numbers",
         chartTitle: "Financial Indicators Trend"
       },
       breadcrumbs: {
         home: "Home",
         registry: "Registry",
-        quickFacts: "Quick Facts for {{year}}",
-        quickFactsQuarter: "Quick Facts for Q{{quarter}} of {{year}}"
+        quickFacts: "{{year}} in Numbers",
+        quickFactsQuarter: "Q{{quarter}} of {{year}} in Numbers",
       },
       cards: {
         income: "Income",
@@ -223,28 +223,28 @@ const resources = {
         title: "Top Lists",
         titleYear: "for {{year}}",
         titleQuarter: "for Q{{quarter}} of {{year}}",
-        highestIncome: "Highest incomes",
-        lowestIncome: "Lowest incomes",
-        highestExpenses: "Highest expenses",
-        lowestExpenses: "Lowest expenses",
-        bestResult: "Best financial results",
-        worstResult: "Worst financial results"
+        highestIncome: "Highest Incomes",
+        lowestIncome: "Lowest Incomes",
+        highestExpenses: "Highest Expenses",
+        lowestExpenses: "Lowest Expenses",
+        bestResult: "Best Financial Results",
+        worstResult: "Worst Financial Results"
       },
       overview: {
         chartTitle: "Financial Indicators for {{year}}",
         chartTitleQuarter: "Financial Indicators for Q{{quarter}} of {{year}}"
       },
       company: {
-        notFound: "Company not found",
+        notFound: "Company Not Found",
         notFoundDesc: "Double-check the address to make sure it's right. You might've just had a little typo, or maybe the old one isn't there anymore!",
         allYears: "All years",
         allQuarters: "All quarters",
-        chartTitle: "Graphical display of income, expenses and financial results",
+        chartTitle: "Graphical Display of Income, Expenses and Financial Results",
         noData: "No data for the selected year.",
         year: "Year",
         quarter: "Quarter",
-        prevCompany: "Previous company",
-        nextCompany: "Next company",
+        prevCompany: "Previous Company",
+        nextCompany: "Next Company",
         website: "Website of {{name}}"
       }
     }
