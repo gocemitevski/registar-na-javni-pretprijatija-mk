@@ -43,7 +43,7 @@ const SORT_KEYS = {
   }, [quarterNum, numbers, totalFinancialResults, currentLang]);
 
   return (
-    <div className="card h-100">
+    <div className="card h-100 shadow-sm">
       <div className="card-body">
         <div className="row g-5">
           <div className="col-lg-8 vstack">
