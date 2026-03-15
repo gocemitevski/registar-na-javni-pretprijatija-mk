@@ -98,80 +98,78 @@ export default function Cards({
     Object.keys(filters).find((key) => filters[key]) || "Назив";
 
   return (
-    <Fragment>
-      <div className="bg-primary-subtle py-3">
-        <div className="container">
-          <SearchForm
-            value={filters[activeFilter]}
-            filters={filters}
-            setFilterValue={setFilterValue}
-            searchData={searchData}
-          />
-          <div className="row row-cols-1 g-3">
-            {results.map(
-              (row, i) =>
-                row && (
-                  <div className="col" key={i}>
-                    <Card
-                      row={row}
-                      numbers={companyMoneyMap[row.Назив] || []}
-                      activeSort={activeSort}
-                    />
-                  </div>
-                ),
-            )}
-          </div>
+    <div className="bg-primary-subtle bg-shade py-3">
+      <div className="container">
+        <SearchForm
+          value={filters[activeFilter]}
+          filters={filters}
+          setFilterValue={setFilterValue}
+          searchData={searchData}
+        />
+        <div className="row row-cols-1 g-3">
+          {results.map(
+            (row, i) =>
+              row && (
+                <div className="col" key={i}>
+                  <Card
+                    row={row}
+                    numbers={companyMoneyMap[row.Назив] || []}
+                    activeSort={activeSort}
+                  />
+                </div>
+              ),
+          )}
         </div>
-        <div className="sticky-bottom py-4">
-          <div className="container bg-total totals bg-opacity-25 backdrop-blur border border-light shadow-lg py-5 rounded">
-            <div className="row mx-2">
-              <div className="col-lg-8 vstack gap-2 justify-content-center">
-                <h5 className="card-title">
-                  {selectedQuarter > 0
-                    ? t("cards.totalQuarter", {
-                        year: selectedYear,
-                        quarter: selectedQuarter,
-                      })
-                    : t("cards.total", { year: selectedYear })}
-                </h5>
-                <p className="card-text mb-0">
-                  {totalCompanies}{" "}
-                  {totalCompanies % 10 === 1 && totalCompanies !== 11
-                    ? t("cards.company_singular")
-                    : t("cards.company_plural")}
-                </p>
-              </div>
-              <div className="col-lg-4 align-self-center vstack gap-2">
-                <DefinitionListTotal
-                  title={t("cards.income")}
-                  total={totals.income}
-                  icon={`bi-arrow-down`}
-                  color={`success`}
-                  isActive={activeSort === "income"}
-                />
-                <DefinitionListTotal
-                  title={t("cards.expenses")}
-                  total={totals.expenses}
-                  icon={`bi-arrow-up`}
-                  color={`danger`}
-                  isActive={activeSort === "expenses"}
-                />
-                <DefinitionListTotal
-                  title={t("cards.financial-result")}
-                  total={totals["financial-result"]}
-                  icon={`bi-arrow-down-up`}
-                  color={
-                    parseInt(totals["financial-result"]) < 0
-                      ? `danger`
-                      : `success`
-                  }
-                  isActive={activeSort === "financial-result"}
-                />
-              </div>
+      </div>
+      <div className="sticky-bottom py-4">
+        <div className="container bg-total totals bg-opacity-25 backdrop-blur border border-light shadow-lg py-5 rounded">
+          <div className="row mx-2">
+            <div className="col-lg-8 vstack gap-2 justify-content-center">
+              <h5 className="card-title">
+                {selectedQuarter > 0
+                  ? t("cards.totalQuarter", {
+                      year: selectedYear,
+                      quarter: selectedQuarter,
+                    })
+                  : t("cards.total", { year: selectedYear })}
+              </h5>
+              <p className="card-text mb-0">
+                {totalCompanies}{" "}
+                {totalCompanies % 10 === 1 && totalCompanies !== 11
+                  ? t("cards.company_singular")
+                  : t("cards.company_plural")}
+              </p>
+            </div>
+            <div className="col-lg-4 align-self-center vstack gap-2">
+              <DefinitionListTotal
+                title={t("cards.income")}
+                total={totals.income}
+                icon={`bi-arrow-down`}
+                color={`success`}
+                isActive={activeSort === "income"}
+              />
+              <DefinitionListTotal
+                title={t("cards.expenses")}
+                total={totals.expenses}
+                icon={`bi-arrow-up`}
+                color={`danger`}
+                isActive={activeSort === "expenses"}
+              />
+              <DefinitionListTotal
+                title={t("cards.financial-result")}
+                total={totals["financial-result"]}
+                icon={`bi-arrow-down-up`}
+                color={
+                  parseInt(totals["financial-result"]) < 0
+                    ? `danger`
+                    : `success`
+                }
+                isActive={activeSort === "financial-result"}
+              />
             </div>
           </div>
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 }
