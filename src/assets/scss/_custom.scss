@@ -23,12 +23,16 @@
   backdrop-filter: blur($spacer);
 }
 
+.bg-shade {
+  background-image: linear-gradient(rgba($white, 0.25), transparent 35%);
+}
+
 .btn-link-arrow,
 .btn-link-arrow-next {
   &:hover {
     .bi {
       &:before {
-        animation: 600ms arrowSlideRight ease-in-out infinite;
+        animation: 600ms arrowSlideRight ease-out infinite;
       }
     }
   }
@@ -38,19 +42,21 @@
   &:hover {
     .bi {
       &:before {
-        animation: 600ms arrowSlideLeft ease-in-out infinite;
+        animation: 600ms arrowSlideLeft ease-out infinite;
       }
     }
   }
 }
 
 .btn-link-shadow {
+  transition: 150ms box-shadow ease-in-out;
   &:hover {
     @extend .shadow-lg;
+    @extend .border-dark-subtle;
   }
 }
 
 .totals {
   opacity: 1;
-  animation: 300ms fadeIn ease-in-out;
+  animation: 600ms fadeIn ease-in-out;
 }
