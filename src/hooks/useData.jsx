@@ -28,7 +28,7 @@ export function useData() {
         }
 
         if (!wbRef.current) {
-          const f = await fetch(`/ods/${file}`);
+          const f = await fetch(file);
           if (!f.ok) throw new Error(`Failed to fetch data: ${f.status}`);
           const ab = await f.arrayBuffer();
           wbRef.current = read(ab);
