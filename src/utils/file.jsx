@@ -1,1 +1,1 @@
-export const file = `./ods/registar-javni-pretprijatija-r-s-makedonija.ods`;
+export const file = "/ods/registar-javni-pretprijatija-r-s-makedonija.ods";
