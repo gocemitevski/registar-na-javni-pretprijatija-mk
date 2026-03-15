@@ -13,7 +13,7 @@ import {
 import { order, sorting } from "../utils/filterDefinitions";
 import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
-import { INCOME_COLOR, EXPENSES_COLOR, FINRESULT_COLOR, createChartOptions, CHART_HEIGHT } from "../utils/charts";
+import { INCOME_COLOR, EXPENSES_COLOR, FINRESULT_COLOR, createChartOptions, CHART_HEIGHT, dashedBorderPlugin } from "../utils/charts";
 
 const DEFAULT_SORTING = cleanName(transliterate(sorting[0]));
 const DEFAULT_ORDER = cleanName(transliterate(order[0]));
@@ -171,7 +171,8 @@ function Overview() {
             EXPENSES_COLOR.border,
             FINRESULT_COLOR.border,
           ],
-          borderWidth: 1,
+          borderWidth: [3, 3, 0],
+          dashedBarIndex: 2,
         },
       ],
     };
@@ -190,6 +191,7 @@ function Overview() {
       type: "bar",
       data: chartData,
       options: chartOptions,
+      plugins: [dashedBorderPlugin],
     });
 
     const chartNode = chartRef.current;
