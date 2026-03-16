@@ -85,6 +85,7 @@ function FilteredCompanies() {
       selectedYear={selectedYear}
       selectedQuarter={selectedQuarter}
       filter={filter}
+      showSearch={false}
     />
   );
 }

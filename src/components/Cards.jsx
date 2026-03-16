@@ -14,6 +14,7 @@ export default function Cards({
   selectedYear,
   selectedQuarter,
   showChart = true,
+  showSearch = true,
   filter,
 }) {
   const { t, i18n } = useTranslation();
@@ -113,12 +114,14 @@ export default function Cards({
             filter={filter}
           />
         )}
+        {showSearch && (
         <SearchForm
           value={filters[activeFilter]}
           filters={filters}
           setFilterValue={setFilterValue}
           searchData={searchData}
         />
+        )}
         <div className="row row-cols-1 g-3">
           {results.map(
             (row, i) =>
