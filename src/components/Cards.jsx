@@ -101,7 +101,7 @@ export default function Cards({
     Object.keys(filters).find((key) => filters[key]) || "Назив";
 
   return (
-    <div className="bg-primary-subtle bg-shade py-3">
+    <div className="bg-primary-subtle bg-shade pt-4 pb-3">
       <div className="container">
         {showChart && (
           <FilteredChart
