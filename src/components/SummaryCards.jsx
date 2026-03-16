@@ -46,7 +46,7 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
       else negativeResults++;
       if (company.totalIncome > 0) companiesWithIncome++;
       else companiesWithoutIncome++;
-      if (company.totalIncome > company.totalExpenses)
+      if (company.totalIncome > company.totalExpenses * 2)
         earningMoreThanSpending++;
       else spendingMoreThanIncome++;
     });
@@ -70,21 +70,21 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
   const CARDS = [
     {
       title: getTitle(
-        "summary.positiveResult_singular",
-        "summary.positiveResult",
-        summaryData.positiveResults,
-      ),
-      color: "success",
-      filter: "positive-result",
-    },
-    {
-      title: getTitle(
         "summary.income_singular",
         "summary.income",
         summaryData.companiesWithIncome,
       ),
       color: "success",
       filter: "income",
+    },
+    {
+      title: getTitle(
+        "summary.positiveResult_singular",
+        "summary.positiveResult",
+        summaryData.positiveResults,
+      ),
+      color: "success",
+      filter: "positive-result",
     },
     {
       title: getTitle(
@@ -97,21 +97,21 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
     },
     {
       title: getTitle(
-        "summary.negativeResult_singular",
-        "summary.negativeResult",
-        summaryData.negativeResults,
-      ),
-      color: "danger",
-      filter: "negative-result",
-    },
-    {
-      title: getTitle(
         "summary.noIncome_singular",
         "summary.noIncome",
         summaryData.companiesWithoutIncome,
       ),
       color: "danger",
       filter: "no-income",
+    },
+    {
+      title: getTitle(
+        "summary.negativeResult_singular",
+        "summary.negativeResult",
+        summaryData.negativeResults,
+      ),
+      color: "danger",
+      filter: "negative-result",
     },
     {
       title: getTitle(
@@ -132,11 +132,11 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
   };
 
   const cardValues = [
-    summaryData.positiveResults,
     summaryData.companiesWithIncome,
+    summaryData.positiveResults,
     summaryData.earningMoreThanSpending,
-    summaryData.negativeResults,
     summaryData.companiesWithoutIncome,
+    summaryData.negativeResults,
     summaryData.spendingMoreThanIncome,
   ];
 

@@ -7,10 +7,10 @@ import Cards from "./Cards";
 const FILTERS = {
   "positive-result": (c) => c.totalResult > 0,
   "income": (c) => c.totalIncome > 0,
-  "earned-more": (c) => c.totalIncome > c.totalExpenses,
+  "earned-more": (c) => c.totalIncome > c.totalExpenses * 2,
   "negative-result": (c) => c.totalResult < 0,
   "no-income": (c) => c.totalIncome <= 0,
-  "spent-more": (c) => c.totalExpenses > c.totalIncome,
+  "spent-more": (c) => c.totalIncome <= c.totalExpenses * 2,
 };
 
 function FilteredCompanies() {
@@ -70,7 +70,7 @@ function FilteredCompanies() {
     "positive-result": "financial-result",
     "negative-result": "financial-result",
     "earned-more": "financial-result",
-    "spent-more": "financial-result",
+    "spent-more": "expenses",
     "income": "income",
     "no-income": "income",
   };
@@ -84,6 +84,7 @@ function FilteredCompanies() {
       activeSort={activeSort}
       selectedYear={selectedYear}
       selectedQuarter={selectedQuarter}
+      filter={filter}
     />
   );
 }
