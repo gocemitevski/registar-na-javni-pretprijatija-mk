@@ -9,6 +9,7 @@
 - **Bootstrap 5** + **SCSS** - библиотека за каскадни стилови
 - **React Router DOM 7** - рутирање
 - **xlsx** - парсирање на Excel/ODS податоци
+- **Chart.js** - графици
 
 ## Инсталација
 
@@ -42,18 +43,29 @@ npm run lint
 
 ## Податоци
 
-Податоците се наоѓаат во `public/ods/` директориумот во формат ODS (OpenDocument Spreadsheet).
+Податоците се наоѓаат во директориумот `public/ods/` во форматот „ODS“ (OpenDocument Spreadsheet).
 
-## URL параметри
+## Параметри на „URL“
 
-Апликацијата користи URL параметри за чување на состојбата:
+Апликацијата користи URL параметри за чување на состојба:
 
+- `:lang` - јазик (mk, en)
 - `:year` - избрана година
 - `:quarter` - избран квартал (0 = сите квартали)
-- `:sorting` - подредување (реден број, приходи, расходи, финансиски резултат)
-- `:order` - редослед (опаѓачки, растечки)
+- `:sort` - подредување (id, income, expenses, financial-result)
+- `:order` - редослед (asc, desc)
+- `:filter` - филтер за филтрирани страни (positive-result, negative-result, income, no-income, earned-more, spent-more)
 
-Пример: `/registry/2024/1/prihodi/opagjacki`
+Пример: `/mk/filtered/positive-result?year=2025&quarter=1`
+
+## Патеки
+
+- `/` - Главна страница со преглед
+- `/:lang` - Главна страница со преглед
+- `/:lang/filtered/:filter` - Филтрирани компании
+- `/:lang/registry` - Регистер на сите компании
+- `/:lang/company/:company` - Детали за компанија
+- `/:lang/about` - За проектот
 
 ## Лиценца
 

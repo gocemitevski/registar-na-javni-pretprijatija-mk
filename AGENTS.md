@@ -233,7 +233,43 @@ Chart configuration constants should be placed in `src/utils/charts.js`:
 export const formatCurrency = (value) => ...;
 export const CHART_OPTIONS = { ... };
 export const INCOME_COLOR = { ... };
+export const createChartOptions = (lang, showLegend) => { ... };
+export const createHorizontalChartOptions = (lang, labels, showLegend, labelWidth) => { ... };
 ```
+
+The charts utility provides:
+
+- `INCOME_COLOR`, `EXPENSES_COLOR`, `FINRESULT_COLOR` - color objects with `bg` and `border` properties
+- `CHART_HEIGHT` - default chart height (360)
+- `createChartOptions()` - creates options for vertical bar charts
+- `createHorizontalChartOptions()` - creates options for horizontal bar charts with configurable label width
+- `dashedBorderPlugin` - Chart.js plugin for dashed borders on financial result bars
+
+### Adding Filtered Chart
+
+For filtered pages (e.g., positive-result, negative-result), use the `FilteredChart` component:
+
+```jsx
+import FilteredChart from "./FilteredChart";
+
+<FilteredChart
+  tableData={companies}
+  money={money}
+  activeSort="financial-result"
+  selectedYear="2025"
+  selectedQuarter={0}
+  filter="positive-result"
+/>;
+```
+
+The component accepts:
+
+- `tableData` - array of company objects
+- `money` - array of financial records
+- `activeSort` - which field to sort by (income, expenses, financial-result)
+- `selectedYear` - selected year
+- `selectedQuarter` - selected quarter (0 for all)
+- `filter` - filter type (positive-result, negative-result, income, no-income, earned-more, spent-more)
 
 ### Adding a New Route
 
@@ -258,12 +294,17 @@ When displaying counts with singular/plural forms, use proper Macedonian grammar
 
 ```jsx
 // правилно: 1 претпријатие, 11 претпријатија
-{count} {count % 10 === 1 && count !== 11 ? "едно" : "многу"}
+{
+  count;
+}
+{
+  count % 10 === 1 && count !== 11 ? "едно" : "многу";
+}
 ```
 
 ### Performance Tips
 
 - Use `useMemo` for expensive computations (filtering, sorting, aggregations)
 - Use `useCallback` for event handlers passed to child components
-- Pre-compute lookup maps instead of filtering inside loops (O(n*m) → O(n))
+- Pre-compute lookup maps instead of filtering inside loops (O(n\*m) → O(n))
 - Extract constants outside components for module-level caching

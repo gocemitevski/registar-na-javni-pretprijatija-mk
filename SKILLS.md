@@ -7,8 +7,9 @@ This document outlines the core skills and best practices required to work on th
 - **Framework:** React 19 (React Compiler) with Vite 7
 - **Build Tool:** Vite 7 – fast HMR, ES‑module based build
 - **Styling:** Bootstrap 5 + SCSS
-- **Routing:** react‑router‑dom 7
+- **Routing:** react‑router‑dom 7
 - **Data Processing:** `xlsx` library for reading Excel/ODS files on the client
+- **Charts:** Chart.js for data visualization
 - **State & Data Flow:** Local component state, custom hook (`useData`) – no external state manager
 - **Testing / Linting:** ESLint 9 (React Hooks + React Refresh plugins)
 - **Utilities:** Small helper modules for decimal formatting, transliteration, file reading, and chart constants.
@@ -37,18 +38,28 @@ This document outlines the core skills and best practices required to work on th
 - The ODS file is loaded once in `useData.jsx`. Subsequent components read from the cached state.
 - Use `xlsx.read` to parse and convert sheets into plain JavaScript objects.
 - All numeric values are formatted using `decimalNumbers.jsx` (use `formatDecimalNumber` for parsing, `parseDecimalNumber` for display).
+- Data is cached using a shared promise pattern to prevent race conditions on page reload.
 
 ### Filter & Sorting
 
 - Filter definitions are centralized in `src/utils/filterDefinitions.jsx`.
-- URL parameters: `:year`, `:quarter`, `:sorting`, `:order`.
+- URL parameters: `:lang`, `:year`, `:quarter`, `:sort`, `:order`, `:filter`.
+- Filter types: `positive-result`, `negative-result`, `income`, `no-income`, `earned-more`, `spent-more`
 - Default values are computed at module level using constants (e.g., `DEFAULT_SORTING`, `DEFAULT_ORDER`).
 - Sorting/ordering logic should handle the default case specially (no sorting applied when both sorting and order are at defaults).
 
 ### Chart Rendering
 
 - Chart configuration constants live in `src/utils/charts.js`.
-- Components import these constants and pass data directly to chart libraries (e.g., Chart.js).
+- Use `createChartOptions()` for vertical bar charts, `createHorizontalChartOptions()` for horizontal bar charts.
+- The `dashedBorderPlugin` provides dashed borders for financial result bars.
+- Filtered pages use `FilteredChart` component which dynamically shows income, expenses, or financial results based on the filter type.
+
+### Filtered Pages
+
+- Filtered pages (e.g., `/filtered/positive-result`) show a chart of companies matching the filter criteria.
+- The chart title is dynamic based on the filter type and displays localized text.
+- Use `FILTER_TO_SORT` mapping to determine which column to highlight in DefinitionLists.
 
 ## ⚠️ Constraints & Best Practices
 
