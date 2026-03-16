@@ -150,6 +150,7 @@ function Registry() {
         activeSort={selectedSorting}
         selectedYear={selectedYear}
         selectedQuarter={selectedQuarter}
+        showChart={false}
       />
     </>
   );
