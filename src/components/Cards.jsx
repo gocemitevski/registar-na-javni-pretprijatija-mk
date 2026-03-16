@@ -5,6 +5,7 @@ import { filterDefinitions } from "../utils/filterDefinitions";
 import Card from "./Card";
 import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import DefinitionListTotal from "./DefinitionListTotal";
+import FilteredChart from "./FilteredChart";
 
 export default function Cards({
   tableData,
@@ -12,6 +13,8 @@ export default function Cards({
   activeSort,
   selectedYear,
   selectedQuarter,
+  showChart = true,
+  filter,
 }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language || "mk";
@@ -100,6 +103,16 @@ export default function Cards({
   return (
     <div className="bg-primary-subtle bg-shade py-3">
       <div className="container">
+        {showChart && (
+          <FilteredChart
+            tableData={results}
+            money={money}
+            activeSort={activeSort}
+            selectedYear={selectedYear}
+            selectedQuarter={selectedQuarter}
+            filter={filter}
+          />
+        )}
         <SearchForm
           value={filters[activeFilter]}
           filters={filters}
