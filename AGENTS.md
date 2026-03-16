@@ -267,6 +267,23 @@ The component accepts:
 - `tableData` - array of company objects
 - `money` - array of financial records
 - `activeSort` - which field to sort by (income, expenses, financial-result)
+- `filter` - filter type (positive-result, negative-result, income, no-income, earned-more, spent-more)
+
+### Generating Sitemap
+
+The sitemap is generated dynamically at build time using `scripts/generate-sitemap.mjs`. It runs automatically before `vite build` and:
+
+- Reads company data from the ODS file
+- Generates routes for all static pages and company detail pages
+- Outputs to `dist/sitemap.xml`
+
+To customize the site URL, set the `VITE_SITE_URL` environment variable:
+
+```bash
+VITE_SITE_URL=https://example.com npm run build
+```
+
+Defaults to `https://pretprijatija.mk` if not set.
 - `selectedYear` - selected year
 - `selectedQuarter` - selected quarter (0 for all)
 - `filter` - filter type (positive-result, negative-result, income, no-income, earned-more, spent-more)
