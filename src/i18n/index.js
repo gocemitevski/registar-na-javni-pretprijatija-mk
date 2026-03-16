@@ -293,6 +293,6 @@ i18n.use(initReactI18next).init({
 export default i18n;
 
 export const getPathWithLang = (lang, path) => {
-  const cleanPath = path.replace(/^\/(mk|en)\//, "/");
+  const cleanPath = path.replace(/^\/(mk|en)\/?/, "/");
   return `/${lang}${cleanPath === "/" ? "" : cleanPath}`;
 };
