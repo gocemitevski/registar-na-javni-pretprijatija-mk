@@ -2,7 +2,24 @@ import { useState, useEffect, useRef } from "react";
 import { read, utils } from "xlsx";
 import { file } from "../utils/file";
 
-let cachedData = null;
+let dataPromise = null;
+let wbRef = null;
+
+function loadData() {
+  if (dataPromise) return dataPromise;
+
+  dataPromise = (async () => {
+    if (wbRef) return { wb: wbRef };
+
+    const f = await fetch(file);
+    if (!f.ok) throw new Error(`Failed to fetch data: ${f.status}`);
+    const ab = await f.arrayBuffer();
+    wbRef = read(ab);
+    return { wb: wbRef };
+  })();
+
+  return dataPromise;
+}
 
 export function useData() {
   const [pretprijatija, setPretprijatija] = useState([]);
@@ -10,7 +27,6 @@ export function useData() {
   const [availableYears, setAvailableYears] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const wbRef = useRef(null);
   const initialized = useRef(false);
 
   useEffect(() => {
@@ -19,22 +35,7 @@ export function useData() {
 
     (async () => {
       try {
-        if (cachedData) {
-          setPretprijatija(cachedData.pretprijatija);
-          setAllMoney(cachedData.allMoney);
-          setAvailableYears(cachedData.availableYears);
-          setLoading(false);
-          return;
-        }
-
-        if (!wbRef.current) {
-          const f = await fetch(file);
-          if (!f.ok) throw new Error(`Failed to fetch data: ${f.status}`);
-          const ab = await f.arrayBuffer();
-          wbRef.current = read(ab);
-        }
-
-        const wb = wbRef.current;
+        const { wb } = await loadData();
 
         const companies = utils.sheet_to_json(wb.Sheets["Претпријатија"], {
           blankrows: false,
@@ -49,12 +50,6 @@ export function useData() {
             blankrows: false,
           });
         });
-
-        cachedData = {
-          pretprijatija: companies,
-          allMoney: moneyByYear,
-          availableYears: years,
-        };
 
         setPretprijatija(companies);
         setAllMoney(moneyByYear);
