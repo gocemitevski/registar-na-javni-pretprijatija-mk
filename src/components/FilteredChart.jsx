@@ -13,11 +13,30 @@ export default function FilteredChart({ tableData, money, activeSort, selectedYe
   const chartRef = useRef(null);
 
   const getChartTitle = () => {
-    const filterTitle = t(`filteredChart.${filter}`);
-    if (selectedQuarter > 0) {
-      return `${filterTitle} ${t("filteredChart.quarterTitle", { year: selectedYear, quarter: selectedQuarter })}`;
-    }
-    return `${filterTitle} ${t("filteredChart.yearTitle", { year: selectedYear })}`;
+    const count = tableData?.length || 0;
+    const isSingular = count % 10 === 1 && count !== 11;
+    const singularKey = isSingular ? `${filter}_singular` : filter;
+    const filterTitle = t(`filteredChart.${singularKey}`);
+
+    const filterColorMap = {
+      "positive-result": "success",
+      "income": "success",
+      "earned-more": "success",
+      "negative-result": "danger",
+      "no-income": "danger",
+      "spent-more": "danger",
+    };
+    const colorClass = filterColorMap[filter] || "primary";
+
+    const yearPart = selectedQuarter > 0
+      ? t("filteredChart.quarterTitle", { year: selectedYear, quarter: selectedQuarter })
+      : t("filteredChart.yearTitle", { year: selectedYear });
+    return (
+      <div className="hstack gap-4">
+        <strong className={`fw-bold display-4 text-${colorClass}`}>{count}</strong>
+        <span className="fw-light fs-4 text-uppercase">{filterTitle.toLowerCase()} {yearPart}</span>
+      </div>
+    );
   };
 
   const chartData = useMemo(() => {
@@ -120,12 +139,12 @@ export default function FilteredChart({ tableData, money, activeSort, selectedYe
   if (!chartData) return null;
 
   return (
-    <div className="card border-primary-subtle mt-5 mb-4">
+    <div className="card border-primary-subtle mt-4 mb-3">
       <div className="card-body">
-        <h2 className="h5 mb-4">
+        <h2 className={`${currentLang === "mk" ? `w-75`: `w-50`} mb-4`}>
           {getChartTitle()}
         </h2>
-        <div style={{ height: CHART_HEIGHT * 1.5 }}>
+        <div style={{ height: CHART_HEIGHT }}>
           <canvas ref={chartRef}></canvas>
         </div>
       </div>
