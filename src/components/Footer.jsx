@@ -4,7 +4,7 @@ export default function Footer() {
   const { t } = useTranslation();
 
   return (
-    <div className="bg-primary text-light py-4">
+    <div className="bg-primary text-light pt-4 pb-5">
       <footer className="container">
         <div className="row g-3">
           <div className="col-xxl-6">
