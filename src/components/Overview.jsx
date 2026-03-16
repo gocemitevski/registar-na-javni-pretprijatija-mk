@@ -171,7 +171,7 @@ function Overview() {
             EXPENSES_COLOR.border,
             FINRESULT_COLOR.border,
           ],
-          borderWidth: [3, 3, 0],
+          borderWidth: [2, 2, 0],
           dashedBarIndex: 2,
         },
       ],
