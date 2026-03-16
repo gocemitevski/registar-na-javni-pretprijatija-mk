@@ -115,6 +115,16 @@ const resources = {
         chartTitle: "Финансиски показатели за {{year}} година",
         chartTitleQuarter: "Финансиски показатели за квартал {{quarter}} на {{year}} година"
       },
+      filteredChart: {
+        "positive-result": "Оствариле позитивен финансиски резултат",
+        "income": "Оствариле приход",
+        "earned-more": "Заработиле повеќе отколку што потрошиле",
+        "negative-result": "Оствариле негативен финансиски резултат",
+        "no-income": "Не оствариле приход",
+        "spent-more": "Потрошиле повеќе отколку што заработиле",
+        yearTitle: "во {{year}} година",
+        quarterTitle: "во квартал {{quarter}} на {{year}} година"
+      },
       company: {
         notFound: "Претпријатието не е пронајдено",
         notFoundDesc: "Проверете ја уште еднаш адресата за да бидете сигурен дека е точна. Можеби сте направил мала грешка при пишувањето, или пак старата страница веќе не постои!",
@@ -233,6 +243,16 @@ const resources = {
       overview: {
         chartTitle: "Financial Indicators for {{year}}",
         chartTitleQuarter: "Financial Indicators for Q{{quarter}} of {{year}}"
+      },
+      filteredChart: {
+        "positive-result": "Achieved Positive Financial Result",
+        "income": "Achieved Income",
+        "earned-more": "Earned More Than They Spent",
+        "negative-result": "Achieved Negative Financial Result",
+        "no-income": "Had No Income",
+        "spent-more": "Spent More Than They Earned",
+        yearTitle: "in {{year}}",
+        quarterTitle: "in Q{{quarter}} of {{year}}"
       },
       company: {
         notFound: "Company Not Found",
