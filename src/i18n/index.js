@@ -27,6 +27,10 @@ const resources = {
         author: "Гоце Митевски",
         availableOn: "е достапен на GitHub под лиценцата"
       },
+      cookieConsent: {
+        message: "Ова мрежно место користи т.н. колачиња за подобрување на корисничкото искуство.",
+        button: "Во ред"
+      },
       nav: {
         home: "Почетна",
         registry: "Регистар",
@@ -175,6 +179,10 @@ const resources = {
         madeBy: "Made by",
         author: "Goce Mitevski",
         availableOn: "is available on GitHub under the"
+      },
+      cookieConsent: {
+        message: "This website uses cookies to improve user experience.",
+        button: "Got it"
       },
       nav: {
         home: "Home",
