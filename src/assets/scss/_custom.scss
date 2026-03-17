@@ -24,10 +24,12 @@
 
 .backdrop-blur {
   backdrop-filter: blur($spacer * 2);
+  -webkit-backdrop-filter: blur($spacer * 2);
 }
 
 .backdrop-blur-sm {
   backdrop-filter: blur($spacer);
+  -webkit-backdrop-filter: blur($spacer);
 }
 
 .bg-shade {
