@@ -15,6 +15,7 @@ const resources = {
     translation: {
       app: {
         title: "Регистар на јавни претпријатија и трговски друштва во државна сопственост на Р. С. Македонија",
+        title_short: "Јавни претпријатија и трговски друштва на Р. С. Македонија",
         description: "Интерактивен регистар на јавни претпријатија и трговски друштва во државна сопственост на Република Северна Македонија, според податоци на",
         ministry: "Министерството за финансии"
       },
@@ -131,6 +132,19 @@ const resources = {
         yearTitle: "во {{year}} година",
         quarterTitle: "во квартал {{quarter}} на {{year}} година"
       },
+      titles: {
+        home: "Почетна",
+        registry: "Регистар",
+        about: "За проектот",
+        "positive-result": "Оствариле позитивен финансиски резултат",
+        "income": "Оствариле приход",
+        "earned-more": "Заработиле повеќе отколку што потрошиле",
+        "negative-result": "Оствариле негативен финансиски резултат",
+        "no-income": "Не оствариле приход",
+        "spent-more": "Потрошиле повеќе отколку што заработиле",
+        yearQuarter: "во {{year}} година",
+        yearQuarterQuarter: "во квартал {{quarter}} на {{year}} година"
+      },
       company: {
         notFound: "Претпријатието не е пронајдено",
         notFoundDesc: "Проверете ја уште еднаш адресата за да бидете сигурен дека е точна. Можеби сте направил мала грешка при пишувањето, или пак старата страница веќе не постои!",
@@ -150,6 +164,7 @@ const resources = {
     translation: {
       app: {
         title: "Registry of Public Enterprises and Trading Companies in State Ownership of R. N. Macedonia",
+        title_short: "Public Enterprises and Trading Companies of R. N. Macedonia",
         description: "Interactive registry of public enterprises and trading companies in state ownership of the Republic of North Macedonia, according to data of",
         ministry: "Ministry of Finance"
       },
@@ -187,14 +202,14 @@ const resources = {
         explore: "Explore",
         positiveResult: "Achieved Positive Financial Result",
         positiveResult_singular: "Achieved Positive Financial Result",
-        income: "Made Income",
-        income_singular: "Made Income",
+        income: "Earned Income",
+        income_singular: "Earned Income",
         earnedMore: "Earned More than They Spent",
         earnedMore_singular: "Earned More than It Spent",
         negativeResult: "Achieved Negative Financial Result",
         negativeResult_singular: "Achieved Negative Financial Result",
-        noIncome: "Didn't Make Income",
-        noIncome_singular: "Didn't Make Income",
+        noIncome: "Didn't Earn Income",
+        noIncome_singular: "Didn't Earn Income",
         spentMore: "Spent More than They Earned",
         spentMore_singular: "Spent More than It Earned",
         quickFacts: "{{year}} in Numbers",
@@ -253,8 +268,8 @@ const resources = {
       filteredChart: {
         "positive-result": "Public Enterprises or Companies that Achieved Positive Financial Result",
         "positive-result_singular": "Public Enterprise or Company that Achieved Positive Financial Result",
-        "income": "Public Enterprises or Companies that Made Income",
-        "income_singular": "Public Enterprise or Company that Made Income",
+        "income": "Public Enterprises or Companies that Earned Income",
+        "income_singular": "Public Enterprise or Company that Earned Income",
         "earned-more": "Public Enterprises or Companies that Earned More Than They Spent",
         "earned-more_singular": "Public Enterprise or Company that Earned More Than It Spent",
         "negative-result": "Public Enterprises or Companies that Achieved Negative Financial Result",
@@ -265,6 +280,19 @@ const resources = {
         "spent-more_singular": "Public Enterprise or Company that Spent More Than It Earned",
         yearTitle: "in {{year}}",
         quarterTitle: "in Q{{quarter}} of {{year}}"
+      },
+      titles: {
+        home: "Home",
+        registry: "Registry",
+        about: "About",
+        "positive-result": "Achieved Positive Financial Result",
+        "income": "Earned Income",
+        "earned-more": "Earned More Than They Spent",
+        "negative-result": "Achieved Negative Financial Result",
+        "no-income": "Didn't Earn Income",
+        "spent-more": "Spent More Than They Earned",
+        yearQuarter: "in {{year}}",
+        yearQuarterQuarter: "in Q{{quarter}} of {{year}}"
       },
       company: {
         notFound: "Company Not Found",
