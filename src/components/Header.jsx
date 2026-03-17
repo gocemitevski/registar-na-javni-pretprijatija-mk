@@ -1,8 +1,8 @@
 import { Link, useParams, useLocation } from "react-router-dom";
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { socialLinkButtons } from "../utils/socialLinkButtons";
-import { computeTitle } from "../hooks/usePageTitle";
+import { computeTitle, TITLE_UPDATE_EVENT } from "../hooks/usePageTitle";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Header() {
@@ -10,8 +10,20 @@ export default function Header() {
   const { lang } = useParams();
   const location = useLocation();
   const currentLang = lang || i18n.language || "mk";
+  const [pageTitle, setPageTitle] = useState(() => computeTitle(location, t));
 
-  const pageTitle = useMemo(() => computeTitle(location, t), [location, t]);
+  useEffect(() => {
+    setPageTitle(computeTitle(location, t));
+  }, [location, t]);
+
+  useEffect(() => {
+    const handleTitleUpdate = (e) => {
+      setPageTitle(e.detail.title);
+    };
+    window.addEventListener(TITLE_UPDATE_EVENT, handleTitleUpdate);
+    return () => window.removeEventListener(TITLE_UPDATE_EVENT, handleTitleUpdate);
+  }, []);
+
   const socialLinks = socialLinkButtons(pageTitle, window.location.href);
 
   const homePath = location.search

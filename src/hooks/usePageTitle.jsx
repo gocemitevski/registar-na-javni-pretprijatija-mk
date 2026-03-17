@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { getLocalizedCompanyName, getLocalizedCompanyDescription } from "../utils/localizeCompanyName";
 
+export const TITLE_UPDATE_EVENT = "page-title-update";
+
 export function computeMeta(location, t) {
   const searchParams = new URLSearchParams(location.search);
   const yearParam = searchParams.get("year");
@@ -19,7 +21,7 @@ export function computeMeta(location, t) {
   if (path.includes("/company/") && location.pathname.split("/company/")[1]) {
     const companySlug = location.pathname.split("/company/")[1]?.split("/").slice(1).join(" / ");
     if (companySlug) {
-      title = `${companySlug} - ${t("app.title_short")}`;
+      title = companySlug;
       ogTitle = companySlug;
     }
   } else if (path.includes("/filtered/")) {
@@ -57,8 +59,7 @@ export function updateDocumentMeta(location, t, company = null, lang = "mk") {
   if (company && location.pathname.includes("/company/")) {
     const companyName = getLocalizedCompanyName(company, lang);
     const companyDescription = getLocalizedCompanyDescription(company, lang);
-    const siteName = t("app.title_short");
-    meta.title = `${companyName} - ${siteName}`;
+    meta.title = companyName;
     meta.description = companyDescription || t("app.description");
     meta.ogTitle = companyName;
     meta.ogDescription = companyDescription;
@@ -73,6 +74,8 @@ export function updateDocumentMeta(location, t, company = null, lang = "mk") {
   document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", meta.ogTitle || meta.title);
   document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", meta.description);
   document.querySelector('meta[name="twitter:image"]')?.setAttribute("content", imageUrl);
+
+  window.dispatchEvent(new CustomEvent(TITLE_UPDATE_EVENT, { detail: { title: meta.title } }));
 }
 
 export default function usePageTitle() {
