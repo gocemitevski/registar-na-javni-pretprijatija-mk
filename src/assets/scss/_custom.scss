@@ -15,6 +15,13 @@
   background-size: cover;
 }
 
+.bg-footer {
+  background:
+    linear-gradient(rgba($green-900, 0.9), rgba($green-800, 0.85)),
+    url("../img/macedonian-denars.webp") bottom;
+  background-size: cover;
+}
+
 .backdrop-blur {
   backdrop-filter: blur($spacer * 2);
 }
@@ -25,6 +32,30 @@
 
 .bg-shade {
   background-image: linear-gradient(rgba($white, 0.25), transparent 35%);
+}
+
+.bg-shade-img {
+  background:
+    linear-gradient(
+      rgba($primary-bg-subtle, 0.85),
+      rgba($primary-bg-subtle, 1) 25%
+    ),
+    url("../img/macedonian-denars-sm.webp");
+  background-size: contain;
+  background-blend-mode: luminosity;
+  background-repeat: no-repeat;
+}
+
+.bg-shade-img-alt {
+  background:
+    linear-gradient(
+      rgba($primary-bg-subtle, 0.85),
+      rgba($primary-bg-subtle, 1) 2%
+    ),
+    url("../img/macedonian-denars-sm.webp");
+  background-size: contain;
+  background-blend-mode: luminosity;
+  background-repeat: no-repeat;
 }
 
 .btn-link-arrow,
