@@ -8,13 +8,13 @@ export default function SearchForm({
 }) {
   const { t } = useTranslation();
   const activeFilter = Object.keys(filters).find((key) => filters[key]) || "Назив";
-  
+
   return (
     <div className="mt-2 mb-4">
       <div className="input-group flex-fill">
         <input
           id={`search`}
-          className="form-control"
+          className="form-control form-control-lg"
           type="text"
           placeholder={t("search.placeholder")}
           onChange={(e) => searchData(e, activeFilter)}
