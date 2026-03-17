@@ -45,8 +45,8 @@ const SORT_KEYS = {
   return (
     <div className="card h-100 shadow-sm">
       <div className="card-body">
-        <div className="row g-5">
-          <div className="col-lg-8 vstack">
+        <div className="row g-3">
+          <div className="col-lg-6 col-xl-8 vstack">
             <h5 className="card-title">
               <Link to={`/${currentLang}/company/${cleanName(transliterate(row.Назив))}`}>
                 {getLocalizedCompanyName(row, currentLang)}
@@ -62,7 +62,7 @@ const SORT_KEYS = {
               <i className="bi bi-box-arrow-up-right"></i>
             </a>
           </div>
-          <div className="col-lg-4 align-self-center vstack gap-1">
+          <div className="col-lg-6 col-xl-4 align-self-center vstack gap-1">
             <DefinitionList
               title={t("cards.income")}
               total={totalIncome}

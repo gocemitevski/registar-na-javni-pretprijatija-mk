@@ -34,7 +34,7 @@ export default function Header() {
     <div className="bg-hero py-4 text-light">
       <header className="container">
         <div className="row">
-          <div className="col-xl-8 col-xxl-7">
+          <div className="col-xl-9 col-xxl-8">
             <h1 className="h3 pt-xxl-4">
               <Link
                 className="link-light link-underline link-underline-opacity-50 gap-0 gap-sm-3 link-offset-1"
@@ -55,8 +55,8 @@ export default function Header() {
               .
             </p>
           </div>
-          <div className="col-xl-4 col-xxl-5">
-            <div className="hstack justify-content-xl-end gap-3">
+          <div className="col-xl-3 col-xxl-4">
+            <div className="hstack justify-content-between justify-content-xl-end gap-3">
               <LanguageSwitcher />
               {socialLinks.length ? (
                 <ul className="nav justify-content-end">

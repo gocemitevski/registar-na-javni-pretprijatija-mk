@@ -8,7 +8,7 @@ export default function DefinitionList({ title, total, numbers, quarter, icon, c
   const quarterData = quarterNum !== 0 ? numbers.find((item) => item.Квартал === quarterNum) : null;
 
   return (
-    <dl className={`hstack gap-2 mb-0 px-2 py-1 rounded ${isActive ? "bg-warning-subtle" : ""}`}>
+    <dl className={`hstack flex-wrap flex-xl-nowrap gap-2 mb-0 px-2 py-1 rounded ${isActive ? "bg-warning-subtle" : ""}`}>
       <dt className="hstack gap-2 mb-0">
         <i className={`bi ${icon} text-${color}`}></i>
         <span>{title}</span>

@@ -136,27 +136,27 @@ export default function Navbar({ showSortingFilters = false }) {
   return (
     <nav className="navbar bg-primary py-3 sticky-top">
       <div className="container">
-        <div className={`row align-items-center gy-2 gx-3 flex-fill`}>
-          <div className="col-xl-6">
-            <ul className="nav nav-pills text-uppercase gap-2">
+        <div className={`row align-items-center justify-content-between gy-3 gx-3 flex-fill nav-fill`}>
+          <div className="col-xl-5 col-xxl-4">
+            <ul className="nav nav-pills text-uppercase text-bg-secondary rounded gap-2">
               <li className="nav-item">
-                <NavLink end className="nav-link p-3" to={overviewPath}>
+                <NavLink end className="nav-link py-3" to={overviewPath}>
                   {t("nav.home")}
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link p-3" to={registryPath}>
+                <NavLink className="nav-link py-3" to={registryPath}>
                   {t("nav.registry")}
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link p-3" to={aboutPath}>
+                <NavLink className="nav-link py-3" to={aboutPath}>
                   {t("nav.about")}
                 </NavLink>
               </li>
             </ul>
           </div>
-          <div className="col-xl-6 hstack gap-2">
+          <div className="col-xl-6 hstack flex-wrap flex-lg-nowrap gap-2">
             <div className="form-floating flex-fill">
               <select
                 value={selectedYear}
