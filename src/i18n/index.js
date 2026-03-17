@@ -22,7 +22,7 @@ const resources = {
       header: { shareOn: "Сподели на {{title}}" },
       footer: {
         sourceCode: "Изворниот код",
-        license: "GPL-3.0",
+        license: "CC BY-NC-SA 4.0",
         madeBy: "Изработено од",
         author: "Гоце Митевски",
         availableOn: "е достапен на GitHub под лиценцата"
@@ -175,7 +175,7 @@ const resources = {
       header: { shareOn: "Share on {{title}}" },
       footer: {
         sourceCode: "The source code",
-        license: "GPL-3.0",
+        license: "CC BY-NC-SA 4.0",
         madeBy: "Made by",
         author: "Goce Mitevski",
         availableOn: "is available on GitHub under the"

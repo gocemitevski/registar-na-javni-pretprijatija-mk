@@ -19,7 +19,7 @@ export default function Footer() {
             <a
               className="link-light"
               rel="noopener"
-              href="https://github.com/gocemitevski/registar-na-javni-pretprijatija-mk?tab=GPL-3.0-1-ov-file"
+              href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
             >
               {t("footer.license")}
             </a>
