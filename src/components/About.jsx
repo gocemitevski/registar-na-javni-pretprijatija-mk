@@ -1,8 +1,9 @@
 import { useTranslation } from "react-i18next";
-import photo from "/registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-mk-1200x675.webp";
 
 export default function About() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language || "mk";
+  const photo = `/registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
 
   return (
     <div className="container py-5">
@@ -20,6 +21,7 @@ export default function About() {
           <p>
             <a
               rel="noopener noreferrer"
+              target="_blank"
               href="https://finance.gov.mk/mk-MK/oblasti/javni-pretprijatija-i-trgovski-drustva-vo-drzavna-sopstvenost"
             >
             {t("about.dataSourceData")}{" "}
@@ -89,7 +91,7 @@ export default function About() {
         </div>
         <div className="col-lg-5">
           <figure>
-            <a href="/registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-mk-1200x675.webp">
+            <a href={photo}>
               <img
                 className="img-thumbnail img-fluid"
                 src={photo}
