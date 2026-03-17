@@ -1,48 +1,105 @@
-import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import photo from "/registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-mk-1200x675.webp";
 
 export default function About() {
-  const { t, i18n } = useTranslation();
-  const { lang } = useParams();
-  const currentLang = lang || i18n.language || "mk";
+  const { t } = useTranslation();
 
   return (
     <div className="container py-5">
       <div className="row">
-        <div className="col-lg-8">
-          <h1 className="mb-4">{t("nav.about")}</h1>
-
+        <div className="col-lg-7">
+          <h1 className="mb-3">{t("nav.about")}</h1>
           <p className="lead">
-            {t("app.description")}{" "}
+            {t("about.intro")} <strong>{t("about.introStrong")}</strong>
+          </p>
+          <h2 className="h4 mt-4 mb-3">{t("about.goalTitle")}</h2>
+          <p>{t("about.goal")}</p>
+          <p>{t("about.filters")}</p>
+          <p>{t("about.visualization")}</p>
+          <h2 className="h4 mt-4 mb-3">{t("about.dataSourceTitle")}</h2>
+          <p>
             <a
-              target="_blank"
+              rel="noopener noreferrer"
               href="https://finance.gov.mk/mk-MK/oblasti/javni-pretprijatija-i-trgovski-drustva-vo-drzavna-sopstvenost"
             >
-              {t("app.ministry")}
+            {t("about.dataSourceData")}{" "}
+            </a>
+            {t("about.dataSource")}{" "}
+            <a
+              rel="noopener noreferrer"
+              href="https://github.com/gocemitevski/registar-na-javni-pretprijatija-mk/tree/main/public/ods"
+            >
+              {t("about.dataSourceLink")}
+            </a>{" "}
+            {t("about.dataSourceLinkDesc")}
+          </p>
+          <h2 className="h4 mt-4 mb-3">{t("about.additionalMaterialsTitle")}</h2>
+          <ul>
+            <li>
+              <a
+                rel="noopener noreferrer"
+                target="_blank"
+                href="https://www.freepik.com/premium-photo/macedonian-money-business-background_3486152.htm#fromView=image_search_similar&page=1&position=0&uuid=0fb11170-e356-472c-a2c8-793f2ea4bb5e"
+              >
+                {t("about.additionalMaterials")}
+              </a>
+            </li>
+          </ul>
+          <h2 className="h4 mt-4 mb-3">{t("about.sourceCodeTitle")}</h2>
+          <p>
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://github.com/gocemitevski/registar-na-javni-pretprijatija-mk"
+            >
+              {t("footer.sourceCode")}
+            </a>{" "}
+            {t("about.sourceCodeDesc")}
+          </p>
+          <h2 className="h4 mt-4 mb-3">{t("about.licenseTitle")}</h2>
+          <p>
+            {t("about.licenseDesc")}{" "}
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            >
+              {t("footer.license")}
             </a>
             .
           </p>
-
-          <h2 className="h4 mt-5">{t("header.project")}</h2>
+          <h2 className="h4 mt-4 mb-3">{t("about.updatesTitle")}</h2>
+          <p>{t("about.updates")}</p>
+          <h2 className="h4 mt-4 mb-3">{t("about.responsibilityTitle")}</h2>
           <p>
-            This web application was created with the aim of making the data on public enterprises and commercial companies in state ownership available in one place.
+            {t("about.responsibility")}{" "}
+            <strong>
+              {t("about.responsibilityStrong")}
+            </strong>
+            {t("about.responsibilityFix")}{" "}
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://github.com/gocemitevski/registar-na-javni-pretprijatija-mk/issues/new"
+            >
+              {t("about.responsibilityLink")}
+            </a>{" "}
+            {t("about.responsibilityLinkDesc")}
           </p>
-
-          <h2 className="h4 mt-5">{t("footer.sourceCode")}</h2>
-          <p>
-            The source code of the application is available on GitHub under the GPL-3.0 license.
-          </p>
-
-          <h2 className="h4 mt-5">{t("footer.madeBy")}</h2>
-          <p>
-            Application created by {t("footer.author")}.
-          </p>
-
-          <div className="mt-5">
-            <Link to={`/${currentLang}`} className="btn btn-primary">
-              {t("nav.home")}
-            </Link>
-          </div>
+        </div>
+        <div className="col-lg-5">
+          <figure>
+            <a href="/registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-mk-1200x675.webp">
+              <img
+                className="img-thumbnail img-fluid"
+                src={photo}
+                alt={t("about.imageAlt")}
+              />
+            </a>
+            <figcaption className="text-muted py-2 px-3">
+              {t("about.imageAlt")}
+            </figcaption>
+          </figure>
         </div>
       </div>
     </div>

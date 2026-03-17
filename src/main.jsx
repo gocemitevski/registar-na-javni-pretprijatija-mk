@@ -14,11 +14,11 @@ import Breadcrumbs from "./components/Breadcrumbs.jsx";
 import CompanyWrapper from "./components/CompanyWrapper.jsx";
 import Loading from "./components/Loading.jsx";
 import CookieConsentWrapper from "./components/CookieConsentWrapper.jsx";
+import About from "./components/About.jsx";
 
 const Registry = lazy(() => import("./components/Registry.jsx"));
 const Overview = lazy(() => import("./components/Overview.jsx"));
 const FilteredCompanies = lazy(() => import("./components/FilteredCompanies.jsx"));
-const AboutWrapper = lazy(() => import("./components/AboutWrapper.jsx"));
 
 // eslint-disable-next-line react-refresh/only-export-components
 function AppContent() {
@@ -34,7 +34,7 @@ function AppContent() {
           <Route path="/:lang/filtered/:filter" element={<FilteredCompanies />} />
           <Route path="/:lang/registry" element={<Registry />} />
           <Route path="/:lang/company/:company" element={<CompanyWrapper />} />
-          <Route path="/:lang/about" element={<AboutWrapper />} />
+          <Route path="/:lang/about" element={<About />} />
           <Route path="/:lang" element={<Overview />} />
         </Routes>
       </Suspense>
