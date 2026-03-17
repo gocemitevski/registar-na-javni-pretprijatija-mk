@@ -132,6 +132,7 @@ function Overview() {
 
   const chartData = useMemo(() => {
     if (!allMoney || Object.keys(allMoney).length === 0) return null;
+    if (!selectedYear) return null;
 
     let allData = [];
 
