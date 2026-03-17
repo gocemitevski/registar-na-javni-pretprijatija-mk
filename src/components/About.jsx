@@ -24,7 +24,7 @@ export default function About() {
               target="_blank"
               href="https://finance.gov.mk/mk-MK/oblasti/javni-pretprijatija-i-trgovski-drustva-vo-drzavna-sopstvenost"
             >
-            {t("about.dataSourceData")}{" "}
+              {t("about.dataSourceData")}{" "}
             </a>
             {t("about.dataSource")}{" "}
             <a
@@ -35,7 +35,9 @@ export default function About() {
             </a>{" "}
             {t("about.dataSourceLinkDesc")}
           </p>
-          <h2 className="h4 mt-4 mb-3">{t("about.additionalMaterialsTitle")}</h2>
+          <h2 className="h4 mt-4 mb-3">
+            {t("about.additionalMaterialsTitle")}
+          </h2>
           <ul>
             <li>
               <a
@@ -75,9 +77,7 @@ export default function About() {
           <h2 className="h4 mt-4 mb-3">{t("about.responsibilityTitle")}</h2>
           <p>
             {t("about.responsibility")}{" "}
-            <strong>
-              {t("about.responsibilityStrong")}
-            </strong>
+            <strong className="fw-bold">{t("about.responsibilityStrong")}</strong>{" "}
             {t("about.responsibilityFix")}{" "}
             <a
               rel="noopener noreferrer"
