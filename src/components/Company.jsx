@@ -266,7 +266,7 @@ function Company() {
   }
 
   return (
-    <div className="container my-5 flex-fill">
+    <main className="container my-5 flex-fill">
       <div className="row g-5 align-items-end mb-3">
         <div className="col-lg-8 vstack">
           <h1 className="h3 mb-3">
@@ -433,7 +433,7 @@ function Company() {
       ) : (
         <div className="alert alert-warning mt-5">{t("company.noData")}</div>
       )}
-    </div>
+    </main>
   );
 }
 
