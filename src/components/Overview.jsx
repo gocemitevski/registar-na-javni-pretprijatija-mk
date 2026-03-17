@@ -37,7 +37,8 @@ function Overview() {
   const selectedYear = useMemo(() => {
     const latestYear = availableYears[0];
     if (!latestYear) return "";
-    return !yearParam || parseInt(yearParam) === 0 ? latestYear : yearParam;
+    if (!yearParam || parseInt(yearParam) === 0) return latestYear;
+    return availableYears.includes(yearParam) ? yearParam : latestYear;
   }, [yearParam, availableYears]);
 
   const selectedQuarter = useMemo(() => {
