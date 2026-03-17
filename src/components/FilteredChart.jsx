@@ -4,9 +4,23 @@ import { useTranslation } from "react-i18next";
 import Chart from "chart.js/auto";
 import { formatDecimalNumber } from "../utils/decimalNumbers";
 import { getLocalizedCompanyName } from "../utils/localizeCompanyName";
-import { INCOME_COLOR, EXPENSES_COLOR, FINRESULT_COLOR, createHorizontalChartOptions, CHART_HEIGHT, dashedBorderPlugin } from "../utils/charts";
+import {
+  INCOME_COLOR,
+  EXPENSES_COLOR,
+  FINRESULT_COLOR,
+  createHorizontalChartOptions,
+  CHART_HEIGHT,
+  dashedBorderPlugin,
+} from "../utils/charts";
 
-export default function FilteredChart({ tableData, money, activeSort, selectedYear, selectedQuarter, filter }) {
+export default function FilteredChart({
+  tableData,
+  money,
+  activeSort,
+  selectedYear,
+  selectedQuarter,
+  filter,
+}) {
   const { t } = useTranslation();
   const { lang } = useParams();
   const currentLang = lang || "mk";
@@ -20,7 +34,7 @@ export default function FilteredChart({ tableData, money, activeSort, selectedYe
 
     const filterColorMap = {
       "positive-result": "success",
-      "income": "success",
+      income: "success",
       "earned-more": "success",
       "negative-result": "danger",
       "no-income": "danger",
@@ -28,19 +42,28 @@ export default function FilteredChart({ tableData, money, activeSort, selectedYe
     };
     const colorClass = filterColorMap[filter] || "primary";
 
-    const yearPart = selectedQuarter > 0
-      ? t("filteredChart.quarterTitle", { year: selectedYear, quarter: selectedQuarter })
-      : t("filteredChart.yearTitle", { year: selectedYear });
+    const yearPart =
+      selectedQuarter > 0
+        ? t("filteredChart.quarterTitle", {
+            year: selectedYear,
+            quarter: selectedQuarter,
+          })
+        : t("filteredChart.yearTitle", { year: selectedYear });
     return (
-      <div className="hstack gap-4">
-        <strong className={`fw-bold display-4 text-${colorClass}`}>{count}</strong>
-        <span className="fw-light fs-4 text-uppercase">{filterTitle.toLowerCase()} {yearPart}</span>
+      <div className="hstack flex-wrap flex-lg-nowrap gap-2 gap-lg-3">
+        <strong className={`fw-bold display-4 text-${colorClass}`}>
+          {count}
+        </strong>
+        <span className="fw-light fs-5 text-uppercase">
+          {filterTitle.toLowerCase()} {yearPart}
+        </span>
       </div>
     );
   };
 
   const chartData = useMemo(() => {
-    if (!money || money.length === 0 || !tableData || tableData.length === 0) return null;
+    if (!money || money.length === 0 || !tableData || tableData.length === 0)
+      return null;
 
     const companyTotals = {};
     money.forEach((item) => {
@@ -50,16 +73,21 @@ export default function FilteredChart({ tableData, money, activeSort, selectedYe
       }
       companyTotals[name].income += formatDecimalNumber(item.Приходи);
       companyTotals[name].expenses += formatDecimalNumber(item.Расходи);
-      companyTotals[name].result += formatDecimalNumber(item["Финансиски резултат"]);
+      companyTotals[name].result += formatDecimalNumber(
+        item["Финансиски резултат"],
+      );
     });
 
     const companyNameMap = {};
     tableData.forEach((c) => {
-      companyNameMap[c.Назив] = getLocalizedCompanyName(c, currentLang) || c.Назив;
+      companyNameMap[c.Назив] =
+        getLocalizedCompanyName(c, currentLang) || c.Назив;
     });
 
     if (activeSort === "income") {
-      const sortedEntries = Object.entries(companyTotals).sort((a, b) => b[1].income - a[1].income);
+      const sortedEntries = Object.entries(companyTotals).sort(
+        (a, b) => b[1].income - a[1].income,
+      );
       return {
         labels: sortedEntries.map(([name]) => companyNameMap[name]),
         datasets: [
@@ -75,7 +103,9 @@ export default function FilteredChart({ tableData, money, activeSort, selectedYe
     }
 
     if (filter === "spent-more") {
-      const sortedEntries = Object.entries(companyTotals).sort((a, b) => b[1].expenses - a[1].expenses);
+      const sortedEntries = Object.entries(companyTotals).sort(
+        (a, b) => b[1].expenses - a[1].expenses,
+      );
       return {
         labels: sortedEntries.map(([name]) => companyNameMap[name]),
         datasets: [
@@ -90,7 +120,9 @@ export default function FilteredChart({ tableData, money, activeSort, selectedYe
       };
     }
 
-    const sortedEntries = Object.entries(companyTotals).sort((a, b) => b[1].result - a[1].result);
+    const sortedEntries = Object.entries(companyTotals).sort(
+      (a, b) => b[1].result - a[1].result,
+    );
     return {
       labels: sortedEntries.map(([name]) => companyNameMap[name]),
       datasets: [
@@ -108,8 +140,9 @@ export default function FilteredChart({ tableData, money, activeSort, selectedYe
   }, [tableData, money, activeSort, filter, t, currentLang]);
 
   const chartOptions = useMemo(
-    () => createHorizontalChartOptions(currentLang, chartData?.labels, false, 360),
-    [currentLang, chartData]
+    () =>
+      createHorizontalChartOptions(currentLang, chartData?.labels, false, 360),
+    [currentLang, chartData],
   );
 
   useEffect(() => {
@@ -141,10 +174,14 @@ export default function FilteredChart({ tableData, money, activeSort, selectedYe
   return (
     <div className="card border-primary-subtle mt-4 mb-3">
       <div className="card-body">
-        <h2 className={`${currentLang === "mk" ? `w-75`: `w-50`} mb-4`}>
-          {getChartTitle()}
-        </h2>
-        <div style={{ height: CHART_HEIGHT }}>
+        <div className="row">
+          <div className="col-lg-10 col-xxl-8">
+            <h2 className={`mb-4`}>
+              {getChartTitle()}
+            </h2>
+          </div>
+        </div>
+        <div style={{ height: CHART_HEIGHT * 1.75 }}>
           <canvas ref={chartRef}></canvas>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Chart from "chart.js/auto";
 import { transliterate } from "../utils/transliterate";
@@ -18,6 +18,7 @@ import {
   getLocalizedCompanyName,
   getLocalizedCompanyDescription,
 } from "../utils/localizeCompanyName";
+import { updateDocumentMeta } from "../hooks/usePageTitle";
 
 const toCleanName = (name) => cleanName(transliterate(name));
 const FIN_RES_KEY = "Финансиски резултат";
@@ -27,6 +28,7 @@ function Company() {
   const { lang, company: currentCompanyParam } = useParams();
   const currentLang = lang || i18n.language || "mk";
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     pretprijatija,
     allMoney,
@@ -77,6 +79,12 @@ function Company() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentCompanyParam]);
+
+  useEffect(() => {
+    if (!currentCompany) return;
+
+    updateDocumentMeta(location, t, currentCompany, currentLang);
+  }, [currentCompany, currentLang, t, location]);
 
   const goToCompany = (idx) => {
     if (idx < 0 || idx >= pretprijatija.length) return;

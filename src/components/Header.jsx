@@ -2,6 +2,7 @@ import { Link, useParams, useLocation } from "react-router-dom";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { socialLinkButtons } from "../utils/socialLinkButtons";
+import { computeTitle } from "../hooks/usePageTitle";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Header() {
@@ -9,7 +10,9 @@ export default function Header() {
   const { lang } = useParams();
   const location = useLocation();
   const currentLang = lang || i18n.language || "mk";
-  const socialLinks = useMemo(() => socialLinkButtons(), []);
+
+  const pageTitle = useMemo(() => computeTitle(location, t), [location, t]);
+  const socialLinks = socialLinkButtons(pageTitle, window.location.href);
 
   const homePath = location.search
     ? `/${currentLang}${location.search}`
