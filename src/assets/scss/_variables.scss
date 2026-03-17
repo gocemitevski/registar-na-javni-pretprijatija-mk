@@ -299,7 +299,7 @@ $cyans: (
 
 // scss-docs-start theme-color-variables
 $primary:       $green !default;
-$secondary:     $green-700 !default;
+$secondary:     $green-800 !default;
 $success:       $teal-700 !default;
 $info:          $cyan !default;
 $warning:       $yellow !default;
@@ -1167,8 +1167,8 @@ $nav-link-padding-y:                .5rem !default;
 $nav-link-padding-x:                1rem !default;
 $nav-link-font-size:                null !default;
 $nav-link-font-weight:              700 !default;
-$nav-link-color:                    var(--#{$prefix}primary-bg-subtle) !default;
-$nav-link-hover-color:              var(--#{$prefix}primary-text-emphasis) !default;
+$nav-link-color:                    var(--#{$prefix}secondary-bg-subtle) !default;
+$nav-link-hover-color:              $green-300 !default;
 $nav-link-transition:               color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out !default;
 $nav-link-disabled-color:           var(--#{$prefix}secondary-color) !default;
 $nav-link-focus-box-shadow:         $focus-ring-box-shadow !default;
@@ -1183,7 +1183,7 @@ $nav-tabs-link-active-border-color: $dark $dark $nav-tabs-link-active-bg !defaul
 
 $nav-pills-border-radius:           var(--#{$prefix}border-radius) !default;
 $nav-pills-link-active-color:       $secondary !default;
-$nav-pills-link-active-bg:          $primary-bg-subtle !default;
+$nav-pills-link-active-bg:          $secondary-bg-subtle !default;
 
 $nav-underline-gap:                 1.5rem !default;
 $nav-underline-border-width:        .2rem !default;
