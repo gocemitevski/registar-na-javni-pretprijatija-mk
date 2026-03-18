@@ -284,9 +284,6 @@ VITE_SITE_URL=https://example.com npm run build
 ```
 
 Defaults to `https://pretprijatija.mk` if not set.
-- `selectedYear` - selected year
-- `selectedQuarter` - selected quarter (0 for all)
-- `filter` - filter type (positive-result, negative-result, income, no-income, earned-more, spent-more)
 
 ### Adding a New Route
 

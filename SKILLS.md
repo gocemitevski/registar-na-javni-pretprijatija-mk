@@ -69,6 +69,21 @@ This document outlines the core skills and best practices required to work on th
 - **Linting rules**: Follow ESLint config in `eslint.config.js`; no unused variables unless prefixed with `_`.
 - **Testing**: Although not yet configured, future tests should use Vitest + React Testing Library.
 
+### Code Review
+
+Use the `review` subagent to review code changes:
+
+```
+/review [commit|branch|pr]  # defaults to uncommitted changes
+```
+
+Review checklist:
+- Null/undefined guard for values used as map/object keys
+- Redundant undefined checks on values already guaranteed to be arrays
+- Redundant `parseInt`/re-parsing of already-validated values
+- Missing `to` block in `@keyframes` definitions
+- Redundant CSS properties (e.g., `opacity: 1` on animated elements)
+
 ---
 
 _Skill set last updated: March 2026_
