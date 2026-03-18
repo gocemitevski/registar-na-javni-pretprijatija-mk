@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import Chart from "chart.js/auto";
 import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
-import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
+import { formatDecimalNumber, parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import { useData } from "../hooks/useData";
 import TableFooterValue from "./TableFooterValue";
 import {
@@ -333,7 +333,7 @@ function Company() {
                       ? parseDecimalNumber(finResult, currentLang)
                       : "—";
                   const finResultColor =
-                    finResult != null && parseInt(finResultNum) < 0
+                    finResult != null && formatDecimalNumber(finResult) < 0
                       ? "danger"
                       : "success";
                   return (
