@@ -2,12 +2,6 @@
   text-wrap: balance;
 }
 
-@include media-breakpoint-down(lg) {
-  .offcanvas {
-    --bs-offcanvas-width: 90vw;
-  }
-}
-
 .bg-hero {
   background:
     linear-gradient(rgba($green-800, 0.85), rgba($green-900, 0.9)),
@@ -90,6 +84,5 @@
 }
 
 .totals {
-  opacity: 1;
   animation: 600ms fadeIn ease-in-out;
 }
