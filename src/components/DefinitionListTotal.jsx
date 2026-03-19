@@ -10,7 +10,7 @@ export default function DefinitionListTotal({ title, total, rawValue, icon, isAc
 
   return (
     <dl className={`hstack gap-2 mb-0 px-2 rounded ${isActive ? "bg-warning-subtle" : ""}`}>
-      <dt className="hstack gap-2 mb-0">
+      <dt className="hstack gap-3 mb-0">
         <i className={`bi ${icon} text-warning-emphasis`}></i>
         <span>{title}</span>
       </dt>
