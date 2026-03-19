@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import SearchForm from "./SearchForm";
 import { filterDefinitions } from "../utils/filterDefinitions";
 import Card from "./Card";
+import NoResults from "./NoResults";
 import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import DefinitionList from "./DefinitionList";
 import FilteredChart from "./FilteredChart";
@@ -47,6 +48,11 @@ export default function Cards({
   }, []);
 
   const filteredData = useMemo(() => tableData || [], [tableData]);
+
+  const hasSearch = useMemo(() =>
+    Object.values(filters).some((v) => v && v.trim()),
+    [filters]
+  );
 
   const results = useMemo(() => {
     if (!filteredData.length) return [];
@@ -126,17 +132,21 @@ export default function Cards({
         />
         )}
         <div className="row row-cols-1 g-3">
-          {results.map(
-            (row, i) =>
-              row && (
-                <div className="col" key={i}>
-                  <Card
-                    row={row}
-                    numbers={companyMoneyMap[row.Назив] || []}
-                    activeSort={activeSort}
-                  />
-                </div>
-              ),
+          {results.length === 0 && hasSearch ? (
+            <NoResults />
+          ) : (
+            results.map(
+              (row, i) =>
+                row && (
+                  <div className="col" key={i}>
+                    <Card
+                      row={row}
+                      numbers={companyMoneyMap[row.Назив] || []}
+                      activeSort={activeSort}
+                    />
+                  </div>
+                ),
+            )
           )}
         </div>
       </div>
