@@ -18,7 +18,7 @@ export default function TableFooterValue({ title, total, numbers, quarter }) {
         ? parseDecimalNumber(quarterData[title], lang)
         : "—";
 
-  const isFinancialResult = title === t("sort.result");
+  const isFinancialResult = title === t("cards.financial-result");
   const numericValue =
     typeof value === "string" && value !== "—"
       ? formatDecimalNumber(value)
