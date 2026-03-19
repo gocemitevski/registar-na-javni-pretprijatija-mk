@@ -5,9 +5,10 @@ export default function SearchForm({
   filters,
   setFilterValue,
   searchData,
+  searchColumns,
 }) {
   const { t } = useTranslation();
-  const activeFilter = Object.keys(filters).find((key) => filters[key]) || "Назив";
+  const activeFilter = Object.keys(filters).find((key) => filters[key]) || searchColumns[0];
 
   return (
     <div className="mt-2 mb-4">

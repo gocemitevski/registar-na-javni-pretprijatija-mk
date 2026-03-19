@@ -32,10 +32,15 @@ export default function Cards({
     return map;
   }, [money]);
 
+  const searchColumns = useMemo(() =>
+    lang === "en" ? ["Title", "Description"] : ["Назив", "Опис"],
+    [lang]
+  );
+
   const searchData = useCallback((e, column) => {
-    const searchColumn = column || "Назив";
+    const searchColumn = column || searchColumns[0];
     setFilters((prev) => ({ ...prev, [searchColumn]: e.target.value }));
-  }, []);
+  }, [searchColumns]);
 
   const setFilterValue = useCallback((key, value) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -47,12 +52,18 @@ export default function Cards({
     if (!filteredData.length) return [];
     const searchColumn = Object.keys(filters).find((key) => filters[key]);
     if (searchColumn) {
+      const searchTerm = filters[searchColumn]?.trim().toLowerCase() || "";
       return filteredData.filter((item) => {
         if (!item) return false;
+        if (searchColumns.includes(searchColumn)) {
+          return searchColumns.some((col) =>
+            item[col]?.toString().toLowerCase().includes(searchTerm)
+          );
+        }
         return Object.values(item)
           .toString()
           .toLowerCase()
-          .includes(filters[searchColumn]?.trim().toLowerCase() || "");
+          .includes(searchTerm);
       });
     } else {
       return filteredData.filter((row) => {
@@ -70,7 +81,7 @@ export default function Cards({
         });
       });
     }
-  }, [filteredData, filters]);
+  }, [filteredData, filters, searchColumns]);
 
   const totalCompanies = useMemo(() => results.length, [results]);
 
@@ -90,7 +101,7 @@ export default function Cards({
   }, [results, money]);
 
   const activeFilter =
-    Object.keys(filters).find((key) => filters[key]) || "Назив";
+    Object.keys(filters).find((key) => filters[key]) || searchColumns[0];
 
   return (
     <div className="bg-primary-subtle bg-shade-img-alt pt-4 pb-3">
@@ -111,6 +122,7 @@ export default function Cards({
           filters={filters}
           setFilterValue={setFilterValue}
           searchData={searchData}
+          searchColumns={searchColumns}
         />
         )}
         <div className="row row-cols-1 g-3">
