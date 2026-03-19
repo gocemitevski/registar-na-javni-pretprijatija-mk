@@ -14,10 +14,11 @@ const resources = {
   mk: {
     translation: {
       app: {
-        title: "Регистар на јавни претпријатија и трговски друштва во државна сопственост на Р. С. Македонија",
-        title_short: "Јавни претпријатија и трговски друштва на Р. С. Македонија",
-        description: "Интерактивен регистар на јавни претпријатија и трговски друштва во државна сопственост на Република Северна Македонија, според податоци на",
-        ministry: "Министерството за финансии"
+        title: "Регистар на јавни претпријатија и трговски друштва во державна сопственост на Р. С. Македонија",
+        title_short: "Ѕавни претпријатија и трговски друштва на Р. С. Македонија",
+        description: "Интерактивен регистар на јавни претпријатија и трговски друштва во державна сопственост на Република Северна Македонија, според податоци на",
+        ministry: "Министерството за финансии",
+        lastUpdated: "Податоците се ажурирани на"
       },
       header: { shareOn: "Сподели на {{title}}" },
       footer: {
@@ -198,7 +199,8 @@ const resources = {
         title: "Registry of Public Enterprises and Trading Companies in State Ownership of R. N. Macedonia",
         title_short: "Public Enterprises and Trading Companies of R. N. Macedonia",
         description: "Interactive registry of public enterprises and trading companies in state ownership of the Republic of North Macedonia, according to data of",
-        ministry: "Ministry of Finance"
+        ministry: "Ministry of Finance",
+        lastUpdated: "Data last updated on"
       },
       header: { shareOn: "Share on {{title}}" },
       footer: {
