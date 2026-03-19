@@ -110,7 +110,7 @@ export default function Cards({
     Object.keys(filters).find((key) => filters[key]) || searchColumns[0];
 
   return (
-    <div className="bg-primary-subtle bg-shade-img-alt pt-4 pb-3">
+    <div className="bg-primary-subtle bg-shade-img-alt pt-4 pb-3 flex-fill">
       <div className="container">
         {showChart && (
           <FilteredChart

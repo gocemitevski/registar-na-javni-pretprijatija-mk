@@ -215,7 +215,7 @@ function Overview() {
         selectedQuarter={selectedQuarter}
       />
       {chartData && (
-        <div className="bg-primary-subtle">
+        <div className="bg-primary-subtle flex-fill">
           <div className="container mt-4">
             <div className="card border-primary-subtle">
               <div className="card-body">
