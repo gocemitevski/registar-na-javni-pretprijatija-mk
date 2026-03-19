@@ -45,7 +45,7 @@ export default defineConfig({
           'chart': ['chart.js'],
         },
       },
-      external: ['react-i18next']
+  
     },
   },
 })
