@@ -4,7 +4,5 @@ export const formatOdsDate = (date, lang) => {
     day: "numeric",
     month: "long",
     year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
   }).format(date);
 };
