@@ -38,44 +38,30 @@ export default function Cards({
     [lang]
   );
 
-  const searchData = useCallback((e, column) => {
-    const searchColumn = column || searchColumns[0];
-    setFilters((prev) => ({ ...prev, [searchColumn]: e.target.value }));
-  }, [searchColumns]);
-
-  const setFilterValue = useCallback((key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+  const searchData = useCallback((e) => {
+    setFilters((prev) => ({ ...prev, search: e.target.value }));
   }, []);
 
   const filteredData = useMemo(() => tableData || [], [tableData]);
 
-  const hasSearch = useMemo(() =>
-    Object.values(filters).some((v) => v && v.trim()),
-    [filters]
-  );
-
   const results = useMemo(() => {
     if (!filteredData.length) return [];
-    const searchColumn = Object.keys(filters).find((key) => filters[key]);
-    if (searchColumn) {
-      const searchTerm = filters[searchColumn]?.trim().toLowerCase() || "";
+
+    const term = filters.search?.trim().toLowerCase() || "";
+    const hasSearch = term.length > 0;
+
+    if (hasSearch) {
       return filteredData.filter((item) => {
         if (!item) return false;
-        if (searchColumns.includes(searchColumn)) {
-          return searchColumns.some((col) =>
-            item[col]?.toString().toLowerCase().includes(searchTerm)
-          );
-        }
-        return Object.values(item)
-          .toString()
-          .toLowerCase()
-          .includes(searchTerm);
+        return searchColumns.some((col) =>
+          item[col]?.toString().toLowerCase().includes(term)
+        );
       });
     } else {
       return filteredData.filter((row) => {
         if (!row) return false;
         return Object.keys(filters).every((column) => {
-          if (!filters[column]) return true;
+          if (!filters[column] || column === "search") return true;
           return (
             row[column] &&
             row[column]
@@ -88,6 +74,8 @@ export default function Cards({
       });
     }
   }, [filteredData, filters, searchColumns]);
+
+  const hasSearch = (filters.search?.trim().length || 0) > 0;
 
   const totalCompanies = useMemo(() => results.length, [results]);
 
@@ -106,9 +94,6 @@ export default function Cards({
     };
   }, [results, money]);
 
-  const activeFilter =
-    Object.keys(filters).find((key) => filters[key]) || searchColumns[0];
-
   return (
     <main className="bg-primary-subtle bg-shade-img-alt pt-4 pb-3 flex-fill">
       <div className="container">
@@ -124,11 +109,8 @@ export default function Cards({
         )}
         {showSearch && (
         <SearchForm
-          value={filters[activeFilter]}
-          filters={filters}
-          setFilterValue={setFilterValue}
+          value={filters.search || ""}
           searchData={searchData}
-          searchColumns={searchColumns}
         />
         )}
         <div className="row row-cols-1 g-3">

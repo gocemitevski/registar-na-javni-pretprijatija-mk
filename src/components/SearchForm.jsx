@@ -1,24 +1,17 @@
 import { useTranslation } from "react-i18next";
 
-export default function SearchForm({
-  value,
-  filters,
-  setFilterValue,
-  searchData,
-  searchColumns,
-}) {
+export default function SearchForm({ value, searchData }) {
   const { t } = useTranslation();
-  const activeFilter = Object.keys(filters).find((key) => filters[key]) || searchColumns[0];
 
   return (
     <div className="mt-2 mb-4">
       <div className="input-group flex-fill">
         <input
-          id={`search`}
+          id="search"
           className="form-control form-control-lg"
           type="text"
           placeholder={t("search.placeholder")}
-          onChange={(e) => searchData(e, activeFilter)}
+          onChange={searchData}
           value={value}
         ></input>
         {!value && (
@@ -31,8 +24,7 @@ export default function SearchForm({
             className="btn btn-outline-secondary"
             type="button"
             title={t("search.clearTitle")}
-            onClick={() => setFilterValue(activeFilter, "")}
-            disabled={!value}
+            onClick={() => searchData({ target: { value: "" } })}
           >
             <i className="bi bi-x-lg"></i>
             <span className="visually-hidden">{t("search.clear")}</span>
