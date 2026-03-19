@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
+import { sumDecimalNumbers } from "../utils/decimalNumbers";
 import DefinitionList from "./DefinitionList";
 import { cleanName } from "../utils/cleanName";
 import { transliterate } from "../utils/transliterate";
@@ -11,9 +11,8 @@ export default function Card({ row, numbers, activeSort }) {
   const { t, i18n } = useTranslation();
   const { lang, quarter } = useParams();
   const currentLang = lang || i18n.language || "mk";
-  const quarterNum = parseInt(quarter) || 0;
 
-const SORT_KEYS = {
+  const SORT_KEYS = {
     income: t("cards.income"),
     expenses: t("cards.expenses"),
     "financial-result": t("cards.financial-result"),
@@ -32,15 +31,6 @@ const SORT_KEYS = {
     () => sumDecimalNumbers(numbers.map((item) => item["Финансиски резултат"])),
     [numbers]
   );
-
-  const financialResultColor = useMemo(() => {
-    if (quarterNum === 0) {
-      return parseInt(parseDecimalNumber(totalFinancialResults, currentLang)) < 0 ? "danger" : "success";
-    }
-    const q = numbers.find((item) => item.Квартал === quarterNum);
-    if (!q) return "success";
-    return parseInt(parseDecimalNumber(q["Финансиски резултат"], currentLang)) < 0 ? "danger" : "success";
-  }, [quarterNum, numbers, totalFinancialResults, currentLang]);
 
   return (
     <div className="card h-100 shadow-sm">
@@ -69,7 +59,6 @@ const SORT_KEYS = {
               numbers={numbers}
               quarter={quarter}
               icon="bi-arrow-down"
-              color="success"
               isActive={activeTitle === t("cards.income")}
             />
             <DefinitionList
@@ -78,7 +67,6 @@ const SORT_KEYS = {
               numbers={numbers}
               quarter={quarter}
               icon="bi-arrow-up"
-              color="danger"
               isActive={activeTitle === t("cards.expenses")}
             />
             <DefinitionList
@@ -87,7 +75,6 @@ const SORT_KEYS = {
               numbers={numbers}
               quarter={quarter}
               icon="bi-arrow-down-up"
-              color={financialResultColor}
               isActive={activeTitle === t("cards.financial-result")}
             />
           </div>

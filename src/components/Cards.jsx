@@ -81,22 +81,13 @@ export default function Cards({
     const relevantMoney = money.filter((item) => companyNames.has(item.Назив));
 
     return {
-      income: parseDecimalNumber(
-        sumDecimalNumbers(relevantMoney.map((item) => item.Приходи)),
-        lang,
-      ),
-      expenses: parseDecimalNumber(
-        sumDecimalNumbers(relevantMoney.map((item) => item.Расходи)),
-        lang,
-      ),
-      "financial-result": parseDecimalNumber(
-        sumDecimalNumbers(
-          relevantMoney.map((item) => item["Финансиски резултат"]),
-        ),
-        lang,
+      income: sumDecimalNumbers(relevantMoney.map((item) => item.Приходи)),
+      expenses: sumDecimalNumbers(relevantMoney.map((item) => item.Расходи)),
+      "financial-result": sumDecimalNumbers(
+        relevantMoney.map((item) => item["Финансиски резултат"]),
       ),
     };
-  }, [results, money, lang]);
+  }, [results, money]);
 
   const activeFilter =
     Object.keys(filters).find((key) => filters[key]) || "Назив";
@@ -156,30 +147,26 @@ export default function Cards({
                   : t("cards.company_plural")}
               </p>
             </div>
-            <div className="col-lg-6 col-xl-4 align-self-center vstack gap-2">
+            <div className="col-lg-6 col-xl-4 align-self-center vstack gap-2 ps-xl-0">
               <DefinitionListTotal
                 title={t("cards.income")}
-                total={totals.income}
+                total={parseDecimalNumber(totals.income, lang)}
+                rawValue={totals.income}
                 icon={`bi-arrow-down`}
-                color={`success`}
                 isActive={activeSort === "income"}
               />
               <DefinitionListTotal
                 title={t("cards.expenses")}
-                total={totals.expenses}
+                total={parseDecimalNumber(totals.expenses, lang)}
+                rawValue={totals.expenses}
                 icon={`bi-arrow-up`}
-                color={`danger`}
                 isActive={activeSort === "expenses"}
               />
               <DefinitionListTotal
                 title={t("cards.financial-result")}
-                total={totals["financial-result"]}
+                total={parseDecimalNumber(totals["financial-result"], lang)}
+                rawValue={totals["financial-result"]}
                 icon={`bi-arrow-down-up`}
-                color={
-                  parseInt(totals["financial-result"]) < 0
-                    ? `danger`
-                    : `success`
-                }
                 isActive={activeSort === "financial-result"}
               />
             </div>
