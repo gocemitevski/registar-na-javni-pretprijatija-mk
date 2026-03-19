@@ -45,7 +45,6 @@ export default defineConfig({
           'chart': ['chart.js'],
         },
       },
-  
     },
   },
 })
