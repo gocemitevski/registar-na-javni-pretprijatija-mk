@@ -52,7 +52,8 @@ const resources = {
       },
       common: {
         loading: "Вчитување...",
-        error: "Грешка при вчитување на податоците:"
+        error: "Грешка при вчитување на податоците:",
+        noResults: "Не постојат јавни претпријатија и трговски друштва за внесените параметри или пак, сте направиле некоја грешка при пребарувањето."
       },
       filters: {
         id: "Реден број",
@@ -234,7 +235,8 @@ const resources = {
       },
       common: {
         loading: "Loading...",
-        error: "Error loading data:"
+        error: "Error loading data:",
+        noResults: "No public enterprises or companies match your search criteria, or you may have made an error during your search."
       },
       summary: {
         explore: "Explore",
