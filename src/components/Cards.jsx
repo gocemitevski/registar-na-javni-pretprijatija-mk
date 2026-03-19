@@ -4,7 +4,7 @@ import SearchForm from "./SearchForm";
 import { filterDefinitions } from "../utils/filterDefinitions";
 import Card from "./Card";
 import { parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
-import DefinitionListTotal from "./DefinitionListTotal";
+import DefinitionList from "./DefinitionList";
 import FilteredChart from "./FilteredChart";
 
 export default function Cards({
@@ -148,25 +148,25 @@ export default function Cards({
               </p>
             </div>
             <div className="col-lg-6 col-xl-4 align-self-center vstack gap-2 ps-xl-0">
-              <DefinitionListTotal
+              <DefinitionList
                 title={t("cards.income")}
                 total={parseDecimalNumber(totals.income, lang)}
                 rawValue={totals.income}
-                icon={`bi-arrow-down`}
+                icon="bi-arrow-down"
                 isActive={activeSort === "income"}
               />
-              <DefinitionListTotal
+              <DefinitionList
                 title={t("cards.expenses")}
                 total={parseDecimalNumber(totals.expenses, lang)}
                 rawValue={totals.expenses}
-                icon={`bi-arrow-up`}
+                icon="bi-arrow-up"
                 isActive={activeSort === "expenses"}
               />
-              <DefinitionListTotal
+              <DefinitionList
                 title={t("cards.financial-result")}
                 total={parseDecimalNumber(totals["financial-result"], lang)}
                 rawValue={totals["financial-result"]}
-                icon={`bi-arrow-down-up`}
+                icon="bi-arrow-down-up"
                 isActive={activeSort === "financial-result"}
               />
             </div>

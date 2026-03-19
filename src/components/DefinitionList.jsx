@@ -1,19 +1,23 @@
 import { useTranslation } from "react-i18next";
 import { parseDecimalNumber, formatDecimalNumber } from "../utils/decimalNumbers";
 
-export default function DefinitionList({ title, total, numbers, quarter, icon, isActive }) {
+export default function DefinitionList({ title, total, numbers, quarter, rawValue, icon, isActive }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language || "mk";
+
   const quarterNum = parseInt(quarter) || 0;
-  const quarterData = quarterNum !== 0 ? numbers.find((item) => item.Квартал === quarterNum) : null;
+  const quarterData = quarterNum !== 0 && numbers ? numbers.find((item) => item.Квартал === quarterNum) : null;
 
-  const value = quarterNum === 0
-    ? total
-    : quarterData ? quarterData[title] : null;
+  const displayValue = quarterNum === 0
+    ? (numbers ? parseDecimalNumber(total, lang) : total)
+    : quarterData
+      ? parseDecimalNumber(quarterData[title], lang)
+      : "—";
 
+  const colorRawValue = rawValue ?? total;
   const isFinancialResult = title === t("cards.financial-result");
-  const color = isFinancialResult && value != null
-    ? formatDecimalNumber(value) < 0 ? "danger" : "success"
+  const color = isFinancialResult && colorRawValue != null
+    ? formatDecimalNumber(colorRawValue) < 0 ? "danger" : "success"
     : null;
 
   return (
@@ -23,11 +27,7 @@ export default function DefinitionList({ title, total, numbers, quarter, icon, i
         <span>{title}</span>
       </dt>
       <dd className={`mb-0 flex-fill text-end${color ? ` text-${color}` : ""}`}>
-        {quarterNum === 0
-          ? parseDecimalNumber(total, lang)
-          : quarterData
-            ? parseDecimalNumber(quarterData[title], lang)
-            : "—"}
+        {displayValue}
       </dd>
     </dl>
   );
