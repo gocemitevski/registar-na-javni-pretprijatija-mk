@@ -34,19 +34,7 @@
   background:
     linear-gradient(
       rgba($primary-bg-subtle, 0.85),
-      rgba($primary-bg-subtle, 1) 25%
-    ),
-    url("../img/macedonian-denars-sm.webp");
-  background-size: contain;
-  background-blend-mode: luminosity;
-  background-repeat: no-repeat;
-}
-
-.bg-shade-img-alt {
-  background:
-    linear-gradient(
-      rgba($primary-bg-subtle, 0.85),
-      rgba($primary-bg-subtle, 1) 2%
+      rgba($primary-bg-subtle, 1) 8vw
     ),
     url("../img/macedonian-denars-sm.webp");
   background-size: contain;

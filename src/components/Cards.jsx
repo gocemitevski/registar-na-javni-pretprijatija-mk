@@ -99,7 +99,7 @@ export default function Cards({
   }, [results, money]);
 
   return (
-    <main className="bg-primary-subtle bg-shade-img-alt pt-4 pb-3 flex-fill">
+    <main className="bg-primary-subtle bg-shade-img pt-4 pb-3 flex-fill">
       <div className="container">
         {showChart && (
           <FilteredChart
