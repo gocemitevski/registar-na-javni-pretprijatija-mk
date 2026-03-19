@@ -2,6 +2,7 @@ import { useMemo, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import SearchForm from "./SearchForm";
 import { filterDefinitions } from "../utils/filterDefinitions";
+import { transliterate } from "../utils/transliterate";
 import Card from "./Card";
 import NoResults from "./NoResults";
 import { sumDecimalNumbers } from "../utils/decimalNumbers";
@@ -47,15 +48,18 @@ export default function Cards({
   const results = useMemo(() => {
     if (!filteredData.length) return [];
 
-    const term = filters.search?.trim().toLowerCase() || "";
+    const rawTerm = filters.search?.trim() || "";
+    const term = transliterate(rawTerm).toLowerCase();
     const hasSearch = term.length > 0;
 
     if (hasSearch) {
       return filteredData.filter((item) => {
         if (!item) return false;
-        return searchColumns.some((col) =>
-          item[col]?.toString().toLowerCase().includes(term)
-        );
+        return searchColumns.some((col) => {
+          const value = item[col]?.toString() || "";
+          const normalizedValue = transliterate(value).toLowerCase();
+          return normalizedValue.includes(term);
+        });
       });
     } else {
       return filteredData.filter((row) => {
