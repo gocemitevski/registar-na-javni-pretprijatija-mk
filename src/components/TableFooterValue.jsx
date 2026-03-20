@@ -1,5 +1,6 @@
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { formatDecimalNumber, parseDecimalNumber } from "../utils/decimalNumbers";
+import { parseDecimalNumber } from "../utils/decimalNumbers";
 
 export default function TableFooterValue({ title, total, numbers, quarter }) {
   const { t, i18n } = useTranslation();
@@ -11,22 +12,21 @@ export default function TableFooterValue({ title, total, numbers, quarter }) {
       ? numbers.find((item) => item.Квартал === quarterNum)
       : null;
 
-  const value =
-    quarterNum === 0
-      ? parseDecimalNumber(total, lang)
-      : quarterData
-        ? parseDecimalNumber(quarterData[title], lang)
-        : "—";
+  const value = useMemo(() => {
+    if (quarterNum === 0) {
+      return parseDecimalNumber(total, lang);
+    }
+    if (quarterData) {
+      return parseDecimalNumber(quarterData[title], lang);
+    }
+    return parseDecimalNumber(total, lang);
+  }, [quarterNum, quarterData, total, title, lang]);
 
   const isFinancialResult = title === t("cards.financial-result");
-  const numericValue =
-    typeof value === "string" && value !== "—"
-      ? formatDecimalNumber(value)
-      : null;
-  const isNegative = numericValue != null && numericValue < 0;
+  const isNegative = isFinancialResult && value < 0;
 
   const valueClass =
-    isFinancialResult && numericValue != null
+    isFinancialResult
       ? `text-${isNegative ? "danger" : "success"}`
       : "";
 
