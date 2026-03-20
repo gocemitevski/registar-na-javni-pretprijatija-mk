@@ -173,8 +173,7 @@ Order imports in groups (with blank line between groups):
 
 1. React built-ins (`react`)
 2. Third-party libraries (`xlsx`, `react-router-dom`, etc.)
-3. Local components (`./components/`)
-4. Local utils (`../utils/`)
+3. Local imports (hooks, components, then utils - sorted alphabetically within group)
 
 ### CSS / Styling
 
@@ -189,6 +188,7 @@ Order imports in groups (with blank line between groups):
 - Environment variables: Use `import.meta.env.VITE_*` for Vite env vars
 - Create `.env` files for local development (not committed to git)
 - Avoid inline transformations of constants (e.g., `cleanName(transliterate(...))`) - pre-process at definition
+- For language-aware path manipulation, use `getPathWithLang` from `src/i18n/index.js`
 
 ### ESLint Configuration
 
@@ -269,6 +269,26 @@ The component accepts:
 - `activeSort` - which field to sort by (income, expenses, financial-result)
 - `filter` - filter type (positive-result, negative-result, income, no-income, earned-more, spent-more)
 
+### OverviewChart Component
+
+For the overview page, use the `OverviewChart` component:
+
+```jsx
+import OverviewChart from "./OverviewChart";
+
+<OverviewChart
+  chartData={chartData}
+  selectedYear={selectedYear}
+  selectedQuarter={selectedQuarter}
+/>
+```
+
+The component accepts:
+
+- `chartData` - Chart.js data object with labels and datasets
+- `selectedYear` - currently selected year
+- `selectedQuarter` - currently selected quarter (0 = all quarters)
+
 ### Generating Sitemap
 
 The sitemap is generated dynamically at build time using `scripts/generate-sitemap.mjs`. It runs automatically before `vite build` and:
@@ -301,6 +321,7 @@ Defaults to `https://pretprijatija.mk` if not set.
 - Memory cleanup in useEffect is required for navigation subscriptions
 - Use `useData` hook for shared data fetching to avoid duplicate loading
 - Use `CompanyWrapper` for scroll-to-top on company detail pages
+- Use semantic HTML elements: `<main>` for page content, `<article>` for cards, `<aside>` for sidebar/totals, `<nav>` for navigation
 
 ### Macedonian Grammar
 
@@ -308,12 +329,7 @@ When displaying counts with singular/plural forms, use proper Macedonian grammar
 
 ```jsx
 // правилно: 1 претпријатие, 11 претпријатија
-{
-  count;
-}
-{
-  count % 10 === 1 && count !== 11 ? "едно" : "многу";
-}
+{count} {count % 10 === 1 && count !== 11 ? "претпријатие" : "претпријатија"}
 ```
 
 ### Performance Tips
