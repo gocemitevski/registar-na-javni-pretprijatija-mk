@@ -42,7 +42,6 @@ export function useData() {
         });
 
         const years = wb.SheetNames.filter((item, key) => key > 0).sort().reverse();
-        setAvailableYears(years);
 
         const moneyByYear = {};
         years.forEach((y) => {
