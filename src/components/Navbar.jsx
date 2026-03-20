@@ -140,18 +140,21 @@ export default function Navbar({ showSortingFilters = false }) {
           <div className="col-xl-5 col-xxl-4">
             <ul className="nav nav-pills text-uppercase text-bg-secondary rounded gap-2">
               <li className="nav-item">
-                <NavLink end className="nav-link py-3" to={overviewPath}>
-                  {t("nav.home")}
+                <NavLink end className="nav-link py-3" to={overviewPath} title={t("nav.home")}>
+                  <i className="bi bi-house d-sm-none"></i>
+                  <span className="d-none d-sm-block">{t("nav.home")}</span>
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link py-3" to={registryPath}>
-                  {t("nav.registry")}
+                <NavLink className="nav-link py-3" to={registryPath} title={t("nav.registry")}>
+                  <i className="bi bi-card-list d-sm-none"></i>
+                  <span className="d-none d-sm-block">{t("nav.registry")}</span>
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link py-3" to={aboutPath}>
-                  {t("nav.about")}
+                <NavLink className="nav-link py-3" to={aboutPath} title={t("nav.about")}>
+                  <i className="bi bi-question-square d-sm-none"></i>
+                  <span className="d-none d-sm-block">{t("nav.about")}</span>
                 </NavLink>
               </li>
             </ul>
