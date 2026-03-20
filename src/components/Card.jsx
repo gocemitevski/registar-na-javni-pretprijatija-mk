@@ -33,15 +33,15 @@ export default function Card({ row, numbers, activeSort }) {
   );
 
   return (
-    <div className="card h-100 shadow-sm">
+    <article className="card h-100 shadow-sm">
       <div className="card-body">
         <div className="row g-3">
           <div className="col-lg-6 col-xl-8 vstack">
-            <h5 className="card-title">
+            <h1 className="card-title fs-5">
               <Link to={`/${currentLang}/company/${cleanName(transliterate(row.Назив))}`}>
                 {getLocalizedCompanyName(row, currentLang)}
               </Link>
-            </h5>
+            </h1>
             <p className="card-text flex-fill">{getLocalizedCompanyDescription(row, currentLang)}</p>
             <a
               title={`Мрежно место на ${row.Назив}`}
@@ -80,6 +80,6 @@ export default function Card({ row, numbers, activeSort }) {
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 }
