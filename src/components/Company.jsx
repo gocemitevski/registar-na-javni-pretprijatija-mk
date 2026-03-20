@@ -277,6 +277,7 @@ function Company() {
             <a
               title={`Мрежно место на ${currentCompany.Назив}`}
               target="_blank"
+              rel="noopener noreferrer"
               className="btn btn-outline-secondary align-self-start"
               href={currentCompany["Мрежно место"]}
             >

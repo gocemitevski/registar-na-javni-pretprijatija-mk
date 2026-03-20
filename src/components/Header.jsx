@@ -70,7 +70,7 @@ export default function Header() {
                           title={t("header.shareOn", { title: icon.title })}
                           href={icon.href}
                           target="_blank"
-                          rel="noopener"
+                          rel="noopener noreferrer"
                           className="nav-link link-light"
                         >
                           <i className={`bi ${icon.icon}`}></i>

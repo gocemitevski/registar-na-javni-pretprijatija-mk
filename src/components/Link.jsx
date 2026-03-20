@@ -3,7 +3,7 @@ export default function Link({ href, value }) {
     <a
       className="link-body-emphasis"
       target="_blank"
-      rel="noopener"
+      rel="noopener noreferrer"
       href={href}
     >
       <span>{value}</span>

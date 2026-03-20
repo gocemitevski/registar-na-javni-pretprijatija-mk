@@ -18,7 +18,8 @@ export default function Footer() {
             {t("footer.availableOn")}{" "}
             <a
               className="link-light"
-              rel="noopener"
+              rel="noopener noreferrer"
+              target="_blank"
               href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
             >
               {t("footer.license")}
@@ -29,7 +30,8 @@ export default function Footer() {
             {t("footer.madeBy")}{" "}
             <a
               className="link-light"
-              rel="noopener"
+              rel="noopener noreferrer"
+              target="_blank"
               href="https://www.gocemitevski.com/"
             >
               {t("footer.author")}
