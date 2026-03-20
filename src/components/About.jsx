@@ -6,7 +6,7 @@ export default function About() {
   const photo = `/registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
 
   return (
-    <div className="container py-5">
+    <main className="container py-5">
       <div className="row">
         <div className="col-lg-7">
           <h1 className="mb-3">{t("nav.about")}</h1>
@@ -104,6 +104,6 @@ export default function About() {
           </figure>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
