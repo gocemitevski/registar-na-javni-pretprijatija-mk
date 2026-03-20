@@ -182,29 +182,31 @@ function Overview() {
   return (
     <>
       <Navbar showSortingFilters={false} />
-      <SummaryCards
-        money={filteredMoney}
-        selectedYear={selectedYear}
-        selectedQuarter={selectedQuarter}
-      />
-      {chartData && (
-        <OverviewChart
-          chartData={chartData}
+      <main className="vstack gap-0">
+        <SummaryCards
+          money={filteredMoney}
           selectedYear={selectedYear}
           selectedQuarter={selectedQuarter}
         />
-      )}
-      <TopLists
-        selectedYear={selectedYear}
-        selectedQuarter={selectedQuarter}
-        companies={pretprijatija}
-        topExpenses={topLists.expenses}
-        worstExpenses={topLists.worstExpenses}
-        topIncome={topLists.income}
-        worstIncome={topLists.worstIncome}
-        topResult={topLists.result}
-        worstResult={topLists.worstResult}
-      />
+        {chartData && (
+          <OverviewChart
+            chartData={chartData}
+            selectedYear={selectedYear}
+            selectedQuarter={selectedQuarter}
+          />
+        )}
+        <TopLists
+          selectedYear={selectedYear}
+          selectedQuarter={selectedQuarter}
+          companies={pretprijatija}
+          topExpenses={topLists.expenses}
+          worstExpenses={topLists.worstExpenses}
+          topIncome={topLists.income}
+          worstIncome={topLists.worstIncome}
+          topResult={topLists.result}
+          worstResult={topLists.worstResult}
+        />
+      </main>
     </>
   );
 }
