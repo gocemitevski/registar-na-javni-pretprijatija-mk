@@ -1,0 +1,3 @@
+User-agent: *
+
+Sitemap: https://gocemitevski.github.io/registar-na-javni-pretprijatija-mk/sitemap.xml
