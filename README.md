@@ -2,6 +2,8 @@
 
 Интерактивна веб-апликација за прегледување на финансиските податоци на јавните претпријатија и трговските друштва во Република Северна Македонија.
 
+[![Регистар на јавни претпријатија и трговски друштва во државна сопственост на Р. С. Македонија](public/registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-mk-1200x675.webp)](https://github.com/gocemitevski/registar-na-javni-pretprijatija-mk)
+
 ## Технологии
 
 - **React 19** со React Compiler
