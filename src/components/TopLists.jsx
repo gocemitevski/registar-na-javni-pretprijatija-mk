@@ -24,12 +24,12 @@ function TopLists({
     <div className="col">
       <div className="card text-bg-light vstack h-100 shadow">
         <div className="card-body flex-grow-0">
-          <h5 className="card-title hstack gap-3 mb-0">
+          <h2 className="card-title fs-5 hstack gap-3 mb-0">
             <i className={`text-warning-emphasis bi bi-${icon}`}></i>
             <span>
               {title} {selectedQuarter > 0 ? t("toplists.titleQuarter", { year: selectedYear, quarter: selectedQuarter }) : t("toplists.titleYear", { year: selectedYear })}
             </span>
-          </h5>
+          </h2>
         </div>
         <div className="list-group list-group-flush flex-fill">
           {items.map(([name, value], idx) => {

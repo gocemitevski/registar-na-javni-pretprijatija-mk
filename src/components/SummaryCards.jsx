@@ -154,11 +154,11 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
               <div className={`card h-100 shadow ${cardValues[index] !== 0 ? `btn-link-arrow btn-link-shadow` : ``}`}>
                 <div className="card-body hstack gap-3">
                   <div className="flex-fill vstack gap-3">
-                    <h5
+                    <h2
                       className={`card-text mb-0 fw-light text-uppercase order-1 fs-6`}
                     >
                       {card.title}
-                    </h5>
+                    </h2>
                     <p
                       className={`order-0 flex-fill card-text display-6 fw-bold text-${cardValues[index] === 0 ? `muted opacity-75` : card.color}`}
                     >
