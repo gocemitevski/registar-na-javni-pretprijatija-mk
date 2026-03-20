@@ -19,6 +19,7 @@ import {
   getLocalizedCompanyDescription,
 } from "../utils/localizeCompanyName";
 import { updateDocumentMeta } from "../hooks/usePageTitle";
+import { isValidHttpUrl } from "../utils/isValidUrl";
 
 const toCleanName = (name) => cleanName(transliterate(name));
 const FIN_RES_KEY = "Финансиски резултат";
@@ -273,7 +274,7 @@ function Company() {
             {getLocalizedCompanyName(currentCompany, currentLang)}
           </h1>
           <p>{getLocalizedCompanyDescription(currentCompany, currentLang)}</p>
-          {currentCompany["Мрежно место"] && (
+          {currentCompany["Мрежно место"] && isValidHttpUrl(currentCompany["Мрежно место"]) && (
             <a
               title={`Мрежно место на ${currentCompany.Назив}`}
               target="_blank"
