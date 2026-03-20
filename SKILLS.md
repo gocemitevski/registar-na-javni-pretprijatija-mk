@@ -74,11 +74,12 @@ This document outlines the core skills and best practices required to work on th
 
 Use the `review` subagent to review code changes:
 
-```
+```bash
 /review [commit|branch|pr]  # defaults to uncommitted changes
 ```
 
 Review checklist:
+
 - Null/undefined guard for values used as map/object keys
 - Redundant undefined checks on values already guaranteed to be arrays
 - Redundant `parseInt`/re-parsing of already-validated values
