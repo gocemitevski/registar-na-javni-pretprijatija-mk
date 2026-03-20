@@ -53,6 +53,7 @@ This document outlines the core skills and best practices required to work on th
 - Chart configuration constants live in `src/utils/charts.js`.
 - Use `createChartOptions()` for vertical bar charts, `createHorizontalChartOptions()` for horizontal bar charts.
 - The `dashedBorderPlugin` provides dashed borders for financial result bars.
+- Overview page uses `OverviewChart` component for displaying total income, expenses, and financial results.
 - Filtered pages use `FilteredChart` component which dynamically shows income, expenses, or financial results based on the filter type.
 
 ### Filtered Pages
