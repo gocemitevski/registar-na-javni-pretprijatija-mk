@@ -81,9 +81,7 @@ export default function Header() {
                       </li>
                     ))}
                   </ul>
-                ) : (
-                  ``
-                )}
+                ) : null}
               </div>
             </div>
           </div>
