@@ -13,9 +13,9 @@ export default function LastDataUpdate() {
   if (!odsDate) return null;
 
   return (
-    <span className="badge text-bg-secondary-dark p-2 mb-3 hstack gap-2 d-inline-flex">
+    <span className="badge text-bg-secondary-dark p-2 mb-3 hstack gap-2 d-md-inline-flex">
       <i className="bi bi-activity"></i>
-      <span className="fw-light">{t("app.lastUpdated")} <strong className="fw-medium">{formatOdsDate(odsDate, lang)}</strong></span>
+      <span className="fw-light text-truncate">{t("app.lastUpdated")} <strong className="fw-medium">{formatOdsDate(odsDate, lang)}</strong></span>
     </span>
   );
 }
