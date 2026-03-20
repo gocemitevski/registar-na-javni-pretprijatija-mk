@@ -38,7 +38,7 @@ const resources = {
         about: "За проектот",
         year: "Година",
         quarter: "Квартал",
-        all: "Сите",
+        all: "Сите квартали",
         sorting: "Подредување",
         order: "Редослед",
         reset: "Врати ги основните вредности"
@@ -224,7 +224,7 @@ const resources = {
         about: "About",
         year: "Year",
         quarter: "Quarter",
-        all: "All",
+        all: "All quarters",
         sorting: "Sort by",
         order: "Order",
         reset: "Reset to defaults"
