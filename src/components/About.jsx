@@ -72,12 +72,26 @@ export default function About() {
             </a>
             .
           </p>
+          <h2 className="h4 mt-4 mb-3">{t("about.ai")}</h2>
+          <p>
+            {t("about.aiDesc")}{" "}
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://opencode.ai/"
+            >
+              {t("about.opencode")}
+            </a>
+            .
+          </p>
           <h2 className="h4 mt-4 mb-3">{t("about.updatesTitle")}</h2>
           <p>{t("about.updates")}</p>
           <h2 className="h4 mt-4 mb-3">{t("about.responsibilityTitle")}</h2>
           <p>
             {t("about.responsibility")}{" "}
-            <strong className="fw-bold">{t("about.responsibilityStrong")}</strong>{" "}
+            <strong className="fw-bold">
+              {t("about.responsibilityStrong")}
+            </strong>{" "}
             {t("about.responsibilityFix")}{" "}
             <a
               rel="noopener noreferrer"
