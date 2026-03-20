@@ -1,4 +1,4 @@
-# Регистар на јавни претпријатија и трговски друштва
+# Регистар на јавни претпријатија и трговски друштва во државна сопственост на Р. С. Македонија
 
 Интерактивна веб-апликација за прегледување на финансиските податоци на јавните претпријатија и трговските друштва во Република Северна Македонија.
 
@@ -8,8 +8,8 @@
 - **Vite 7** - алатка за изградба
 - **Bootstrap 5** + **SCSS** - библиотека за каскадни стилови
 - **React Router DOM 7** - рутирање
-- **xlsx** - парсирање на Excel/ODS податоци
-- **Chart.js** - графици
+- **xlsx** - парсирање на податоци од Excel/ODS
+- **Chart.js** - графикони
 
 ## Инсталација
 
@@ -47,11 +47,11 @@ npm run lint
 
 ## Параметри на „URL“
 
-Апликацијата користи URL параметри за чување на состојба:
+Апликацијата користи параметри на „URL“ за чување на состојбата:
 
-- `:lang` - јазик (mk, en)
+- `:lang` - јазик (MK, EN)
 - `:year` - избрана година
-- `:quarter` - избран квартал (0 = сите квартали)
+- `:quarter` - избран квартал (0 = Сите квартали)
 - `:sort` - подредување (id, income, expenses, financial-result)
 - `:order` - редослед (asc, desc)
 - `:filter` - филтер за филтрирани страни (positive-result, negative-result, income, no-income, earned-more, spent-more)
@@ -63,10 +63,10 @@ npm run lint
 - `/` - Главна страница со преглед
 - `/:lang` - Главна страница со преглед
 - `/:lang/filtered/:filter` - Филтрирани компании
-- `/:lang/registry` - Регистер на сите компании
+- `/:lang/registry` - Регистaр на сите компании
 - `/:lang/company/:company` - Детали за компанија
 - `/:lang/about` - За проектот
 
 ## Лиценца
 
-[CC BY-NC-SA 4.0](https://github.com/gocemitevski/registar-na-javni-pretprijatija-mk?tab=License-1-ov-file)
+Авторските права на Гоце Митевски се дефинирани преку лиценцата [CC BY-NC-SA 4.0](https://github.com/gocemitevski/registar-na-javni-pretprijatija-mk?tab=License-1-ov-file).
