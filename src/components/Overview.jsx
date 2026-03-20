@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Chart from "chart.js/auto";
 import { useData } from "../hooks/useData";
 import Navbar from "./Navbar";
 import SummaryCards from "./SummaryCards";
 import TopLists from "./TopLists";
+import OverviewChart from "./OverviewChart";
 import {
   formatDecimalNumber,
   sumDecimalNumbers,
@@ -13,7 +13,7 @@ import {
 import { order, sorting } from "../utils/filterDefinitions";
 import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
-import { INCOME_COLOR, EXPENSES_COLOR, FINRESULT_COLOR, createChartOptions, CHART_HEIGHT, dashedBorderPlugin } from "../utils/charts";
+import { INCOME_COLOR, EXPENSES_COLOR, FINRESULT_COLOR } from "../utils/charts";
 
 const DEFAULT_SORTING = cleanName(transliterate(sorting[0]));
 const DEFAULT_ORDER = cleanName(transliterate(order[0]));
@@ -24,7 +24,6 @@ function Overview() {
   const navigate = useNavigate();
   const location = useLocation();
   const isNavigating = useRef(false);
-  const chartRef = useRef(null);
   const { allMoney, availableYears, pretprijatija } = useData();
 
   const currentLang = lang || "mk";
@@ -180,32 +179,6 @@ function Overview() {
     };
   }, [allMoney, selectedYear, selectedQuarter, t]);
 
-  const chartOptions = useMemo(() => createChartOptions(currentLang, false), [currentLang]);
-
-  useEffect(() => {
-    if (!chartRef.current || !chartData) return;
-
-    if (chartRef.current.chart) {
-      chartRef.current.chart.destroy();
-    }
-
-    chartRef.current.chart = new Chart(chartRef.current, {
-      type: "bar",
-      data: chartData,
-      options: chartOptions,
-      plugins: [dashedBorderPlugin],
-    });
-
-    const chartNode = chartRef.current;
-
-    return () => {
-      if (chartNode?.chart) {
-        chartNode.chart.destroy();
-        chartNode.chart = null;
-      }
-    };
-  }, [chartData, chartOptions]);
-
   return (
     <>
       <Navbar showSortingFilters={false} />
@@ -215,25 +188,11 @@ function Overview() {
         selectedQuarter={selectedQuarter}
       />
       {chartData && (
-        <div className="bg-primary-subtle flex-fill">
-          <div className="container mt-4">
-            <div className="card border-primary-subtle">
-              <div className="card-body">
-                <h2 className="h5 mb-4">
-                  {selectedQuarter > 0
-                    ? t("overview.chartTitleQuarter", {
-                        year: selectedYear,
-                        quarter: selectedQuarter,
-                      })
-                    : t("overview.chartTitle", { year: selectedYear })}
-                </h2>
-                <div style={{ height: CHART_HEIGHT }}>
-                  <canvas ref={chartRef}></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <OverviewChart
+          chartData={chartData}
+          selectedYear={selectedYear}
+          selectedQuarter={selectedQuarter}
+        />
       )}
       <TopLists
         selectedYear={selectedYear}
