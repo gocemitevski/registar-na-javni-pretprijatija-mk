@@ -25,8 +25,8 @@ const FIN_RES_KEY = "Финансиски резултат";
 
 function Company() {
   const { t, i18n } = useTranslation();
-  const { lang, company: currentCompanyParam } = useParams();
-  const currentLang = lang || i18n.language || "mk";
+  const { company: currentCompanyParam } = useParams();
+  const currentLang = i18n.language || "mk";
   const navigate = useNavigate();
   const location = useLocation();
   const {
