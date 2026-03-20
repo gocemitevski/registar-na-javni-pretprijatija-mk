@@ -37,13 +37,24 @@ function Registry() {
   const selectedYear = useMemo(() => {
     const latestYear = availableYears[0];
     if (!latestYear) return "";
-    return !yearParam || parseInt(yearParam) === 0 ? latestYear : yearParam;
+    return !yearParam || parseInt(yearParam) === 0 || !availableYears.includes(yearParam)
+      ? latestYear
+      : yearParam;
   }, [yearParam, availableYears]);
+
+  const money = useMemo(() => {
+    return allMoney[selectedYear] || [];
+  }, [selectedYear, allMoney]);
+
+  const availableQuarters = useMemo(() => {
+    return [...new Set(money.map((item) => item.Квартал))].filter((q) => q !== 0).sort((a, b) => a - b);
+  }, [money]);
 
   const selectedQuarter = useMemo(() => {
     const q = quarterParam ? parseInt(quarterParam) : 0;
-    return isNaN(q) ? 0 : q;
-  }, [quarterParam]);
+    if (isNaN(q)) return 0;
+    return availableQuarters.includes(q) ? q : 0;
+  }, [quarterParam, availableQuarters]);
 
   const selectedSorting = useMemo(() => {
     if (!sortingParam) return DEFAULT_SORTING;
@@ -57,18 +68,15 @@ function Registry() {
     return DEFAULT_ORDER;
   }, [orderParam]);
 
-  const money = useMemo(() => {
-    return allMoney[selectedYear] || [];
-  }, [selectedYear, allMoney]);
-
   const direction = selectedOrder === ASCENDING_ORDER ? 1 : -1;
 
   useEffect(() => {
+    if (!availableYears.length) return;
     if (isNavigating.current) {
       isNavigating.current = false;
       return;
     }
-    if (!availableYears.length) return;
+
     const params = new URLSearchParams();
     params.set("year", selectedYear);
     if (selectedQuarter !== 0) params.set("quarter", selectedQuarter.toString());

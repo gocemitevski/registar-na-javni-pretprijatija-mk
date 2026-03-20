@@ -40,10 +40,19 @@ function Overview() {
     return availableYears.includes(yearParam) ? yearParam : latestYear;
   }, [yearParam, availableYears]);
 
+  const money = useMemo(() => {
+    return allMoney[selectedYear] || [];
+  }, [selectedYear, allMoney]);
+
+  const availableQuarters = useMemo(() => {
+    return [...new Set(money.map((item) => item.Квартал))].filter((q) => q !== 0).sort((a, b) => a - b);
+  }, [money]);
+
   const selectedQuarter = useMemo(() => {
     const q = quarterParam ? parseInt(quarterParam) : 0;
-    return isNaN(q) ? 0 : q;
-  }, [quarterParam]);
+    if (isNaN(q)) return 0;
+    return availableQuarters.includes(q) ? q : 0;
+  }, [quarterParam, availableQuarters]);
 
   const selectedSorting = useMemo(() => {
     return sortingParam || DEFAULT_SORTING;
@@ -52,10 +61,6 @@ function Overview() {
   const selectedOrder = useMemo(() => {
     return orderParam || DEFAULT_ORDER;
   }, [orderParam]);
-
-  const money = useMemo(() => {
-    return allMoney[selectedYear] || [];
-  }, [selectedYear, allMoney]);
 
   useEffect(() => {
     if (isNavigating.current) {
