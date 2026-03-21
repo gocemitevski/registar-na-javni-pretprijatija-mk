@@ -24,7 +24,7 @@ const odsDateStr = getOdsDate()
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "./",
+  base: import.meta.VITE_APP_CANONICAL_URL,
   plugins: [
     react({
       babel: {

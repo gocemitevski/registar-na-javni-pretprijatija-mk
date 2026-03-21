@@ -56,7 +56,7 @@ if (Cookies.get(import.meta.env.VITE_APP_GA_ID) === "true") {
 
 createRoot(root).render(
   <StrictMode>
-    <BrowserRouter basename={import.meta.env.VITE_APP_CANONICAL_URL}>
+    <BrowserRouter>
       <I18nextProvider i18n={i18n}>
         <AppContent />
       </I18nextProvider>
