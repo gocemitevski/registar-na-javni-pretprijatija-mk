@@ -172,7 +172,7 @@ export default function FilteredChart({
   if (!chartData) return null;
 
   return (
-    <div className="card border-primary-subtle mt-4 mb-3">
+    <div className="card border-primary-subtle my-3 d-none d-md-flex">
       <div className="card-body">
         <div className="row">
           <div className="col-lg-10 col-xxl-8">
