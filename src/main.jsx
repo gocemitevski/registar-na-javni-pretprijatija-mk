@@ -3,9 +3,11 @@ import { createRoot } from "react-dom/client";
 import ReactGA from "react-ga4";
 import { Cookies } from "react-cookie-consent";
 import "./assets/scss/style.scss";
-import { Route, Routes, Navigate, HashRouter, useLocation } from "react-router-dom";
+import { Route, Routes, Navigate, HashRouter, useLocation, useParams } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n/index.js";
+
+document.documentElement.lang = i18n.language;
 
 import usePageTitle from "./hooks/usePageTitle";
 import Header from "./components/Header.jsx";
@@ -23,8 +25,24 @@ const FilteredCompanies = lazy(() => import("./components/FilteredCompanies.jsx"
 // eslint-disable-next-line react-refresh/only-export-components
 function AppContent() {
   const location = useLocation();
+  const { lang } = useParams();
 
   usePageTitle();
+
+  useEffect(() => {
+    if (lang && lang !== i18n.language) {
+      i18n.changeLanguage(lang);
+    }
+  }, [lang]);
+
+  useEffect(() => {
+    document.documentElement.lang = i18n.language;
+    const updateLang = () => {
+      document.documentElement.lang = i18n.language;
+    };
+    i18n.on("languageChanged", updateLang);
+    return () => i18n.off("languageChanged", updateLang);
+  }, []);
 
   useEffect(() => {
     ReactGA.send({ hitType: "pageview", page: location.pathname + location.hash });
