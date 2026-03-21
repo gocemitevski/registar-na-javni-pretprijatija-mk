@@ -24,7 +24,6 @@ jobs:
         run: npm run lint
 
       - name: Build
-        run: node scripts/generate-sitemap.js && npm run build
         env:
           NODE_ENV: production
           VITE_APP_META_TITLE: ${{ vars.VITE_APP_META_TITLE }}
@@ -35,6 +34,7 @@ jobs:
           VITE_APP_GA_ID: ${{ vars.VITE_APP_GA_ID }}
           VITE_APP_TWITTER: ${{ vars.VITE_APP_TWITTER }}
           VITE_APP_CANONICAL_URL: ${{ vars.VITE_APP_CANONICAL_URL }}
+        run: node scripts/generate-sitemap.js && npm run build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
