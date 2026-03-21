@@ -10,7 +10,7 @@ const __dirname = dirname(__filename);
 const projectRoot = join(__dirname, "..");
 
 // eslint-disable-next-line no-undef
-const BASE_URL = process.env.VITE_SITE_URL || "https://gocemitevski.github.io/registar-na-javni-pretprijatija-mk/#/";
+const BASE_URL = process.env.VITE_SITE_URL || "https://gocemitevski.github.io/registar-na-javni-pretprijatija-mk/#";
 
 const odsPath = join(projectRoot, "public/ods/registar-javni-pretprijatija-r-s-makedonija.ods");
 
