@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import ReactGA from "react-ga4";
 import { Cookies } from "react-cookie-consent";
 import "./assets/scss/style.scss";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, HashRouter } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n/index.js";
 
@@ -56,10 +56,10 @@ if (Cookies.get(import.meta.env.VITE_APP_GA_ID) === "true") {
 
 createRoot(root).render(
   <StrictMode>
-    <BrowserRouter basename="/registar-na-javni-pretprijatija-mk">
+    <HashRouter>
       <I18nextProvider i18n={i18n}>
         <AppContent />
       </I18nextProvider>
-    </BrowserRouter>
+    </HashRouter>
   </StrictMode>
 );
