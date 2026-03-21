@@ -24,7 +24,7 @@ const odsDateStr = getOdsDate()
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: import.meta.VITE_APP_CANONICAL_URL,
+  base: "/registar-na-javni-pretprijatija-mk",
   plugins: [
     react({
       babel: {
