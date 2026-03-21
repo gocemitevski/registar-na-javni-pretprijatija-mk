@@ -303,7 +303,7 @@ To customize the site URL, set the `VITE_SITE_URL` environment variable:
 VITE_SITE_URL=https://example.com npm run build
 ```
 
-Defaults to `https://pretprijatija.mk` if not set.
+Defaults to `https://gocemitevski.github.io/registar-na-javni-pretprijatija-mk` if not set.
 
 ### Adding a New Route
 
