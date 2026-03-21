@@ -395,7 +395,7 @@ function Company() {
               </tfoot>
             </table>
           </div>
-          <div className="row row-cols-2 g-3 my-3">
+          <div className="row row-cols-1 row-cols-md-2 g-3 my-3">
             <div className="col vstack">
               {previousCompanyIndex >= 0 && (
                 <div className="list-group flex-fill">
