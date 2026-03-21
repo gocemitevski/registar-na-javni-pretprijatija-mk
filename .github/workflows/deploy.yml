@@ -26,7 +26,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_SITE_URL: https://gocemitevski.github.io/registar-na-javni-pretprijatija-mk
+          VITE_SITE_URL: https://gocemitevski.github.io/registar-na-javni-pretprijatija-mk/
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
