@@ -2,8 +2,8 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
 const getInitialLanguage = () => {
-  const path = window.location.pathname;
-  const match = path.match(/^\/(mk|en)(\/|$)/);
+  const hash = window.location.hash;
+  const match = hash.match(/^#\/(mk|en)/);
   if (match) {
     return match[1];
   }
