@@ -13,7 +13,7 @@ export default function CardsTotals({
   const lang = i18n.language || "mk";
 
   return (
-    <div className="sticky-bottom py-4">
+    <div className="sticky-xxl-bottom py-4">
       <aside className="container bg-total totals bg-opacity-25 backdrop-blur border border-light shadow-lg py-5 rounded">
         <div className="row mx-2">
           <div className="col-lg-6 col-xl-8 vstack gap-2 justify-content-center">
