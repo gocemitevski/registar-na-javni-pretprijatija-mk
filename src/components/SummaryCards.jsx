@@ -141,7 +141,7 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
   ];
 
   return (
-    <div className="bg-primary-subtle bg-shade-img pt-3 pt-lg-5">
+    <div className="bg-primary-subtle bg-shade-img pt-4 pt-lg-5">
       <div className="container">
         <h1 className="fw-light m-3 text-secondary">
           {quarter > 0
