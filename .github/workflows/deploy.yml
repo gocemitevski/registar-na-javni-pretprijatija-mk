@@ -1,17 +1,12 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Deploy to GitHub Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
   pull_request:
     branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
@@ -19,14 +14,10 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -38,7 +29,9 @@ jobs:
           cache: "npm"
       - name: Install dependencies
         run: npm ci
-      - name: Build assets
+      - name: Lint
+        run: npm run lint
+      - name: Build
         env:
           NODE_ENV: production
           VITE_APP_META_TITLE: ${{ vars.VITE_APP_META_TITLE }}
@@ -49,14 +42,23 @@ jobs:
           VITE_APP_GA_ID: ${{ vars.VITE_APP_GA_ID }}
           VITE_APP_TWITTER: ${{ vars.VITE_APP_TWITTER }}
           VITE_APP_CANONICAL_URL: ${{ vars.VITE_APP_CANONICAL_URL }}
+          VITE_SITE_URL: ${{ vars.VITE_SITE_URL }}
         run: npm run build
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
           path: "dist"
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
