@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 export default function About() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language || "mk";
-  const photo = `/registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
+  const photo = `registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
 
   return (
     <main className="container py-5">
