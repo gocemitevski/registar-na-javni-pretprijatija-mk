@@ -38,14 +38,14 @@ jobs:
       - name: Build
         env:
           NODE_ENV: production
-          VITE_APP_META_TITLE: ${{ vars.VITE_APP_META_TITLE }}
-          VITE_APP_META_DESCRIPTION: ${{ vars.VITE_APP_META_DESCRIPTION }}
-          VITE_APP_OG_IMAGE: ${{ vars.VITE_APP_OG_IMAGE }}
+          VITE_APP_META_TITLE: ${{ env.VITE_APP_META_TITLE }}
+          VITE_APP_META_DESCRIPTION: ${{ env.VITE_APP_META_DESCRIPTION }}
+          VITE_APP_OG_IMAGE: ${{ env.VITE_APP_OG_IMAGE }}
           VITE_APP_GSV: ${{ secrets.VITE_APP_GSV }}
           VITE_APP_GA: ${{ secrets.VITE_APP_GA }}
-          VITE_APP_GA_ID: ${{ vars.VITE_APP_GA_ID }}
-          VITE_APP_TWITTER: ${{ vars.VITE_APP_TWITTER }}
-          VITE_APP_CANONICAL_URL: ${{ vars.VITE_APP_CANONICAL_URL }}
+          VITE_APP_GA_ID: ${{ env.VITE_APP_GA_ID }}
+          VITE_APP_TWITTER: ${{ env.VITE_APP_TWITTER }}
+          VITE_APP_CANONICAL_URL: ${{ env.VITE_APP_CANONICAL_URL }}
         run: node scripts/generate-sitemap.js && npm run build
 
       - name: Upload build artifacts
