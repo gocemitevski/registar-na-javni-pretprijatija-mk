@@ -38,7 +38,7 @@ export default function Header() {
         <header className="container">
           <div className="row">
             <div className="col-xl-9 col-xxl-8">
-              <h1 className="h3 pt-xxl-4">
+              <h1 className="h3 pt-xxl-3 mb-3 mb-md-2">
                 <Link
                   className="link-light link-underline link-underline-opacity-50 gap-0 gap-sm-3 link-offset-1"
                   to={homePath}
@@ -46,7 +46,7 @@ export default function Header() {
                   {t("app.title")}
                 </Link>
               </h1>
-              <p className="lead">
+              <p className="d-none d-md-block lead">
                 {t("app.description")}{" "}
                 <a
                   className="link-light"
