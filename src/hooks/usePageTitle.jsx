@@ -54,7 +54,7 @@ export function computeTitle(location, t) {
 
 export function updateDocumentMeta(location, t, company = null, lang = "mk") {
   const meta = computeMeta(location, t);
-  const imageUrl = `${window.location.origin}/img/registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
+  const imageUrl = `${window.location.origin}${window.location.pathname}registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
 
   if (company && location.pathname.includes("/company/")) {
     const companyName = getLocalizedCompanyName(company, lang);
@@ -91,7 +91,8 @@ export default function usePageTitle() {
 
     const meta = computeMeta(location, t);
     const lang = i18n.language || "mk";
-    const imageUrl = `${window.location.origin}/img/registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
+    console.log(window.location.origin);
+    const imageUrl = `${window.location.origin}${window.location.pathname}registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
 
     document.title = meta.title;
 
