@@ -71,4 +71,4 @@ npm run lint
 
 ## Лиценца
 
-Авторските права на Гоце Митевски се дефинирани преку лиценцата [CC BY-NC-SA 4.0](https://github.com/gocemitevski/registar-na-javni-pretprijatija-mk?tab=License-1-ov-file).
+Авторските права се дефинирани преку лиценцата [CC BY-NC-SA 4.0](https://github.com/gocemitevski/registar-na-javni-pretprijatija-mk?tab=License-1-ov-file).
