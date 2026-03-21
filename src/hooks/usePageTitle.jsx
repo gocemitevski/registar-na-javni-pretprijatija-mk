@@ -91,7 +91,6 @@ export default function usePageTitle() {
 
     const meta = computeMeta(location, t);
     const lang = i18n.language || "mk";
-    console.log(window.location.origin);
     const imageUrl = `${window.location.origin}${window.location.pathname}registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
 
     document.title = meta.title;
