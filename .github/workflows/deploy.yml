@@ -26,6 +26,7 @@ jobs:
       - name: Build
         run: node scripts/generate-sitemap.js && npm run build
         env:
+          NODE_ENV: production
           VITE_APP_META_TITLE: ${{ vars.VITE_APP_META_TITLE }}
           VITE_APP_META_DESCRIPTION: ${{ vars.VITE_APP_META_DESCRIPTION }}
           VITE_APP_OG_IMAGE: ${{ vars.VITE_APP_OG_IMAGE }}
