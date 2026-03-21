@@ -19,7 +19,7 @@
     "react-cookie-consent": "^10.0.1",
     "react-dom": "^19.2.0",
     "react-ga4": "^2.1.0",
-    "react-i18next": "^15.7.4",
+    "react-i18next": "^16.6.0",
     "react-router-dom": "^7.12.0",
     "sass": "^1.93.3",
     "xlsx": "^0.18.5"
@@ -30,9 +30,9 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
     "babel-plugin-react-compiler": "^1.0.0",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "^0.4.24",
+    "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.0.0",
     "vite": "^7.3.1"
   }
