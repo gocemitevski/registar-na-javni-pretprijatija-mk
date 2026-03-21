@@ -52,12 +52,12 @@ function TopLists({
   );
 
   return (
-    <div className="bg-primary-subtle py-5">
+    <div className="bg-primary-subtle py-4 py-lg-5">
       <div className="container">
         <h1 className="fw-light m-3 text-secondary">
           {t("toplists.title")} {selectedQuarter > 0 ? t("toplists.titleQuarter", { year: selectedYear, quarter: selectedQuarter }) : t("toplists.titleYear", { year: selectedYear })}
         </h1>
-        <div className="row row-cols-1 row-cols-xl-2 g-4 py-4">
+        <div className="row row-cols-1 row-cols-xl-2 g-4 py-2 py-lg-4">
           {renderList(t("toplists.highestIncome"), topIncome, "box-arrow-in-up-right")}
           {renderList(t("toplists.lowestIncome"), worstIncome, "box-arrow-in-down-right")}
           {renderList(t("toplists.highestExpenses"), topExpenses, "box-arrow-up-right")}
