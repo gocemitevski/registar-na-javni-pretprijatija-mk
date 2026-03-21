@@ -26,7 +26,6 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_SITE_URL: https://gocemitevski.github.io/registar-na-javni-pretprijatija-mk
           VITE_APP_META_TITLE: ${{ vars.VITE_APP_META_TITLE }}
           VITE_APP_META_DESCRIPTION: ${{ vars.VITE_APP_META_DESCRIPTION }}
           VITE_APP_OG_IMAGE: ${{ vars.VITE_APP_OG_IMAGE }}
