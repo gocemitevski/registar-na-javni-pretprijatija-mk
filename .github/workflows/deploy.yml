@@ -37,7 +37,7 @@ jobs:
           node-version: 20.x
           cache: "npm"
       - name: Install dependencies
-        run: npm install
+        run: npm ci
       - name: Build assets
         env:
           NODE_ENV: production
