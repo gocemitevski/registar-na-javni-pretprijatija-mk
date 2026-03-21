@@ -18,11 +18,10 @@ import Loading from "./components/Loading.jsx";
 import CookieConsentWrapper from "./components/CookieConsentWrapper.jsx";
 import About from "./components/About.jsx";
 
-const Registry = lazy(() => import("./components/Registry.jsx"));
-const Overview = lazy(() => import("./components/Overview.jsx"));
-const FilteredCompanies = lazy(() => import("./components/FilteredCompanies.jsx"));
+export const Registry = lazy(() => import("./components/Registry.jsx"));
+export const Overview = lazy(() => import("./components/Overview.jsx"));
+export const FilteredCompanies = lazy(() => import("./components/FilteredCompanies.jsx"));
 
-// eslint-disable-next-line react-refresh/only-export-components
 function AppContent() {
   const location = useLocation();
   const { lang } = useParams();
