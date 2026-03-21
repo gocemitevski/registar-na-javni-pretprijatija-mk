@@ -1,9 +1,9 @@
-import { StrictMode, Suspense, lazy } from "react";
+import { StrictMode, Suspense, lazy, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import ReactGA from "react-ga4";
 import { Cookies } from "react-cookie-consent";
 import "./assets/scss/style.scss";
-import { Route, Routes, Navigate, HashRouter } from "react-router-dom";
+import { Route, Routes, Navigate, HashRouter, useLocation } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n/index.js";
 
@@ -22,7 +22,13 @@ const FilteredCompanies = lazy(() => import("./components/FilteredCompanies.jsx"
 
 // eslint-disable-next-line react-refresh/only-export-components
 function AppContent() {
+  const location = useLocation();
+
   usePageTitle();
+
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: location.pathname + location.hash });
+  }, [location]);
 
   return (
     <>
