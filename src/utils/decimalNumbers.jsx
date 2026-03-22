@@ -1,4 +1,7 @@
-export function parseDecimalNumber(number, lang) {
+import { CURRENCIES } from "./currencies";
+import { DEFAULT_CURRENCY } from "./url";
+
+export function parseDecimalNumber(number, lang, currency = DEFAULT_CURRENCY) {
   if (number == null) return "—";
   let num;
   if (typeof number === "string") {
@@ -10,13 +13,22 @@ export function parseDecimalNumber(number, lang) {
   }
   if (isNaN(num)) return "—";
 
-  // Format with dot as thousand separator. This is a hack, since the format should be mk-MK,
-  // but Chrome shows commas instead of dots for the thousand separator. This is a temporary workaround.
+  const rate = CURRENCIES[currency]?.rate || 1;
+  const convertedValue = num * rate;
+
+  const currencyConfig = CURRENCIES[currency] || CURRENCIES.MKD;
+  const suffix =
+    currency === "MKD"
+      ? lang === "mk"
+        ? " ден."
+        : " MKD"
+      : ` ${currencyConfig.symbol}`;
+
   return (
     new Intl.NumberFormat("de-DE", {
       style: "decimal",
       maximumFractionDigits: 0,
-    }).format(num * 1000000) + (lang === "mk" ? " ден." : " MKD")
+    }).format(convertedValue * 1000000) + suffix
   );
 }
 

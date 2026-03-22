@@ -3,14 +3,23 @@ import { order, sorting } from "./filterDefinitions";
 export const DEFAULT_SORTING = sorting[0];
 export const DEFAULT_ORDER = order[0];
 export const ASCENDING_ORDER = order[1];
+export const DEFAULT_CURRENCY = "MKD";
 
-export function buildQuery(year, quarter, sort, orderParam) {
-  const params = new URLSearchParams();
+export function buildQuery(year, quarter, sort, orderParam, currentSearch = "") {
+  const params = new URLSearchParams(currentSearch);
+  params.delete("year");
+  params.delete("quarter");
+  params.delete("sort");
+  params.delete("order");
   if (year) params.set("year", year);
   if (quarter && quarter !== 0) params.set("quarter", quarter.toString());
   if (sort && sort !== DEFAULT_SORTING) params.set("sort", sort);
   if (orderParam && orderParam !== DEFAULT_ORDER) params.set("order", orderParam);
-  return params.toString();
+  const sortedParams = new URLSearchParams();
+  Array.from(params.keys()).sort().forEach((key) => {
+    params.getAll(key).forEach((value) => sortedParams.append(key, value));
+  });
+  return sortedParams.toString();
 }
 
 export function parseYearParam(locationSearch, availableYears) {
@@ -45,6 +54,14 @@ export function parseOrderParam(locationSearch) {
   if (!orderParam) return DEFAULT_ORDER;
   if (order.includes(orderParam)) return orderParam;
   return DEFAULT_ORDER;
+}
+
+export function parseCurrencyParam(locationSearch) {
+  const params = new URLSearchParams(locationSearch);
+  const currencyParam = params.get("currency");
+  if (!currencyParam) return DEFAULT_CURRENCY;
+  if (["MKD", "EUR", "USD", "GBP"].includes(currencyParam)) return currencyParam;
+  return DEFAULT_CURRENCY;
 }
 
 export function sortByField(items, getValue, direction) {

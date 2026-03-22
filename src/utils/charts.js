@@ -1,3 +1,5 @@
+import { CURRENCIES } from "./currencies";
+
 export const INCOME_COLOR = { border: "#198754", bg: "rgba(25, 135, 84, 0.5)" };
 export const EXPENSES_COLOR = { border: "#dc3545", bg: "rgba(220, 53, 69, 0.5)" };
 export const FINRESULT_COLOR = { border: "#fd7e14", bg: "rgba(253,126,20, 0.5)" };
@@ -62,8 +64,16 @@ dashedBorderPlugin.defaults = {
   dashPattern: [5, 5],
 };
 
-export function createChartOptions(lang, showLegend = true) {
-  const currencySuffix = lang === "mk" ? " ден." : " MKD";
+function getCurrencySuffix(lang, currency) {
+  if (currency === "MKD") {
+    return lang === "mk" ? " ден." : " MKD";
+  }
+  return ` ${CURRENCIES[currency]?.symbol || ""}`;
+}
+
+export function createChartOptions(lang, showLegend = true, currency = "MKD") {
+  const currencySuffix = getCurrencySuffix(lang, currency);
+
   const formatValue = (value) =>
     new Intl.NumberFormat("de-DE", {
       style: "decimal",
@@ -98,8 +108,9 @@ export function createChartOptions(lang, showLegend = true) {
   };
 }
 
-export function createHorizontalChartOptions(lang, labels, showLegend = false, labelWidth = 360) {
-  const currencySuffix = lang === "mk" ? " ден." : " MKD";
+export function createHorizontalChartOptions(lang, labels, showLegend = false, labelWidth = 360, currency = "MKD") {
+  const currencySuffix = getCurrencySuffix(lang, currency);
+
   const formatValue = (value) =>
     new Intl.NumberFormat("de-DE", {
       style: "decimal",

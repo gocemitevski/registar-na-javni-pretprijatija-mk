@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
+import { DEFAULT_CURRENCY } from "../utils/url";
 
 export function useUrlParams(availableYears = [], availableQuarters = []) {
   const location = useLocation();
@@ -11,6 +12,7 @@ export function useUrlParams(availableYears = [], availableQuarters = []) {
       quarterParam: searchParams.get("quarter"),
       sortParam: searchParams.get("sort"),
       orderParam: searchParams.get("order"),
+      currencyParam: searchParams.get("currency"),
     };
   }, [location.search]);
 
@@ -28,9 +30,16 @@ export function useUrlParams(availableYears = [], availableQuarters = []) {
     return q;
   }, [params.quarterParam, availableQuarters]);
 
+  const selectedCurrency = useMemo(() => {
+    if (!params.currencyParam) return DEFAULT_CURRENCY;
+    if (["MKD", "EUR", "USD", "GBP"].includes(params.currencyParam)) return params.currencyParam;
+    return DEFAULT_CURRENCY;
+  }, [params.currencyParam]);
+
   return {
     ...params,
     selectedYear,
     selectedQuarter,
+    selectedCurrency,
   };
 }
