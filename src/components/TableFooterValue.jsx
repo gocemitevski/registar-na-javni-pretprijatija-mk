@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { parseDecimalNumber } from "../utils/decimalNumbers";
+import { formatDecimalNumber, parseDecimalNumber } from "../utils/decimalNumbers";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
 
 export default function TableFooterValue({ title, total, numbers, quarter }) {
@@ -13,23 +13,23 @@ export default function TableFooterValue({ title, total, numbers, quarter }) {
       ? numbers.find((item) => item[MONEY_SHEET_COLUMNS.QUARTER] === quarterNum)
       : null;
 
-  const value = useMemo(() => {
+  const valueData = useMemo(() => {
     if (quarterNum === 0) {
-      return parseDecimalNumber(total, lang);
+      return { formatted: parseDecimalNumber(total, lang), raw: total };
     }
     if (quarterData) {
-      return parseDecimalNumber(quarterData[title], lang);
+      return { formatted: parseDecimalNumber(quarterData[title], lang), raw: quarterData[title] };
     }
-    return parseDecimalNumber(total, lang);
+    return { formatted: parseDecimalNumber(total, lang), raw: total };
   }, [quarterNum, quarterData, total, title, lang]);
 
   const isFinancialResult = title === t("cards.financial-result");
-  const isNegative = isFinancialResult && value < 0;
+  const isNegative = isFinancialResult && formatDecimalNumber(valueData.raw) < 0;
 
   const valueClass =
     isFinancialResult
       ? `text-${isNegative ? "danger" : "success"}`
       : "";
 
-  return <span className={valueClass}>{value}</span>;
+  return <span className={valueClass}>{valueData.formatted}</span>;
 }
