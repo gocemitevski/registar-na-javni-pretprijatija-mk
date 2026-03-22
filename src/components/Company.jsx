@@ -401,7 +401,7 @@ function Company() {
               {previousCompanyIndex >= 0 && (
                 <div className="list-group flex-fill">
                   <button
-                    className="list-group-item list-group-item-action btn-link-arrow-prev p-4 flex-fill"
+                    className="list-group-item list-group-item-action btn-link-arrow-prev p-4 flex-fill shadow-sm"
                     onClick={() => goToCompany(previousCompanyIndex)}
                     title={t("company.prevCompany")}
                     type="button"
@@ -418,7 +418,7 @@ function Company() {
               {nextCompanyIndex >= 0 && (
                 <div className="list-group flex-fill text-end">
                   <button
-                    className="list-group-item list-group-item-action btn-link-arrow-next p-4 flex-fill"
+                    className="list-group-item list-group-item-action btn-link-arrow-next p-4 flex-fill shadow-sm"
                     onClick={() => goToCompany(nextCompanyIndex)}
                     title={t("company.nextCompany")}
                     type="button"
