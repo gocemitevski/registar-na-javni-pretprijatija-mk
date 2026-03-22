@@ -105,7 +105,7 @@ export default function Navbar({ showSortingFilters = false, showFilters = true 
   };
 
   return (
-    <nav className="navbar bg-primary py-3 sticky-top">
+    <nav className="navbar bg-primary py-3 sticky-top shadow-lg">
       <div className="container">
         <div className={`row align-items-center justify-content-between gy-3 gx-3 flex-fill nav-fill`}>
           <div className="col-xl-5 col-xxl-4">
