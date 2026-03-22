@@ -225,6 +225,35 @@ The project uses ESLint with these rules:
 2. Export function as named export
 3. Import where needed
 
+### URL Parameters and Currency
+
+URL parameters are handled consistently using the `useUrlParams` hook from `src/hooks/useUrlParams.js`:
+
+```js
+const { selectedYear, selectedQuarter, selectedCurrency } = useUrlParams(
+  availableYears,
+  quarters,
+);
+```
+
+The hook returns:
+
+- `selectedYear` - validated year from URL or default
+- `selectedQuarter` - validated quarter from URL or 0
+- `selectedCurrency` - validated currency (MKD, EUR, USD, GBP) or default MKD
+
+All components that need URL params should use this hook for consistency.
+
+#### Currency Feature
+
+The currency conversion feature allows displaying financial data in different currencies:
+
+- Exchange rates are stored in `src/utils/currencies.js`
+- Currency is passed via URL parameter: `?currency=EUR`
+- Default currency is MKD (not included in URL)
+- `parseCurrencyParam()` validates currency against allowed list
+- Chart values are converted before rendering, chart options format with correct suffix
+
 ### Adding Chart Constants
 
 Chart configuration constants should be placed in `src/utils/charts.js`:
@@ -233,8 +262,8 @@ Chart configuration constants should be placed in `src/utils/charts.js`:
 export const formatCurrency = (value) => ...;
 export const CHART_OPTIONS = { ... };
 export const INCOME_COLOR = { ... };
-export const createChartOptions = (lang, showLegend) => { ... };
-export const createHorizontalChartOptions = (lang, labels, showLegend, labelWidth) => { ... };
+export const createChartOptions = (lang, showLegend, currency) => { ... };
+export const createHorizontalChartOptions = (lang, labels, showLegend, labelWidth, currency) => { ... };
 ```
 
 The charts utility provides:
@@ -259,7 +288,7 @@ import FilteredChart from "./FilteredChart";
   selectedYear="2025"
   selectedQuarter={0}
   filter="positive-result"
-/>;
+/>
 ```
 
 The component accepts:
@@ -329,7 +358,9 @@ When displaying counts with singular/plural forms, use proper Macedonian grammar
 
 ```jsx
 // правилно: 1 претпријатие, 11 претпријатија
-{count} {count % 10 === 1 && count !== 11 ? "претпријатие" : "претпријатија"}
+{
+  count % 10 === 1 && count !== 11 ? "претпријатие" : "претпријатија";
+}
 ```
 
 ### Performance Tips

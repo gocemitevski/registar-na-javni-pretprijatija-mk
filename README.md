@@ -51,14 +51,15 @@ npm run lint
 
 Апликацијата користи параметри на „URL“ за чување на состојбата:
 
-- `:lang` - јазик (MK, EN)
+- `:lang` - јазик (mk, en)
 - `:year` - избрана година
 - `:quarter` - избран квартал (0 = Сите квартали)
 - `:sort` - подредување (id, income, expenses, financial-result)
 - `:order` - редослед (asc, desc)
 - `:filter` - филтер за филтрирани страни (positive-result, negative-result, income, no-income, earned-more, spent-more)
+- `:currency` - валута (MKD, EUR, USD, GBP)
 
-Пример: `/mk/filtered/positive-result?year=2025&quarter=1`
+Пример: `/mk/filtered/positive-result?year=2025&quarter=1&currency=EUR`
 
 ## Патеки
 
