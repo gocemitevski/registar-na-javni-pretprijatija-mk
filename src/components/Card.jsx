@@ -7,6 +7,7 @@ import { cleanName } from "../utils/cleanName";
 import { transliterate } from "../utils/transliterate";
 import { getLocalizedCompanyName, getLocalizedCompanyDescription } from "../utils/localizeCompanyName";
 import { COMPANY_SHEET_COLUMNS, MONEY_SHEET_COLUMNS } from "../utils/columns";
+import { isValidHttpUrl } from "../utils/isValidUrl";
 
 export default function Card({ row, numbers, activeSort }) {
   const { t, i18n } = useTranslation();
@@ -33,6 +34,9 @@ export default function Card({ row, numbers, activeSort }) {
     [numbers]
   );
 
+  const websiteUrl = row[COMPANY_SHEET_COLUMNS.WEBSITE];
+  const hasValidWebsite = websiteUrl && isValidHttpUrl(websiteUrl);
+
   return (
     <article className="card h-100 shadow-sm">
       <div className="card-body">
@@ -44,14 +48,17 @@ export default function Card({ row, numbers, activeSort }) {
               </Link>
             </h1>
             <p className="card-text flex-fill">{getLocalizedCompanyDescription(row, currentLang)}</p>
-            <a
-              title={`Мрежно место на ${row[COMPANY_SHEET_COLUMNS.NAME]}`}
-              target="_blank"
-              className="btn btn-sm btn-outline-secondary me-auto"
-              href={row[COMPANY_SHEET_COLUMNS.WEBSITE]}
-            >
-              <i className="bi bi-box-arrow-up-right"></i>
-            </a>
+            {hasValidWebsite && (
+              <a
+                title={`Мрежно место на ${row[COMPANY_SHEET_COLUMNS.NAME]}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-sm btn-outline-secondary me-auto"
+                href={websiteUrl}
+              >
+                <i className="bi bi-box-arrow-up-right"></i>
+              </a>
+            )}
           </div>
           <div className="col-lg-6 col-xl-4 align-self-center vstack gap-1">
             <DefinitionList
