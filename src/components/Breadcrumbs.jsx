@@ -74,7 +74,7 @@ function Breadcrumbs() {
   }
 
   return (
-    <div className="bg-body-tertiary sticky-top">
+    <div className="bg-body-tertiary sticky-top shadow-lg">
       <div className="container py-2">
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb mb-0">
