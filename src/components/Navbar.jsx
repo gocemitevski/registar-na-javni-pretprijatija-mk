@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { useData } from "../hooks/useData";
 import { order, sorting } from "../utils/filterDefinitions";
 
-export default function Navbar({ showSortingFilters = false }) {
+export default function Navbar({ showSortingFilters = false, showFilters = true }) {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language || "mk";
 
@@ -159,84 +159,86 @@ export default function Navbar({ showSortingFilters = false }) {
               </li>
             </ul>
           </div>
-          <div className="col-xl-6 hstack flex-wrap flex-lg-nowrap gap-2">
-            <div className="form-floating flex-fill">
-              <select
-                value={selectedYear}
-                className="form-select"
-                id="years"
-                onChange={handleYearChange}
-              >
-                {availableYears.map((year, key) => (
-                  <option key={key} value={year}>
-                    {year}
-                  </option>
-                ))}
-              </select>
-              <label htmlFor="years">{t("nav.year")}</label>
-            </div>
-            <div className="form-floating flex-fill">
-              <select
-                value={selectedQuarter}
-                className="form-select"
-                id="quarters"
-                onChange={handleQuarterChange}
-              >
-                {quarters.map((quarter, key) => (
-                  <option key={key} value={quarter}>
-                    {quarter === 0 ? t("nav.all") : quarter}
-                  </option>
-                ))}
-              </select>
-              <label htmlFor="quarters">{t("nav.quarter")}</label>
-            </div>
-            {showSortingFilters && (
-              <>
-                 <div className="form-floating flex-fill">
-                   <select
-                     value={selectedSorting}
-                     className="form-select"
-                     id="sorting"
-                     onChange={handleSortingChange}
-                   >
-                   {sorting.map((sort, key) => (
-                       <option key={key} value={sort}>
-                         {t(`sort.${sort}`)}
-                       </option>
-                     ))}
-                   </select>
-                   <label htmlFor="sorting">{t("nav.sorting")}</label>
-                 </div>
-                 {selectedSorting !== DEFAULT_SORTING && (
+          {showFilters && (
+            <div className="col-xl-6 hstack flex-wrap flex-lg-nowrap gap-2">
+              <div className="form-floating flex-fill">
+                <select
+                  value={selectedYear}
+                  className="form-select"
+                  id="years"
+                  onChange={handleYearChange}
+                >
+                  {availableYears.map((year, key) => (
+                    <option key={key} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+                <label htmlFor="years">{t("nav.year")}</label>
+              </div>
+              <div className="form-floating flex-fill">
+                <select
+                  value={selectedQuarter}
+                  className="form-select"
+                  id="quarters"
+                  onChange={handleQuarterChange}
+                >
+                  {quarters.map((quarter, key) => (
+                    <option key={key} value={quarter}>
+                      {quarter === 0 ? t("nav.all") : quarter}
+                    </option>
+                    ))}
+                </select>
+                <label htmlFor="quarters">{t("nav.quarter")}</label>
+              </div>
+              {showSortingFilters && (
+                <>
                    <div className="form-floating flex-fill">
                      <select
-                       value={selectedOrder}
+                       value={selectedSorting}
                        className="form-select"
-                       id="order"
-                       onChange={handleOrderChange}
+                       id="sorting"
+                       onChange={handleSortingChange}
                      >
-                       {order.map((order, key) => (
-                           <option key={key} value={order}>
-                             {t(`order.${order}`)}
-                           </option>
-                         ))}
+                     {sorting.map((sort, key) => (
+                         <option key={key} value={sort}>
+                           {t(`sort.${sort}`)}
+                         </option>
+                       ))}
                      </select>
-                     <label htmlFor="order">{t("nav.order")}</label>
+                     <label htmlFor="sorting">{t("nav.sorting")}</label>
                    </div>
-                 )}
-              </>
-            )}
-            {!isDefault && (
-              <button
-                type="button"
-                className={`btn btn-outline-light p-3`}
-                onClick={handleReset}
-                title={t("nav.reset")}
-              >
-                <i className="bi bi-arrow-counterclockwise"></i>
-              </button>
-            )}
-          </div>
+                   {selectedSorting !== DEFAULT_SORTING && (
+                     <div className="form-floating flex-fill">
+                       <select
+                         value={selectedOrder}
+                         className="form-select"
+                         id="order"
+                         onChange={handleOrderChange}
+                       >
+                         {order.map((order, key) => (
+                             <option key={key} value={order}>
+                               {t(`order.${order}`)}
+                             </option>
+                           ))}
+                       </select>
+                       <label htmlFor="order">{t("nav.order")}</label>
+                     </div>
+                   )}
+               </>
+              )}
+              {!isDefault && (
+                <button
+                  type="button"
+                  className={`btn btn-outline-light p-3`}
+                  onClick={handleReset}
+                  title={t("nav.reset")}
+                >
+                  <i className="bi bi-arrow-counterclockwise"></i>
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </nav>

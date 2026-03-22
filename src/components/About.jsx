@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import Navbar from "./Navbar";
 
 export default function About() {
   const { t, i18n } = useTranslation();
@@ -6,18 +7,20 @@ export default function About() {
   const photo = `registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
 
   return (
-    <main className="container pt-4 py-lg-5">
+    <>
+      <Navbar showFilters={false} />
+      <main className="container pt-4 py-lg-5">
       <div className="row">
-        <div className="col-lg-7">
-          <h1 className="mb-3">{t("nav.about")}</h1>
+        <div className="col-xl-7">
+          <h1 className="mb-3 text-primary-emphasis">{t("nav.about")}</h1>
           <p className="lead">
             {t("about.intro")} <strong>{t("about.introStrong")}</strong>
           </p>
-          <h2 className="h4 mt-4 mb-3">{t("about.goalTitle")}</h2>
+          <h2 className="h4 mt-4 mb-3 text-primary-emphasis">{t("about.goalTitle")}</h2>
           <p>{t("about.goal")}</p>
           <p>{t("about.filters")}</p>
           <p>{t("about.visualization")}</p>
-          <h2 className="h4 mt-4 mb-3">{t("about.dataSourceTitle")}</h2>
+          <h2 className="h4 mt-4 mb-3 text-primary-emphasis">{t("about.dataSourceTitle")}</h2>
           <p>
             <a
               rel="noopener noreferrer"
@@ -35,7 +38,7 @@ export default function About() {
             </a>{" "}
             {t("about.dataSourceLinkDesc")}
           </p>
-          <h2 className="h4 mt-4 mb-3">
+          <h2 className="h4 mt-4 mb-3 text-primary-emphasis">
             {t("about.additionalMaterialsTitle")}
           </h2>
           <ul>
@@ -49,7 +52,7 @@ export default function About() {
               </a>
             </li>
           </ul>
-          <h2 className="h4 mt-4 mb-3">{t("about.sourceCodeTitle")}</h2>
+          <h2 className="h4 mt-4 mb-3 text-primary-emphasis">{t("about.sourceCodeTitle")}</h2>
           <p>
             <a
               rel="noopener noreferrer"
@@ -60,7 +63,7 @@ export default function About() {
             </a>{" "}
             {t("about.sourceCodeDesc")}
           </p>
-          <h2 className="h4 mt-4 mb-3">{t("about.licenseTitle")}</h2>
+          <h2 className="h4 mt-4 mb-3 text-primary-emphasis">{t("about.licenseTitle")}</h2>
           <p>
             {t("about.licenseDesc")}{" "}
             <a
@@ -72,7 +75,7 @@ export default function About() {
             </a>
             .
           </p>
-          <h2 className="h4 mt-4 mb-3">{t("about.ai")}</h2>
+          <h2 className="h4 mt-4 mb-3 text-primary-emphasis">{t("about.ai")}</h2>
           <p>
             {t("about.aiDesc")}{" "}
             <a
@@ -84,9 +87,9 @@ export default function About() {
             </a>
             .
           </p>
-          <h2 className="h4 mt-4 mb-3">{t("about.updatesTitle")}</h2>
+          <h2 className="h4 mt-4 mb-3 text-primary-emphasis">{t("about.updatesTitle")}</h2>
           <p>{t("about.updates")}</p>
-          <h2 className="h4 mt-4 mb-3">{t("about.responsibilityTitle")}</h2>
+          <h2 className="h4 mt-4 mb-3 text-primary-emphasis">{t("about.responsibilityTitle")}</h2>
           <p>
             {t("about.responsibility")}{" "}
             <strong className="fw-bold">
@@ -103,7 +106,7 @@ export default function About() {
             {t("about.responsibilityLinkDesc")}
           </p>
         </div>
-        <div className="col-lg-5">
+        <div className="col-xl-5">
           <figure>
             <a href={photo}>
               <img
@@ -119,5 +122,6 @@ export default function About() {
         </div>
       </div>
     </main>
+    </>
   );
 }

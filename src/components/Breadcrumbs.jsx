@@ -14,7 +14,6 @@ function Breadcrumbs() {
 
   const isCompanyPage = location.pathname.includes("/company/");
   const isFilteredPage = location.pathname.includes("/filtered/");
-  const isAboutPage = location.pathname.includes("/about");
 
   const pathParts = location.pathname.split("/").filter(Boolean);
 
@@ -29,7 +28,7 @@ function Breadcrumbs() {
     ? decodeURIComponent(location.pathname.split("/company/")[1])
     : null;
 
-  if (!isCompanyPage && !isFilteredPageWithFilter && !isAboutPage) {
+  if (!isCompanyPage && !isFilteredPageWithFilter) {
     return null;
   }
 
@@ -50,9 +49,7 @@ function Breadcrumbs() {
     { label: t("breadcrumbs.home"), href: `/${currentLang}` },
   ];
 
-  if (isAboutPage) {
-    breadcrumbs.push({ label: t("nav.about"), href: null });
-  } else if (isFilteredPageWithFilter) {
+  if (isFilteredPageWithFilter) {
     const currentYear = yearParam || "2024";
     const currentQuarter = quarterParam ? parseInt(quarterParam) : null;
     const sectionTitle = currentQuarter
