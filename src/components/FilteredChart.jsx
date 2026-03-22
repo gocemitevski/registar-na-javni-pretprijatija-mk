@@ -27,7 +27,7 @@ export default function FilteredChart({
   const currentLang = lang || "mk";
   const chartRef = useRef(null);
 
-  const getChartTitle = () => {
+  const chartTitle = useMemo(() => {
     const count = tableData?.length || 0;
     const isSingular = count % 10 === 1 && count !== 11;
     const singularKey = isSingular ? `${filter}_singular` : filter;
@@ -60,7 +60,7 @@ export default function FilteredChart({
         </span>
       </div>
     );
-  };
+  }, [tableData, filter, selectedYear, selectedQuarter, t]);
 
   const chartData = useMemo(() => {
     if (!money || money.length === 0 || !tableData || tableData.length === 0)
@@ -178,7 +178,7 @@ export default function FilteredChart({
         <div className="row">
           <div className="col-lg-10 col-xxl-8">
             <h2 className={`mb-4`}>
-              {getChartTitle()}
+              {chartTitle}
             </h2>
           </div>
         </div>
