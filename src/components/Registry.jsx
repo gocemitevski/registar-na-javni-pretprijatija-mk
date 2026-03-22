@@ -3,6 +3,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useData } from "../hooks/useData";
 import { order, sorting } from "../utils/filterDefinitions";
 import { formatDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
+import { MONEY_SHEET_COLUMNS } from "../utils/columns";
 import Navbar from "./Navbar";
 import Cards from "./Cards";
 
@@ -29,44 +30,44 @@ function Registry() {
 
   const currentLang = lang || "mk";
 
-  const yearParam = new URLSearchParams(location.search).get("year");
-  const quarterParam = new URLSearchParams(location.search).get("quarter");
-  const sortingParam = new URLSearchParams(location.search).get("sort");
-  const orderParam = new URLSearchParams(location.search).get("order");
-
   const selectedYear = useMemo(() => {
+    const yearParam = new URLSearchParams(location.search).get("year");
     const latestYear = availableYears[0];
     if (!latestYear) return "";
-    return !yearParam || parseInt(yearParam) === 0 || !availableYears.includes(yearParam)
-      ? latestYear
-      : yearParam;
-  }, [yearParam, availableYears]);
+    if (!yearParam || parseInt(yearParam, 10) === 0) return latestYear;
+    return availableYears.includes(yearParam) ? yearParam : latestYear;
+  }, [availableYears, location.search]);
 
   const money = useMemo(() => {
     return allMoney[selectedYear] || [];
   }, [selectedYear, allMoney]);
 
   const availableQuarters = useMemo(() => {
-    return [...new Set(money.map((item) => item.Квартал))].filter((q) => q !== 0).sort((a, b) => a - b);
+    return [...new Set(money.map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]))].filter((q) => q !== 0).sort((a, b) => a - b);
   }, [money]);
 
   const selectedQuarter = useMemo(() => {
-    const q = quarterParam ? parseInt(quarterParam) : 0;
+    const quarterParam = new URLSearchParams(location.search).get("quarter");
+    const q = quarterParam ? parseInt(quarterParam, 10) : 0;
     if (isNaN(q)) return 0;
     return availableQuarters.includes(q) ? q : 0;
-  }, [quarterParam, availableQuarters]);
+  }, [location.search, availableQuarters]);
 
   const selectedSorting = useMemo(() => {
+    const params = new URLSearchParams(location.search);
+    const sortingParam = params.get("sort");
     if (!sortingParam) return DEFAULT_SORTING;
     if (sorting.includes(sortingParam)) return sortingParam;
     return DEFAULT_SORTING;
-  }, [sortingParam]);
+  }, [location.search]);
 
   const selectedOrder = useMemo(() => {
+    const params = new URLSearchParams(location.search);
+    const orderParam = params.get("order");
     if (!orderParam) return DEFAULT_ORDER;
     if (order.includes(orderParam)) return orderParam;
     return DEFAULT_ORDER;
-  }, [orderParam]);
+  }, [location.search]);
 
   const direction = selectedOrder === ASCENDING_ORDER ? 1 : -1;
 
@@ -94,11 +95,11 @@ function Registry() {
 
   const companiesInSheet = useMemo(() => {
     const filteredByQuarter = selectedQuarter !== 0
-      ? money.filter((item) => item.Квартал === selectedQuarter)
+      ? money.filter((item) => item[MONEY_SHEET_COLUMNS.QUARTER] === selectedQuarter)
       : money;
 
-    const companies = [...new Set(filteredByQuarter.map((item) => item.Назив))].map((el) =>
-      pretprijatija.find((c) => el === c.Назив),
+    const companies = [...new Set(filteredByQuarter.map((item) => item[MONEY_SHEET_COLUMNS.NAME]))].map((el) =>
+      pretprijatija.find((c) => el === c[MONEY_SHEET_COLUMNS.NAME]),
     );
 
     if (selectedSorting === DEFAULT_SORTING && selectedOrder === DEFAULT_ORDER) {
@@ -107,27 +108,27 @@ function Registry() {
 
     if (selectedSorting === DEFAULT_SORTING) {
       return sortByField(companies, (c) => {
-        const companyMoney = filteredByQuarter.find((m) => m.Назив === c?.Назив);
-        return companyMoney?.["Реден број"] || 0;
+        const companyMoney = filteredByQuarter.find((m) => m[MONEY_SHEET_COLUMNS.NAME] === c?.[MONEY_SHEET_COLUMNS.NAME]);
+        return companyMoney?.[MONEY_SHEET_COLUMNS.ID] || 0;
       }, direction);
     }
 
     const getCompanyValue = (companyName) => {
-      const companyMoney = filteredByQuarter.filter((m) => m.Назив === companyName);
+      const companyMoney = filteredByQuarter.filter((m) => m[MONEY_SHEET_COLUMNS.NAME] === companyName);
       const fieldMap = {
-        income: sumDecimalNumbers(companyMoney.map((m) => m.Приходи)),
-        expenses: sumDecimalNumbers(companyMoney.map((m) => m.Расходи)),
-        "financial-result": sumDecimalNumbers(companyMoney.map((m) => m["Финансиски резултат"])),
+        income: sumDecimalNumbers(companyMoney.map((m) => m[MONEY_SHEET_COLUMNS.INCOME])),
+        expenses: sumDecimalNumbers(companyMoney.map((m) => m[MONEY_SHEET_COLUMNS.EXPENSES])),
+        "financial-result": sumDecimalNumbers(companyMoney.map((m) => m[MONEY_SHEET_COLUMNS.FINANCIAL_RESULT])),
       };
       return fieldMap[selectedSorting] || 0;
     };
 
-    return sortByField(companies, (c) => getCompanyValue(c?.Назив), direction);
+    return sortByField(companies, (c) => getCompanyValue(c?.[MONEY_SHEET_COLUMNS.NAME]), direction);
   }, [money, pretprijatija, selectedQuarter, selectedSorting, selectedOrder, direction]);
 
   const filteredMoney = useMemo(() => {
     let result = selectedQuarter !== 0
-      ? money.filter((item) => item.Квартал === selectedQuarter)
+      ? money.filter((item) => item[MONEY_SHEET_COLUMNS.QUARTER] === selectedQuarter)
       : money;
 
     if (selectedSorting === DEFAULT_SORTING && selectedOrder === DEFAULT_ORDER) {
@@ -135,15 +136,15 @@ function Registry() {
     }
 
     if (selectedSorting === DEFAULT_SORTING) {
-      return sortByField(result, (item) => item["Реден број"], direction);
+      return sortByField(result, (item) => item[MONEY_SHEET_COLUMNS.ID], direction);
     }
 
     return sortByField(result, (item) => {
       const fieldMap = {
-        id: item["Реден број"],
-        income: formatDecimalNumber(item.Приходи),
-        expenses: formatDecimalNumber(item.Расходи),
-        "financial-result": formatDecimalNumber(item["Финансиски резултат"]),
+        id: item[MONEY_SHEET_COLUMNS.ID],
+        income: formatDecimalNumber(item[MONEY_SHEET_COLUMNS.INCOME]),
+        expenses: formatDecimalNumber(item[MONEY_SHEET_COLUMNS.EXPENSES]),
+        "financial-result": formatDecimalNumber(item[MONEY_SHEET_COLUMNS.FINANCIAL_RESULT]),
       };
       return fieldMap[selectedSorting] ?? 0;
     }, direction);

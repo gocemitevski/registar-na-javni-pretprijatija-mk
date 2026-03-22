@@ -4,11 +4,12 @@ import { useData } from "../hooks/useData";
 import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
 import { getLocalizedCompanyName } from "../utils/localizeCompanyName";
+import { MONEY_SHEET_COLUMNS } from "../utils/columns";
 
 function Breadcrumbs() {
   const { t, i18n } = useTranslation();
   const location = useLocation();
-  const { pretprijatija, loading } = useData();
+  const { pretprijatija, loading, availableYears } = useData();
   const { lang } = useParams();
   const currentLang = lang || i18n.language || "mk";
 
@@ -50,8 +51,9 @@ function Breadcrumbs() {
   ];
 
   if (isFilteredPageWithFilter) {
-    const currentYear = yearParam || "2024";
-    const currentQuarter = quarterParam ? parseInt(quarterParam) : null;
+    const latestYear = availableYears[0] || "2024";
+    const currentYear = yearParam || latestYear;
+    const currentQuarter = quarterParam ? parseInt(quarterParam, 10) : null;
     const sectionTitle = currentQuarter
       ? t("breadcrumbs.quickFactsQuarter", { year: currentYear, quarter: currentQuarter })
       : t("breadcrumbs.quickFacts", { year: currentYear });
@@ -65,7 +67,7 @@ function Breadcrumbs() {
     breadcrumbs.push({ label: filterTitles[filter] || filter, href: null });
   } else if (isCompanyPage) {
     const currentCompany = pretprijatija.find(
-      (el) => cleanName(transliterate(el.Назив)) === companySlug,
+      (el) => cleanName(transliterate(el[MONEY_SHEET_COLUMNS.NAME])) === companySlug,
     );
     const companyName = getLocalizedCompanyName(currentCompany, currentLang) || companySlug || "...";
     breadcrumbs.push({ label: t("breadcrumbs.registry"), href: `/${currentLang}/registry` });

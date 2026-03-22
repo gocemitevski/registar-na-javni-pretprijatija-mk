@@ -10,7 +10,7 @@ export function computeMeta(location, t) {
   const yearParam = searchParams.get("year");
   const quarterParam = searchParams.get("quarter");
   const selectedYear = yearParam || "";
-  const selectedQuarter = quarterParam ? parseInt(quarterParam) : 0;
+  const selectedQuarter = quarterParam ? parseInt(quarterParam, 10) : 0;
 
   const path = location.pathname;
   let title = t("app.title");

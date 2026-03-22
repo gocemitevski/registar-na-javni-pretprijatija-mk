@@ -5,56 +5,58 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useData } from "../hooks/useData";
 import { order, sorting } from "../utils/filterDefinitions";
+import { MONEY_SHEET_COLUMNS } from "../utils/columns";
+
+const DEFAULT_SORTING = sorting[0];
+const DEFAULT_ORDER = order[0];
 
 export default function Navbar({ showSortingFilters = false, showFilters = true }) {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language || "mk";
 
-  const DEFAULT_SORTING = sorting[0];
-  const DEFAULT_ORDER = order[0];
-
   const navigate = useNavigate();
   const location = useLocation();
   const { availableYears, allMoney } = useData();
 
-  const yearParam = new URLSearchParams(location.search).get("year");
-  const quarterParam = new URLSearchParams(location.search).get("quarter");
-  const sortingParam = new URLSearchParams(location.search).get("sort");
-  const orderParam = new URLSearchParams(location.search).get("order");
-
   const selectedYear = useMemo(() => {
+    const yearParam = new URLSearchParams(location.search).get("year");
     const latestYear = availableYears[0];
     if (!latestYear) return "";
-    return !yearParam || parseInt(yearParam) === 0
-      ? latestYear
-      : yearParam;
-  }, [yearParam, availableYears]);
-
-  const selectedQuarter = useMemo(() => {
-    const q = quarterParam ? parseInt(quarterParam) : 0;
-    return isNaN(q) ? 0 : q;
-  }, [quarterParam]);
-
-  const selectedSorting = useMemo(() => {
-    if (!sortingParam) return DEFAULT_SORTING;
-    if (sorting.includes(sortingParam)) return sortingParam;
-    return DEFAULT_SORTING;
-  }, [sortingParam, DEFAULT_SORTING]);
-
-  const selectedOrder = useMemo(() => {
-    if (!orderParam) return DEFAULT_ORDER;
-    if (order.includes(orderParam)) return orderParam;
-    return DEFAULT_ORDER;
-  }, [orderParam, DEFAULT_ORDER]);
+    if (!yearParam || parseInt(yearParam, 10) === 0) return latestYear;
+    return availableYears.includes(yearParam) ? yearParam : latestYear;
+  }, [availableYears, location.search]);
 
   const money = useMemo(() => {
     return allMoney[selectedYear] || [];
   }, [selectedYear, allMoney]);
 
   const quarters = useMemo(
-    () => [...new Set([0, ...new Set(money.map((item) => item.Квартал))])],
+    () => [...new Set([0, ...new Set(money.map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]))])],
     [money],
   );
+
+  const selectedQuarter = useMemo(() => {
+    const quarterParam = new URLSearchParams(location.search).get("quarter");
+    const q = quarterParam ? parseInt(quarterParam, 10) : 0;
+    if (isNaN(q)) return 0;
+    return quarters.includes(q) ? q : 0;
+  }, [location.search, quarters]);
+
+  const selectedSorting = useMemo(() => {
+    const params = new URLSearchParams(location.search);
+    const sortingParam = params.get("sort");
+    if (!sortingParam) return DEFAULT_SORTING;
+    if (sorting.includes(sortingParam)) return sortingParam;
+    return DEFAULT_SORTING;
+  }, [location.search]);
+
+  const selectedOrder = useMemo(() => {
+    const params = new URLSearchParams(location.search);
+    const orderParam = params.get("order");
+    if (!orderParam) return DEFAULT_ORDER;
+    if (order.includes(orderParam)) return orderParam;
+    return DEFAULT_ORDER;
+  }, [location.search]);
 
   const isDefault = useMemo(() => {
     const latestYear = availableYears[0];
@@ -74,8 +76,6 @@ export default function Navbar({ showSortingFilters = false, showFilters = true 
     selectedOrder,
     availableYears,
     showSortingFilters,
-    DEFAULT_SORTING,
-    DEFAULT_ORDER,
   ]);
 
   const buildQuery = (year, quarter, sort, ord) => {
@@ -94,7 +94,7 @@ export default function Navbar({ showSortingFilters = false, showFilters = true 
   const handleYearChange = (e) => {
     const newYear = e.target.value;
     const newYearMoney = allMoney[newYear] || [];
-    const availableQuarters = new Set(newYearMoney.map((item) => item.Квартал));
+    const availableQuarters = new Set(newYearMoney.map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]));
     const quarterToUse = availableQuarters.has(selectedQuarter) ? selectedQuarter : 0;
     const orderToUse = selectedSorting !== DEFAULT_SORTING ? selectedOrder : DEFAULT_ORDER;
     if (showSortingFilters) {
@@ -105,7 +105,7 @@ export default function Navbar({ showSortingFilters = false, showFilters = true 
   };
 
   const handleQuarterChange = (e) => {
-    const newQuarter = parseInt(e.target.value);
+    const newQuarter = parseInt(e.target.value, 10);
     const orderToUse = selectedSorting !== DEFAULT_SORTING ? selectedOrder : DEFAULT_ORDER;
     if (showSortingFilters) {
       navigate(`/${currentLang}/registry?${buildQuery(selectedYear, newQuarter, selectedSorting, orderToUse)}`);

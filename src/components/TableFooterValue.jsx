@@ -1,15 +1,16 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { parseDecimalNumber } from "../utils/decimalNumbers";
+import { MONEY_SHEET_COLUMNS } from "../utils/columns";
 
 export default function TableFooterValue({ title, total, numbers, quarter }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language || "mk";
 
-  const quarterNum = parseInt(quarter) || 0;
+  const quarterNum = parseInt(quarter, 10) || 0;
   const quarterData =
     quarterNum !== 0
-      ? numbers.find((item) => item.Квартал === quarterNum)
+      ? numbers.find((item) => item[MONEY_SHEET_COLUMNS.QUARTER] === quarterNum)
       : null;
 
   const value = useMemo(() => {

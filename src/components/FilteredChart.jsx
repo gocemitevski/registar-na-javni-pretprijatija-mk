@@ -12,6 +12,7 @@ import {
   CHART_HEIGHT,
   dashedBorderPlugin,
 } from "../utils/charts";
+import { COMPANY_SHEET_COLUMNS, MONEY_SHEET_COLUMNS } from "../utils/columns";
 
 export default function FilteredChart({
   tableData,
@@ -67,21 +68,21 @@ export default function FilteredChart({
 
     const companyTotals = {};
     money.forEach((item) => {
-      const name = item.Назив;
+      const name = item[MONEY_SHEET_COLUMNS.NAME];
       if (!companyTotals[name]) {
         companyTotals[name] = { income: 0, expenses: 0, result: 0 };
       }
-      companyTotals[name].income += formatDecimalNumber(item.Приходи);
-      companyTotals[name].expenses += formatDecimalNumber(item.Расходи);
+      companyTotals[name].income += formatDecimalNumber(item[MONEY_SHEET_COLUMNS.INCOME]);
+      companyTotals[name].expenses += formatDecimalNumber(item[MONEY_SHEET_COLUMNS.EXPENSES]);
       companyTotals[name].result += formatDecimalNumber(
-        item["Финансиски резултат"],
+        item[MONEY_SHEET_COLUMNS.FINANCIAL_RESULT],
       );
     });
 
     const companyNameMap = {};
     tableData.forEach((c) => {
-      companyNameMap[c.Назив] =
-        getLocalizedCompanyName(c, currentLang) || c.Назив;
+      companyNameMap[c[COMPANY_SHEET_COLUMNS.NAME]] =
+        getLocalizedCompanyName(c, currentLang) || c[COMPANY_SHEET_COLUMNS.NAME];
     });
 
     if (activeSort === "income") {

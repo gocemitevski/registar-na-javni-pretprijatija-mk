@@ -1,13 +1,15 @@
+import { COMPANY_SHEET_COLUMNS } from "./columns";
+
 export function getLocalizedCompanyName(company, lang) {
-  if (lang === "en" && company?.Title) {
-    return company.Title;
+  if (lang === "en" && company?.[COMPANY_SHEET_COLUMNS.NAME_EN]) {
+    return company[COMPANY_SHEET_COLUMNS.NAME_EN];
   }
-  return company?.Назив;
+  return company?.[COMPANY_SHEET_COLUMNS.NAME];
 }
 
 export function getLocalizedCompanyDescription(company, lang) {
-  if (lang === "en" && company?.Description) {
-    return company.Description;
+  if (lang === "en" && company?.[COMPANY_SHEET_COLUMNS.DESCRIPTION_EN]) {
+    return company[COMPANY_SHEET_COLUMNS.DESCRIPTION_EN];
   }
-  return company?.Опис;
+  return company?.[COMPANY_SHEET_COLUMNS.DESCRIPTION];
 }

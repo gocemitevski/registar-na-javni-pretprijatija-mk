@@ -8,6 +8,7 @@ import NoResults from "./NoResults";
 import { sumDecimalNumbers } from "../utils/decimalNumbers";
 import CardsTotals from "./CardsTotals";
 import FilteredChart from "./FilteredChart";
+import { COMPANY_SHEET_COLUMNS, MONEY_SHEET_COLUMNS, SEARCH_COLUMNS } from "../utils/columns";
 
 export default function Cards({
   tableData,
@@ -26,18 +27,15 @@ export default function Cards({
   const companyMoneyMap = useMemo(() => {
     const map = {};
     money.forEach((item) => {
-      if (!map[item.Назив]) {
-        map[item.Назив] = [];
+      if (!map[item[MONEY_SHEET_COLUMNS.NAME]]) {
+        map[item[MONEY_SHEET_COLUMNS.NAME]] = [];
       }
-      map[item.Назив].push(item);
+      map[item[MONEY_SHEET_COLUMNS.NAME]].push(item);
     });
     return map;
   }, [money]);
 
-  const searchColumns = useMemo(() =>
-    lang === "en" ? ["Title", "Description"] : ["Назив", "Опис"],
-    [lang]
-  );
+  const searchColumns = SEARCH_COLUMNS[lang.toUpperCase()] || SEARCH_COLUMNS.MK;
 
   const searchData = useCallback((e) => {
     setFilters((prev) => ({ ...prev, search: e.target.value }));
@@ -85,15 +83,15 @@ export default function Cards({
 
   const totals = useMemo(() => {
     const companyNames = new Set(
-      results.map((row) => row.Назив).filter(Boolean),
+      results.map((row) => row[COMPANY_SHEET_COLUMNS.NAME]).filter(Boolean),
     );
-    const relevantMoney = money.filter((item) => companyNames.has(item.Назив));
+    const relevantMoney = money.filter((item) => companyNames.has(item[MONEY_SHEET_COLUMNS.NAME]));
 
     return {
-      income: sumDecimalNumbers(relevantMoney.map((item) => item.Приходи)),
-      expenses: sumDecimalNumbers(relevantMoney.map((item) => item.Расходи)),
+      income: sumDecimalNumbers(relevantMoney.map((item) => item[MONEY_SHEET_COLUMNS.INCOME])),
+      expenses: sumDecimalNumbers(relevantMoney.map((item) => item[MONEY_SHEET_COLUMNS.EXPENSES])),
       "financial-result": sumDecimalNumbers(
-        relevantMoney.map((item) => item["Финансиски резултат"]),
+        relevantMoney.map((item) => item[MONEY_SHEET_COLUMNS.FINANCIAL_RESULT]),
       ),
     };
   }, [results, money]);
@@ -127,7 +125,7 @@ export default function Cards({
                   <div className="col" key={i}>
                     <Card
                       row={row}
-                      numbers={companyMoneyMap[row.Назив] || []}
+                      numbers={companyMoneyMap[row[COMPANY_SHEET_COLUMNS.NAME]] || []}
                       activeSort={activeSort}
                     />
                   </div>

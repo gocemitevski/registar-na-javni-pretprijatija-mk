@@ -20,9 +20,9 @@ import {
 } from "../utils/localizeCompanyName";
 import { updateDocumentMeta } from "../hooks/usePageTitle";
 import { isValidHttpUrl } from "../utils/isValidUrl";
+import { COMPANY_SHEET_COLUMNS, MONEY_SHEET_COLUMNS } from "../utils/columns";
 
 const toCleanName = (name) => cleanName(transliterate(name));
-const FIN_RES_KEY = "Финансиски резултат";
 
 function Company() {
   const { t, i18n } = useTranslation();
@@ -43,7 +43,7 @@ function Company() {
   const companyIndex = useMemo(
     () =>
       pretprijatija.findIndex(
-        (el) => toCleanName(el.Назив) === currentCompanyParam,
+        (el) => toCleanName(el[COMPANY_SHEET_COLUMNS.NAME]) === currentCompanyParam,
       ),
     [pretprijatija, currentCompanyParam],
   );
@@ -89,7 +89,7 @@ function Company() {
 
   const goToCompany = (idx) => {
     if (idx < 0 || idx >= pretprijatija.length) return;
-    const path = toCleanName(pretprijatija[idx].Назив);
+    const path = toCleanName(pretprijatija[idx][COMPANY_SHEET_COLUMNS.NAME]);
     if (path) {
       navigate(`/${currentLang}/company/${path}`);
     }
@@ -102,36 +102,36 @@ function Company() {
     availableYears.forEach((y) => {
       const yearData = allMoney[y] || [];
       const companyYearData = yearData.filter(
-        (item) => item.Назив === currentCompany.Назив,
+        (item) => item[MONEY_SHEET_COLUMNS.NAME] === currentCompany[COMPANY_SHEET_COLUMNS.NAME],
       );
       companyYearData.forEach((item) => {
-        data.push({ ...item, Година: y });
+        data.push({ ...item, [MONEY_SHEET_COLUMNS.YEAR]: y });
       });
     });
     return data.sort((a, b) => {
-      if (a.Година !== b.Година) return b.Година.localeCompare(a.Година);
-      return a.Квартал - b.Квартал;
+      if (a[MONEY_SHEET_COLUMNS.YEAR] !== b[MONEY_SHEET_COLUMNS.YEAR]) return b[MONEY_SHEET_COLUMNS.YEAR].localeCompare(a[MONEY_SHEET_COLUMNS.YEAR]);
+      return a[MONEY_SHEET_COLUMNS.QUARTER] - b[MONEY_SHEET_COLUMNS.QUARTER];
     });
   }, [currentCompany, allMoney, availableYears]);
 
   const companyYears = useMemo(() => {
     if (!companyData) return [];
-    const years = [...new Set(companyData.map((item) => item.Година))];
+    const years = [...new Set(companyData.map((item) => item[MONEY_SHEET_COLUMNS.YEAR]))];
     return years.sort((a, b) => b.localeCompare(a));
   }, [companyData]);
 
   const filteredData = useMemo(() => {
     if (!companyData) return [];
     if (!selectedYear || selectedYear === "") return companyData;
-    return companyData.filter((item) => item.Година === selectedYear);
+    return companyData.filter((item) => item[MONEY_SHEET_COLUMNS.YEAR] === selectedYear);
   }, [companyData, selectedYear]);
 
   const totals = useMemo(() => {
     return {
-      income: sumDecimalNumbers(filteredData.map((item) => item.Приходи)),
-      expenses: sumDecimalNumbers(filteredData.map((item) => item.Расходи)),
+      income: sumDecimalNumbers(filteredData.map((item) => item[MONEY_SHEET_COLUMNS.INCOME])),
+      expenses: sumDecimalNumbers(filteredData.map((item) => item[MONEY_SHEET_COLUMNS.EXPENSES])),
       "financial-result": sumDecimalNumbers(
-        filteredData.map((item) => item[FIN_RES_KEY]),
+        filteredData.map((item) => item[MONEY_SHEET_COLUMNS.FINANCIAL_RESULT]),
       ),
     };
   }, [filteredData]);
@@ -140,24 +140,25 @@ function Company() {
     if (!filteredData || filteredData.length === 0) return null;
 
     const showQuarterly = selectedYear && selectedYear !== "";
-    const groupKey = showQuarterly ? "Квартал" : "Година";
+    const groupKey = showQuarterly ? MONEY_SHEET_COLUMNS.QUARTER : MONEY_SHEET_COLUMNS.YEAR;
 
     const grouped = {};
     filteredData.forEach((item) => {
       const key = item[groupKey];
       if (!grouped[key]) {
-        grouped[key] = { Приходи: [], Расходи: [], [FIN_RES_KEY]: [] };
+        grouped[key] = { [MONEY_SHEET_COLUMNS.INCOME]: [], [MONEY_SHEET_COLUMNS.EXPENSES]: [], [MONEY_SHEET_COLUMNS.FINANCIAL_RESULT]: [] };
       }
-      grouped[key].Приходи.push(item.Приходи);
-      grouped[key].Расходи.push(item.Расходи);
-      grouped[key][FIN_RES_KEY].push(item[FIN_RES_KEY]);
+      grouped[key][MONEY_SHEET_COLUMNS.INCOME].push(item[MONEY_SHEET_COLUMNS.INCOME]);
+      grouped[key][MONEY_SHEET_COLUMNS.EXPENSES].push(item[MONEY_SHEET_COLUMNS.EXPENSES]);
+      grouped[key][MONEY_SHEET_COLUMNS.FINANCIAL_RESULT].push(item[MONEY_SHEET_COLUMNS.FINANCIAL_RESULT]);
     });
 
-    const keys = Object.keys(grouped).sort((a, b) => {
-      const numA = parseInt(a);
-      const numB = parseInt(b);
-      return showQuarterly ? numA - numB : a.localeCompare(b);
-    });
+    let keys = Object.keys(grouped);
+    if (showQuarterly) {
+      keys = keys.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+    } else {
+      keys = keys.sort((a, b) => a.localeCompare(b));
+    }
 
     const labels = keys.map((k) =>
       showQuarterly ? (k === "0" ? t("company.allQuarters") : k) : k,
@@ -177,19 +178,19 @@ function Company() {
       datasets: [
         createDataset(
           t("cards.income"),
-          keys.map((k) => sumDecimalNumbers(grouped[k].Приходи)),
+          keys.map((k) => sumDecimalNumbers(grouped[k][MONEY_SHEET_COLUMNS.INCOME])),
           INCOME_COLOR,
           false,
         ),
         createDataset(
           t("cards.expenses"),
-          keys.map((k) => sumDecimalNumbers(grouped[k].Расходи)),
+          keys.map((k) => sumDecimalNumbers(grouped[k][MONEY_SHEET_COLUMNS.EXPENSES])),
           EXPENSES_COLOR,
           false,
         ),
         createDataset(
           t("cards.financial-result"),
-          keys.map((k) => sumDecimalNumbers(grouped[k][FIN_RES_KEY])),
+          keys.map((k) => sumDecimalNumbers(grouped[k][MONEY_SHEET_COLUMNS.FINANCIAL_RESULT])),
           FINRESULT_COLOR,
           true,
         ),
@@ -274,13 +275,13 @@ function Company() {
             {getLocalizedCompanyName(currentCompany, currentLang)}
           </h1>
           <p>{getLocalizedCompanyDescription(currentCompany, currentLang)}</p>
-          {currentCompany["Мрежно место"] && isValidHttpUrl(currentCompany["Мрежно место"]) && (
+          {currentCompany[COMPANY_SHEET_COLUMNS.WEBSITE] && isValidHttpUrl(currentCompany[COMPANY_SHEET_COLUMNS.WEBSITE]) && (
             <a
-              title={`Мрежно место на ${currentCompany.Назив}`}
+              title={`Мрежно место на ${currentCompany[COMPANY_SHEET_COLUMNS.NAME]}`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-outline-secondary align-self-start"
-              href={currentCompany["Мрежно место"]}
+              href={currentCompany[COMPANY_SHEET_COLUMNS.WEBSITE]}
             >
               <i className="bi bi-box-arrow-up-right"></i>
             </a>
@@ -329,7 +330,7 @@ function Company() {
               </thead>
               <tbody>
                 {filteredData.map((item, idx) => {
-                  const finResult = item[FIN_RES_KEY];
+                  const finResult = item[MONEY_SHEET_COLUMNS.FINANCIAL_RESULT];
                   const finResultNum =
                     finResult != null
                       ? parseDecimalNumber(finResult, currentLang)
@@ -340,20 +341,20 @@ function Company() {
                       : "success";
                   return (
                     <tr key={idx}>
-                      <td>{item.Година}</td>
+                      <td>{item[MONEY_SHEET_COLUMNS.YEAR]}</td>
                       <td>
-                        {item.Квартал === 0
+                        {item[MONEY_SHEET_COLUMNS.QUARTER] === 0
                           ? t("company.allQuarters")
-                          : item.Квартал}
+                          : item[MONEY_SHEET_COLUMNS.QUARTER]}
                       </td>
                       <td className="text-end">
-                        {item.Приходи != null
-                          ? parseDecimalNumber(item.Приходи, currentLang)
+                        {item[MONEY_SHEET_COLUMNS.INCOME] != null
+                          ? parseDecimalNumber(item[MONEY_SHEET_COLUMNS.INCOME], currentLang)
                           : "—"}
                       </td>
                       <td className="text-end">
-                        {item.Расходи != null
-                          ? parseDecimalNumber(item.Расходи, currentLang)
+                        {item[MONEY_SHEET_COLUMNS.EXPENSES] != null
+                          ? parseDecimalNumber(item[MONEY_SHEET_COLUMNS.EXPENSES], currentLang)
                           : "—"}
                       </td>
                       <td className={`text-end text-${finResultColor}`}>

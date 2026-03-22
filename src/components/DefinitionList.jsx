@@ -1,12 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { parseDecimalNumber, formatDecimalNumber } from "../utils/decimalNumbers";
+import { MONEY_SHEET_COLUMNS } from "../utils/columns";
 
 export default function DefinitionList({ title, total, numbers, quarter, rawValue, icon, isActive }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language || "mk";
 
-  const quarterNum = parseInt(quarter) || 0;
-  const quarterData = quarterNum !== 0 && numbers ? numbers.find((item) => item.Квартал === quarterNum) : null;
+  const quarterNum = parseInt(quarter, 10) || 0;
+  const quarterData = quarterNum !== 0 && numbers ? numbers.find((item) => item[MONEY_SHEET_COLUMNS.QUARTER] === quarterNum) : null;
 
   const displayValue = quarterNum === 0
     ? (numbers ? parseDecimalNumber(total, lang) : total)

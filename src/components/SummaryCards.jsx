@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { formatDecimalNumber } from "../utils/decimalNumbers";
+import { MONEY_SHEET_COLUMNS } from "../utils/columns";
 
 function SummaryCards({ money, selectedYear, selectedQuarter }) {
   const { t, i18n } = useTranslation();
@@ -15,11 +16,11 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
     if (!money || money.length === 0) return null;
 
     const filteredMoney =
-      quarter > 0 ? money.filter((item) => item.Квартал === quarter) : money;
+      quarter > 0 ? money.filter((item) => item[MONEY_SHEET_COLUMNS.QUARTER] === quarter) : money;
 
     const companyMap = {};
     filteredMoney.forEach((item) => {
-      const name = item.Назив;
+      const name = item[MONEY_SHEET_COLUMNS.NAME];
       if (!companyMap[name]) {
         companyMap[name] = {
           totalIncome: 0,
@@ -27,10 +28,10 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
           totalResult: 0,
         };
       }
-      companyMap[name].totalIncome += formatDecimalNumber(item.Приходи);
-      companyMap[name].totalExpenses += formatDecimalNumber(item.Расходи);
+      companyMap[name].totalIncome += formatDecimalNumber(item[MONEY_SHEET_COLUMNS.INCOME]);
+      companyMap[name].totalExpenses += formatDecimalNumber(item[MONEY_SHEET_COLUMNS.EXPENSES]);
       companyMap[name].totalResult += formatDecimalNumber(
-        item["Финансиски резултат"],
+        item[MONEY_SHEET_COLUMNS.FINANCIAL_RESULT],
       );
     });
 

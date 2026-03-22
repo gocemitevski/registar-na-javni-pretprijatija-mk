@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
 import { getLocalizedCompanyName } from "../utils/localizeCompanyName";
+import { COMPANY_SHEET_COLUMNS } from "../utils/columns";
 
 function TopLists({
   topExpenses,
@@ -33,7 +34,7 @@ function TopLists({
         </div>
         <div className="list-group list-group-flush flex-fill">
           {items.map(([name, value], idx) => {
-            const company = companies?.find((c) => c.Назив === name);
+            const company = companies?.find((c) => c[COMPANY_SHEET_COLUMNS.NAME] === name);
             const localizedName = getLocalizedCompanyName(company, currentLang) || name;
             return (
               <Link

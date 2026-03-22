@@ -14,6 +14,7 @@ import { order, sorting } from "../utils/filterDefinitions";
 import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
 import { INCOME_COLOR, EXPENSES_COLOR, FINRESULT_COLOR } from "../utils/charts";
+import { MONEY_SHEET_COLUMNS } from "../utils/columns";
 
 const DEFAULT_SORTING = cleanName(transliterate(sorting[0]));
 const DEFAULT_ORDER = cleanName(transliterate(order[0]));
@@ -28,39 +29,28 @@ function Overview() {
 
   const currentLang = lang || "mk";
 
-  const yearParam = new URLSearchParams(location.search).get("year");
-  const quarterParam = new URLSearchParams(location.search).get("quarter");
-  const sortingParam = new URLSearchParams(location.search).get("sort");
-  const orderParam = new URLSearchParams(location.search).get("order");
-
   const selectedYear = useMemo(() => {
+    const yearParam = new URLSearchParams(location.search).get("year");
     const latestYear = availableYears[0];
     if (!latestYear) return "";
-    if (!yearParam || parseInt(yearParam) === 0) return latestYear;
+    if (!yearParam || parseInt(yearParam, 10) === 0) return latestYear;
     return availableYears.includes(yearParam) ? yearParam : latestYear;
-  }, [yearParam, availableYears]);
+  }, [availableYears, location.search]);
 
   const money = useMemo(() => {
     return allMoney[selectedYear] || [];
   }, [selectedYear, allMoney]);
 
   const availableQuarters = useMemo(() => {
-    return [...new Set(money.map((item) => item.Квартал))].filter((q) => q !== 0).sort((a, b) => a - b);
+    return [...new Set(money.map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]))].filter((q) => q !== 0).sort((a, b) => a - b);
   }, [money]);
 
   const selectedQuarter = useMemo(() => {
-    const q = quarterParam ? parseInt(quarterParam) : 0;
+    const quarterParam = new URLSearchParams(location.search).get("quarter");
+    const q = quarterParam ? parseInt(quarterParam, 10) : 0;
     if (isNaN(q)) return 0;
     return availableQuarters.includes(q) ? q : 0;
-  }, [quarterParam, availableQuarters]);
-
-  const selectedSorting = useMemo(() => {
-    return sortingParam || DEFAULT_SORTING;
-  }, [sortingParam]);
-
-  const selectedOrder = useMemo(() => {
-    return orderParam || DEFAULT_ORDER;
-  }, [orderParam]);
+  }, [location.search, availableQuarters]);
 
   useEffect(() => {
     if (isNavigating.current) {
@@ -72,9 +62,6 @@ function Overview() {
     params.set("year", selectedYear);
     if (selectedQuarter !== 0)
       params.set("quarter", selectedQuarter.toString());
-    if (selectedSorting !== DEFAULT_SORTING)
-      params.set("sort", selectedSorting);
-    if (selectedOrder !== DEFAULT_ORDER) params.set("order", selectedOrder);
 
     const targetPath = `/${currentLang}?${params.toString()}`;
     const currentPath = location.pathname + location.search;
@@ -87,8 +74,6 @@ function Overview() {
     currentLang,
     selectedYear,
     selectedQuarter,
-    selectedSorting,
-    selectedOrder,
     navigate,
     location.pathname,
     location.search,
@@ -97,8 +82,8 @@ function Overview() {
 
   const filteredMoney = useMemo(() => {
     if (!selectedYear) return [];
-    if (parseInt(selectedQuarter) !== 0) {
-      return money.filter((item) => item.Квартал === parseInt(selectedQuarter));
+    if (selectedQuarter !== 0) {
+      return money.filter((item) => item[MONEY_SHEET_COLUMNS.QUARTER] === selectedQuarter);
     }
     return money;
   }, [money, selectedQuarter, selectedYear]);
@@ -115,11 +100,11 @@ function Overview() {
       };
     const map = {};
     filteredMoney.forEach((m) => {
-      const name = m.Назив;
+      const name = m[MONEY_SHEET_COLUMNS.NAME];
       if (!map[name]) map[name] = { expense: 0, income: 0, result: 0 };
-      map[name].expense += formatDecimalNumber(m.Расходи);
-      map[name].income += formatDecimalNumber(m.Приходи);
-      map[name].result += formatDecimalNumber(m["Финансиски резултат"]);
+      map[name].expense += formatDecimalNumber(m[MONEY_SHEET_COLUMNS.EXPENSES]);
+      map[name].income += formatDecimalNumber(m[MONEY_SHEET_COLUMNS.INCOME]);
+      map[name].result += formatDecimalNumber(m[MONEY_SHEET_COLUMNS.FINANCIAL_RESULT]);
     });
     const toArray = (field) =>
       Object.entries(map).map(([name, v]) => [name, v[field]]);
@@ -143,7 +128,7 @@ function Overview() {
 
     if (selectedQuarter > 0) {
       const yearData = allMoney[selectedYear] || [];
-      allData = yearData.filter((item) => item.Квартал === selectedQuarter);
+      allData = yearData.filter((item) => item[MONEY_SHEET_COLUMNS.QUARTER] === selectedQuarter);
     } else if (selectedYear) {
       allData = allMoney[selectedYear] || [];
     } else {
@@ -152,10 +137,10 @@ function Overview() {
       });
     }
 
-    const totalIncome = sumDecimalNumbers(allData.map((d) => d.Приходи));
-    const totalExpenses = sumDecimalNumbers(allData.map((d) => d.Расходи));
+    const totalIncome = sumDecimalNumbers(allData.map((d) => d[MONEY_SHEET_COLUMNS.INCOME]));
+    const totalExpenses = sumDecimalNumbers(allData.map((d) => d[MONEY_SHEET_COLUMNS.EXPENSES]));
     const totalResult = sumDecimalNumbers(
-      allData.map((d) => d["Финансиски резултат"]),
+      allData.map((d) => d[MONEY_SHEET_COLUMNS.FINANCIAL_RESULT]),
     );
 
     return {
