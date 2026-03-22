@@ -1,5 +1,5 @@
 import { Link, useParams, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { socialLinkButtons } from "../utils/socialLinkButtons";
 import { computeTitle, TITLE_UPDATE_EVENT } from "../hooks/usePageTitle";
@@ -26,7 +26,10 @@ export default function Header() {
       window.removeEventListener(TITLE_UPDATE_EVENT, handleTitleUpdate);
   }, []);
 
-  const socialLinks = socialLinkButtons(pageTitle, window.location.href);
+  const socialLinks = useMemo(
+    () => socialLinkButtons(pageTitle, window.location.href),
+    [pageTitle]
+  );
 
   const homePath = location.search
     ? `/${currentLang}${location.search}`
