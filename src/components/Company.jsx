@@ -307,7 +307,7 @@ function Company() {
         </div>
       </div>
 
-      {filteredData.length > 0 ? (
+      {(filteredData?.length ?? 0) > 0 ? (
         <>
           {chartData && (
             <div className="my-5">
