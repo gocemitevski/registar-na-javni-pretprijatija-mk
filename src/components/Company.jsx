@@ -268,7 +268,7 @@ function Company() {
   }
 
   return (
-    <main className="container my-4 my-xl-5 flex-fill">
+    <main className="container my-5 flex-fill">
       <div className="row g-3 g-lg-5 align-items-end mb-xl-3">
         <div className="col-lg-8 vstack">
           <h1 className="h3 mb-3">

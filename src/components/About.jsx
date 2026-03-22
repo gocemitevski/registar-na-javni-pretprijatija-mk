@@ -9,7 +9,7 @@ export default function About() {
   return (
     <>
       <Navbar showFilters={false} />
-      <main className="container pt-4 py-lg-5">
+      <main className="container py-5">
       <div className="row">
         <div className="col-xl-7">
           <h1 className="mb-3 text-primary-emphasis">{t("nav.about")}</h1>
