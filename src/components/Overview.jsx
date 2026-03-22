@@ -10,9 +10,11 @@ import {
   formatDecimalNumber,
   sumDecimalNumbers,
 } from "../utils/decimalNumbers";
-import { buildQuery, parseYearParam, parseQuarterParam } from "../utils/url";
+import { buildQuery } from "../utils/url";
 import { INCOME_COLOR, EXPENSES_COLOR, FINRESULT_COLOR } from "../utils/charts";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
+import { CURRENCIES } from "../utils/currencies";
+import { useUrlParams } from "../hooks/useUrlParams";
 
 function Overview() {
   const { t } = useTranslation();
@@ -22,25 +24,17 @@ function Overview() {
   const isNavigating = useRef(false);
   const { allMoney, availableYears, pretprijatija } = useData();
 
-  const currentLang = lang || "mk";
+  const quarters = useMemo(() => {
+    return [...new Set((allMoney[availableYears[0]] || []).map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]))].filter((q) => q !== 0).sort((a, b) => a - b);
+  }, [allMoney, availableYears]);
 
-  const selectedYear = useMemo(
-    () => parseYearParam(location.search, availableYears),
-    [availableYears, location.search]
-  );
+  const { selectedYear, selectedQuarter, selectedCurrency: currency } = useUrlParams(availableYears, quarters);
+
+  const currentLang = lang || "mk";
 
   const money = useMemo(() => {
     return allMoney[selectedYear] || [];
   }, [selectedYear, allMoney]);
-
-  const availableQuarters = useMemo(() => {
-    return [...new Set(money.map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]))].filter((q) => q !== 0).sort((a, b) => a - b);
-  }, [money]);
-
-  const selectedQuarter = useMemo(
-    () => parseQuarterParam(location.search, availableQuarters),
-    [location.search, availableQuarters]
-  );
 
   useEffect(() => {
     if (isNavigating.current) {
@@ -49,7 +43,7 @@ function Overview() {
     }
     if (!availableYears.length) return;
 
-    const targetPath = `/${currentLang}?${buildQuery(selectedYear, selectedQuarter)}`;
+    const targetPath = `/${currentLang}?${buildQuery(selectedYear, selectedQuarter, null, null, location.search)}`;
     const currentPath = location.pathname + location.search;
 
     if (currentPath !== targetPath) {
@@ -123,11 +117,12 @@ function Overview() {
       });
     }
 
-    const totalIncome = sumDecimalNumbers(allData.map((d) => d[MONEY_SHEET_COLUMNS.INCOME]));
-    const totalExpenses = sumDecimalNumbers(allData.map((d) => d[MONEY_SHEET_COLUMNS.EXPENSES]));
+    const rate = CURRENCIES[currency]?.rate || 1;
+    const totalIncome = sumDecimalNumbers(allData.map((d) => d[MONEY_SHEET_COLUMNS.INCOME])) * rate;
+    const totalExpenses = sumDecimalNumbers(allData.map((d) => d[MONEY_SHEET_COLUMNS.EXPENSES])) * rate;
     const totalResult = sumDecimalNumbers(
       allData.map((d) => d[MONEY_SHEET_COLUMNS.FINANCIAL_RESULT]),
-    );
+    ) * rate;
 
     return {
       labels: [
@@ -153,7 +148,7 @@ function Overview() {
         },
       ],
     };
-  }, [allMoney, selectedYear, selectedQuarter, t]);
+  }, [allMoney, selectedYear, selectedQuarter, t, currency]);
 
   return (
     <>

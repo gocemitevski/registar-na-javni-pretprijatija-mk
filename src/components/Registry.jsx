@@ -3,7 +3,8 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useData } from "../hooks/useData";
 import { formatDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
-import { buildQuery, sortByField, DEFAULT_SORTING, DEFAULT_ORDER, ASCENDING_ORDER, parseSortingParam, parseOrderParam, parseYearParam, parseQuarterParam } from "../utils/url";
+import { buildQuery, sortByField, DEFAULT_SORTING, DEFAULT_ORDER, ASCENDING_ORDER, parseSortingParam, parseOrderParam } from "../utils/url";
+import { useUrlParams } from "../hooks/useUrlParams";
 import Navbar from "./Navbar";
 import Cards from "./Cards";
 
@@ -16,23 +17,15 @@ function Registry() {
 
   const currentLang = lang || "mk";
 
-  const selectedYear = useMemo(
-    () => parseYearParam(location.search, availableYears),
-    [availableYears, location.search]
-  );
+  const quarters = useMemo(() => {
+    return [...new Set((allMoney[availableYears[0]] || []).map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]))].filter((q) => q !== 0).sort((a, b) => a - b);
+  }, [allMoney, availableYears]);
+
+  const { selectedYear, selectedQuarter } = useUrlParams(availableYears, quarters);
 
   const money = useMemo(() => {
     return allMoney[selectedYear] || [];
   }, [selectedYear, allMoney]);
-
-  const availableQuarters = useMemo(() => {
-    return [...new Set(money.map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]))].filter((q) => q !== 0).sort((a, b) => a - b);
-  }, [money]);
-
-  const selectedQuarter = useMemo(
-    () => parseQuarterParam(location.search, availableQuarters),
-    [location.search, availableQuarters]
-  );
 
   const selectedSorting = useMemo(() => parseSortingParam(location.search), [location.search]);
   const selectedOrder = useMemo(() => parseOrderParam(location.search), [location.search]);
@@ -46,7 +39,7 @@ function Registry() {
       return;
     }
 
-    const targetPath = `/${currentLang}/registry?${buildQuery(selectedYear, selectedQuarter, selectedSorting, selectedOrder)}`;
+    const targetPath = `/${currentLang}/registry?${buildQuery(selectedYear, selectedQuarter, selectedSorting, selectedOrder, location.search)}`;
     const currentPath = location.pathname + location.search;
 
     if (currentPath !== targetPath) {

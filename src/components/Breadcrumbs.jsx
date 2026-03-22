@@ -5,6 +5,7 @@ import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
 import { getLocalizedCompanyName } from "../utils/localizeCompanyName";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
+import { useUrlParams } from "../hooks/useUrlParams";
 
 function Breadcrumbs() {
   const { t, i18n } = useTranslation();
@@ -12,6 +13,8 @@ function Breadcrumbs() {
   const { pretprijatija, loading, availableYears } = useData();
   const { lang } = useParams();
   const currentLang = lang || i18n.language || "mk";
+
+  const { selectedYear, selectedQuarter } = useUrlParams(availableYears, []);
 
   const isCompanyPage = location.pathname.includes("/company/");
   const isFilteredPage = location.pathname.includes("/filtered/");
@@ -21,9 +24,6 @@ function Breadcrumbs() {
   const langIndex = pathParts[0] === "mk" || pathParts[0] === "en" ? 1 : 0;
   const isFilteredPageWithFilter = isFilteredPage && pathParts[langIndex + 1];
   const filter = pathParts[langIndex + 1];
-
-  const yearParam = new URLSearchParams(location.search).get("year");
-  const quarterParam = new URLSearchParams(location.search).get("quarter");
 
   const companySlug = isCompanyPage
     ? decodeURIComponent(location.pathname.split("/company/")[1])
@@ -51,25 +51,19 @@ function Breadcrumbs() {
   ];
 
   if (isFilteredPageWithFilter) {
-    const currentYear = yearParam || availableYears[0];
-    const currentQuarter = quarterParam ? parseInt(quarterParam, 10) : null;
-    const sectionTitle = currentQuarter
-      ? t("breadcrumbs.quickFactsQuarter", { year: currentYear, quarter: currentQuarter })
+    const currentYear = selectedYear || availableYears[0];
+    const sectionTitle = selectedQuarter
+      ? t("breadcrumbs.quickFactsQuarter", { year: currentYear, quarter: selectedQuarter })
       : t("breadcrumbs.quickFacts", { year: currentYear });
 
-    const queryParts = [];
-    if (yearParam) queryParts.push(`year=${yearParam}`);
-    if (quarterParam) queryParts.push(`quarter=${quarterParam}`);
-    const queryStr = queryParts.length > 0 ? "?" + queryParts.join("&") : "";
-
-    breadcrumbs.push({ label: sectionTitle, href: `/${currentLang}${queryStr}` });
+    breadcrumbs.push({ label: sectionTitle, href: `/${currentLang}${location.search}` });
     breadcrumbs.push({ label: filterTitles[filter] || filter, href: null });
   } else if (isCompanyPage) {
     const currentCompany = pretprijatija.find(
       (el) => cleanName(transliterate(el[MONEY_SHEET_COLUMNS.NAME])) === companySlug,
     );
     const companyName = getLocalizedCompanyName(currentCompany, currentLang) || companySlug || "...";
-    breadcrumbs.push({ label: t("breadcrumbs.registry"), href: `/${currentLang}/registry` });
+    breadcrumbs.push({ label: t("breadcrumbs.registry"), href: `/${currentLang}/registry${location.search}` });
     breadcrumbs.push({ label: companyName, href: null });
   }
 
