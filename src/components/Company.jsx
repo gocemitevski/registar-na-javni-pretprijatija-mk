@@ -268,8 +268,8 @@ function Company() {
   }
 
   return (
-    <main className="container my-5 flex-fill">
-      <div className="row g-5 align-items-end mb-3">
+    <main className="container my-4 my-xl-5 flex-fill">
+      <div className="row g-3 g-lg-5 align-items-end mb-xl-3">
         <div className="col-lg-8 vstack">
           <h1 className="h3 mb-3">
             {getLocalizedCompanyName(currentCompany, currentLang)}
@@ -310,7 +310,7 @@ function Company() {
       {(filteredData?.length ?? 0) > 0 ? (
         <>
           {chartData && (
-            <div className="my-5">
+            <div className="my-4 my-lg-5">
               <h2 className="h5 mb-3">{t("company.chartTitle")}</h2>
               <div style={{ height: CHART_HEIGHT }}>
                 <canvas ref={chartRef}></canvas>
@@ -396,7 +396,7 @@ function Company() {
               </tfoot>
             </table>
           </div>
-          <div className="row row-cols-1 row-cols-md-2 g-3 my-3">
+          <div className="row row-cols-1 row-cols-md-2 g-3 my-1 my-xl-3">
             <div className="col vstack">
               {previousCompanyIndex >= 0 && (
                 <div className="list-group flex-fill">
