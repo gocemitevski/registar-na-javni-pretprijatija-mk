@@ -4,11 +4,9 @@ import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useData } from "../hooks/useData";
-import { order, sorting } from "../utils/filterDefinitions";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
-
-const DEFAULT_SORTING = sorting[0];
-const DEFAULT_ORDER = order[0];
+import { buildQuery, DEFAULT_SORTING, DEFAULT_ORDER, parseSortingParam, parseOrderParam } from "../utils/url";
+import { sorting, order } from "../utils/filterDefinitions";
 
 export default function Navbar({ showSortingFilters = false, showFilters = true }) {
   const { t, i18n } = useTranslation();
@@ -42,21 +40,8 @@ export default function Navbar({ showSortingFilters = false, showFilters = true 
     return quarters.includes(q) ? q : 0;
   }, [location.search, quarters]);
 
-  const selectedSorting = useMemo(() => {
-    const params = new URLSearchParams(location.search);
-    const sortingParam = params.get("sort");
-    if (!sortingParam) return DEFAULT_SORTING;
-    if (sorting.includes(sortingParam)) return sortingParam;
-    return DEFAULT_SORTING;
-  }, [location.search]);
-
-  const selectedOrder = useMemo(() => {
-    const params = new URLSearchParams(location.search);
-    const orderParam = params.get("order");
-    if (!orderParam) return DEFAULT_ORDER;
-    if (order.includes(orderParam)) return orderParam;
-    return DEFAULT_ORDER;
-  }, [location.search]);
+  const selectedSorting = useMemo(() => parseSortingParam(location.search), [location.search]);
+  const selectedOrder = useMemo(() => parseOrderParam(location.search), [location.search]);
 
   const isDefault = useMemo(() => {
     const latestYear = availableYears[0];
@@ -77,15 +62,6 @@ export default function Navbar({ showSortingFilters = false, showFilters = true 
     availableYears,
     showSortingFilters,
   ]);
-
-  const buildQuery = (year, quarter, sort, ord) => {
-    const params = new URLSearchParams();
-    if (year) params.set("year", year);
-    if (quarter && quarter !== 0) params.set("quarter", quarter.toString());
-    if (sort && sort !== DEFAULT_SORTING) params.set("sort", sort);
-    if (ord && ord !== DEFAULT_ORDER) params.set("order", ord);
-    return params.toString();
-  };
 
   const overviewPath = `/${currentLang}?${buildQuery(selectedYear, selectedQuarter, selectedSorting, selectedOrder)}`;
   const registryPath = `/${currentLang}/registry?${buildQuery(selectedYear, selectedQuarter, selectedSorting, selectedOrder)}`;

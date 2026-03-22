@@ -10,14 +10,9 @@ import {
   formatDecimalNumber,
   sumDecimalNumbers,
 } from "../utils/decimalNumbers";
-import { order, sorting } from "../utils/filterDefinitions";
-import { transliterate } from "../utils/transliterate";
-import { cleanName } from "../utils/cleanName";
+import { buildQuery } from "../utils/url";
 import { INCOME_COLOR, EXPENSES_COLOR, FINRESULT_COLOR } from "../utils/charts";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
-
-const DEFAULT_SORTING = cleanName(transliterate(sorting[0]));
-const DEFAULT_ORDER = cleanName(transliterate(order[0]));
 
 function Overview() {
   const { t } = useTranslation();
@@ -58,12 +53,8 @@ function Overview() {
       return;
     }
     if (!availableYears.length) return;
-    const params = new URLSearchParams();
-    params.set("year", selectedYear);
-    if (selectedQuarter !== 0)
-      params.set("quarter", selectedQuarter.toString());
 
-    const targetPath = `/${currentLang}?${params.toString()}`;
+    const targetPath = `/${currentLang}?${buildQuery(selectedYear, selectedQuarter)}`;
     const currentPath = location.pathname + location.search;
 
     if (currentPath !== targetPath) {

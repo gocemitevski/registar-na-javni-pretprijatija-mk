@@ -1,25 +1,11 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useData } from "../hooks/useData";
-import { order, sorting } from "../utils/filterDefinitions";
 import { formatDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
+import { buildQuery, sortByField, DEFAULT_SORTING, DEFAULT_ORDER, ASCENDING_ORDER, parseSortingParam, parseOrderParam } from "../utils/url";
 import Navbar from "./Navbar";
 import Cards from "./Cards";
-
-const DEFAULT_SORTING = sorting[0];
-const DEFAULT_ORDER = order[0];
-const ASCENDING_ORDER = order[1];
-
-function sortByField(items, getValue, direction) {
-  return [...items].sort((a, b) => {
-    const keyA = getValue(a);
-    const keyB = getValue(b);
-    if (keyA < keyB) return -1 * direction;
-    if (keyA > keyB) return 1 * direction;
-    return 0;
-  });
-}
 
 function Registry() {
   const { lang } = useParams();
@@ -53,21 +39,8 @@ function Registry() {
     return availableQuarters.includes(q) ? q : 0;
   }, [location.search, availableQuarters]);
 
-  const selectedSorting = useMemo(() => {
-    const params = new URLSearchParams(location.search);
-    const sortingParam = params.get("sort");
-    if (!sortingParam) return DEFAULT_SORTING;
-    if (sorting.includes(sortingParam)) return sortingParam;
-    return DEFAULT_SORTING;
-  }, [location.search]);
-
-  const selectedOrder = useMemo(() => {
-    const params = new URLSearchParams(location.search);
-    const orderParam = params.get("order");
-    if (!orderParam) return DEFAULT_ORDER;
-    if (order.includes(orderParam)) return orderParam;
-    return DEFAULT_ORDER;
-  }, [location.search]);
+  const selectedSorting = useMemo(() => parseSortingParam(location.search), [location.search]);
+  const selectedOrder = useMemo(() => parseOrderParam(location.search), [location.search]);
 
   const direction = selectedOrder === ASCENDING_ORDER ? 1 : -1;
 
@@ -78,13 +51,7 @@ function Registry() {
       return;
     }
 
-    const params = new URLSearchParams();
-    params.set("year", selectedYear);
-    if (selectedQuarter !== 0) params.set("quarter", selectedQuarter.toString());
-    if (selectedSorting !== DEFAULT_SORTING) params.set("sort", selectedSorting);
-    if (selectedOrder !== DEFAULT_ORDER) params.set("order", selectedOrder);
-
-    const targetPath = `/${currentLang}/registry?${params.toString()}`;
+    const targetPath = `/${currentLang}/registry?${buildQuery(selectedYear, selectedQuarter, selectedSorting, selectedOrder)}`;
     const currentPath = location.pathname + location.search;
 
     if (currentPath !== targetPath) {

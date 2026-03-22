@@ -9,14 +9,11 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
   const { lang } = useParams();
   const currentLang = lang || i18n.language || "mk";
 
-  const year = selectedYear;
-  const quarter = selectedQuarter;
-
   const summaryData = useMemo(() => {
     if (!money || money.length === 0) return null;
 
     const filteredMoney =
-      quarter > 0 ? money.filter((item) => item[MONEY_SHEET_COLUMNS.QUARTER] === quarter) : money;
+      selectedQuarter > 0 ? money.filter((item) => item[MONEY_SHEET_COLUMNS.QUARTER] === selectedQuarter) : money;
 
     const companyMap = {};
     filteredMoney.forEach((item) => {
@@ -60,7 +57,7 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
       spendingMoreThanIncome,
       earningMoreThanSpending,
     };
-  }, [money, quarter]);
+  }, [money, selectedQuarter]);
 
   if (!summaryData) return null;
 
@@ -127,8 +124,8 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
 
   const getLink = (filter) => {
     const params = new URLSearchParams();
-    params.set("year", year);
-    if (quarter > 0) params.set("quarter", quarter.toString());
+    params.set("year", selectedYear);
+    if (selectedQuarter > 0) params.set("quarter", selectedQuarter.toString());
     return `/${currentLang}/filtered/${filter}?${params.toString()}`;
   };
 
@@ -145,9 +142,9 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
     <div className="bg-primary-subtle bg-shade-img pt-4 pt-lg-5">
       <div className="container">
         <h1 className="fw-light m-3 text-secondary">
-          {quarter > 0
-            ? t("summary.quickFactsQuarter", { year, quarter })
-            : t("summary.quickFacts", { year })}
+          {selectedQuarter > 0
+            ? t("summary.quickFactsQuarter", { year: selectedYear, quarter: selectedQuarter })
+            : t("summary.quickFacts", { year: selectedYear })}
         </h1>
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 py-2 py-lg-4">
           {CARDS.map((card, index) => (
