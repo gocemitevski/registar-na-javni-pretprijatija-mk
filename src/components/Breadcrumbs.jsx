@@ -51,8 +51,7 @@ function Breadcrumbs() {
   ];
 
   if (isFilteredPageWithFilter) {
-    const latestYear = availableYears[0] || "2024";
-    const currentYear = yearParam || latestYear;
+    const currentYear = yearParam || availableYears[0];
     const currentQuarter = quarterParam ? parseInt(quarterParam, 10) : null;
     const sectionTitle = currentQuarter
       ? t("breadcrumbs.quickFactsQuarter", { year: currentYear, quarter: currentQuarter })
