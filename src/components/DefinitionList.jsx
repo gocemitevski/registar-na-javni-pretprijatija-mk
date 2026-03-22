@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { parseDecimalNumber, formatDecimalNumber } from "../utils/decimalNumbers";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
 
-export default function DefinitionList({ title, total, numbers, quarter, rawValue, icon, isActive }) {
+export default function DefinitionList({ title, total, numbers, quarter, icon, isActive }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language || "mk";
 
@@ -10,15 +10,14 @@ export default function DefinitionList({ title, total, numbers, quarter, rawValu
   const quarterData = quarterNum !== 0 && numbers ? numbers.find((item) => item[MONEY_SHEET_COLUMNS.QUARTER] === quarterNum) : null;
 
   const displayValue = quarterNum === 0
-    ? (numbers ? parseDecimalNumber(total, lang) : total)
+    ? parseDecimalNumber(total, lang)
     : quarterData
       ? parseDecimalNumber(quarterData[title], lang)
       : "—";
 
-  const colorRawValue = rawValue ?? total;
   const isFinancialResult = title === t("cards.financial-result");
-  const color = isFinancialResult && colorRawValue != null
-    ? formatDecimalNumber(colorRawValue) < 0 ? "danger" : "success"
+  const color = isFinancialResult && total != null
+    ? formatDecimalNumber(total) < 0 ? "danger" : "success"
     : null;
 
   return (
