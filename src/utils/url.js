@@ -13,6 +13,24 @@ export function buildQuery(year, quarter, sort, orderParam) {
   return params.toString();
 }
 
+export function parseYearParam(locationSearch, availableYears) {
+  const params = new URLSearchParams(locationSearch);
+  const yearParam = params.get("year");
+  const latestYear = availableYears[0];
+  if (!latestYear) return "";
+  if (!yearParam || parseInt(yearParam, 10) === 0) return latestYear;
+  return availableYears.includes(yearParam) ? yearParam : latestYear;
+}
+
+export function parseQuarterParam(locationSearch, availableQuarters) {
+  const params = new URLSearchParams(locationSearch);
+  const quarterParam = params.get("quarter");
+  const q = quarterParam ? parseInt(quarterParam, 10) : 0;
+  if (isNaN(q)) return 0;
+  if (availableQuarters.length > 0 && !availableQuarters.includes(q)) return 0;
+  return q;
+}
+
 export function parseSortingParam(locationSearch) {
   const params = new URLSearchParams(locationSearch);
   const sortingParam = params.get("sort");

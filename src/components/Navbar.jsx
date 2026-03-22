@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useData } from "../hooks/useData";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
-import { buildQuery, DEFAULT_SORTING, DEFAULT_ORDER, parseSortingParam, parseOrderParam } from "../utils/url";
+import { buildQuery, DEFAULT_SORTING, DEFAULT_ORDER, parseSortingParam, parseOrderParam, parseYearParam, parseQuarterParam } from "../utils/url";
 import { sorting, order } from "../utils/filterDefinitions";
 
 export default function Navbar({ showSortingFilters = false, showFilters = true }) {
@@ -16,13 +16,10 @@ export default function Navbar({ showSortingFilters = false, showFilters = true 
   const location = useLocation();
   const { availableYears, allMoney } = useData();
 
-  const selectedYear = useMemo(() => {
-    const yearParam = new URLSearchParams(location.search).get("year");
-    const latestYear = availableYears[0];
-    if (!latestYear) return "";
-    if (!yearParam || parseInt(yearParam, 10) === 0) return latestYear;
-    return availableYears.includes(yearParam) ? yearParam : latestYear;
-  }, [availableYears, location.search]);
+  const selectedYear = useMemo(
+    () => parseYearParam(location.search, availableYears),
+    [availableYears, location.search]
+  );
 
   const money = useMemo(() => {
     return allMoney[selectedYear] || [];
@@ -33,12 +30,10 @@ export default function Navbar({ showSortingFilters = false, showFilters = true 
     [money],
   );
 
-  const selectedQuarter = useMemo(() => {
-    const quarterParam = new URLSearchParams(location.search).get("quarter");
-    const q = quarterParam ? parseInt(quarterParam, 10) : 0;
-    if (isNaN(q)) return 0;
-    return quarters.includes(q) ? q : 0;
-  }, [location.search, quarters]);
+  const selectedQuarter = useMemo(
+    () => parseQuarterParam(location.search, quarters),
+    [location.search, quarters]
+  );
 
   const selectedSorting = useMemo(() => parseSortingParam(location.search), [location.search]);
   const selectedOrder = useMemo(() => parseOrderParam(location.search), [location.search]);

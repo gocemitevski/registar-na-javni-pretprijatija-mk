@@ -10,7 +10,7 @@ import {
   formatDecimalNumber,
   sumDecimalNumbers,
 } from "../utils/decimalNumbers";
-import { buildQuery } from "../utils/url";
+import { buildQuery, parseYearParam, parseQuarterParam } from "../utils/url";
 import { INCOME_COLOR, EXPENSES_COLOR, FINRESULT_COLOR } from "../utils/charts";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
 
@@ -24,13 +24,10 @@ function Overview() {
 
   const currentLang = lang || "mk";
 
-  const selectedYear = useMemo(() => {
-    const yearParam = new URLSearchParams(location.search).get("year");
-    const latestYear = availableYears[0];
-    if (!latestYear) return "";
-    if (!yearParam || parseInt(yearParam, 10) === 0) return latestYear;
-    return availableYears.includes(yearParam) ? yearParam : latestYear;
-  }, [availableYears, location.search]);
+  const selectedYear = useMemo(
+    () => parseYearParam(location.search, availableYears),
+    [availableYears, location.search]
+  );
 
   const money = useMemo(() => {
     return allMoney[selectedYear] || [];
@@ -40,12 +37,10 @@ function Overview() {
     return [...new Set(money.map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]))].filter((q) => q !== 0).sort((a, b) => a - b);
   }, [money]);
 
-  const selectedQuarter = useMemo(() => {
-    const quarterParam = new URLSearchParams(location.search).get("quarter");
-    const q = quarterParam ? parseInt(quarterParam, 10) : 0;
-    if (isNaN(q)) return 0;
-    return availableQuarters.includes(q) ? q : 0;
-  }, [location.search, availableQuarters]);
+  const selectedQuarter = useMemo(
+    () => parseQuarterParam(location.search, availableQuarters),
+    [location.search, availableQuarters]
+  );
 
   useEffect(() => {
     if (isNavigating.current) {
