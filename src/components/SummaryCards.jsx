@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { formatDecimalNumber } from "../utils/decimalNumbers";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
@@ -7,6 +7,7 @@ import { MONEY_SHEET_COLUMNS } from "../utils/columns";
 function SummaryCards({ money, selectedYear, selectedQuarter }) {
   const { t, i18n } = useTranslation();
   const { lang } = useParams();
+  const location = useLocation();
   const currentLang = lang || i18n.language || "mk";
 
   const summaryData = useMemo(() => {
@@ -123,9 +124,13 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
   ];
 
   const getLink = (filter) => {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(location.search);
     params.set("year", selectedYear);
-    if (selectedQuarter > 0) params.set("quarter", selectedQuarter.toString());
+    if (selectedQuarter > 0) {
+      params.set("quarter", selectedQuarter.toString());
+    } else {
+      params.delete("quarter");
+    }
     return `/${currentLang}/filtered/${filter}?${params.toString()}`;
   };
 

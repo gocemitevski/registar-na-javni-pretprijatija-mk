@@ -4,9 +4,14 @@ import { useTranslation } from "react-i18next";
 import Chart from "chart.js/auto";
 import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
-import { formatDecimalNumber, parseDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
+import {
+  formatDecimalNumber,
+  parseDecimalNumber,
+  sumDecimalNumbers,
+} from "../utils/decimalNumbers";
 import { useData } from "../hooks/useData";
 import TableFooterValue from "./TableFooterValue";
+import CurrencySwitcher from "./CurrencySwitcher";
 import {
   INCOME_COLOR,
   EXPENSES_COLOR,
@@ -21,6 +26,8 @@ import {
 import { updateDocumentMeta } from "../hooks/usePageTitle";
 import { isValidHttpUrl } from "../utils/isValidUrl";
 import { COMPANY_SHEET_COLUMNS, MONEY_SHEET_COLUMNS } from "../utils/columns";
+import { CURRENCIES } from "../utils/currencies";
+import { useUrlParams } from "../hooks/useUrlParams";
 
 const toCleanName = (name) => cleanName(transliterate(name));
 
@@ -30,6 +37,7 @@ function Company() {
   const currentLang = i18n.language || "mk";
   const navigate = useNavigate();
   const location = useLocation();
+  const { selectedCurrency: currency } = useUrlParams([], []);
   const {
     pretprijatija,
     allMoney,
@@ -43,7 +51,8 @@ function Company() {
   const companyIndex = useMemo(
     () =>
       pretprijatija.findIndex(
-        (el) => toCleanName(el[COMPANY_SHEET_COLUMNS.NAME]) === currentCompanyParam,
+        (el) =>
+          toCleanName(el[COMPANY_SHEET_COLUMNS.NAME]) === currentCompanyParam,
       ),
     [pretprijatija, currentCompanyParam],
   );
@@ -91,7 +100,7 @@ function Company() {
     if (idx < 0 || idx >= pretprijatija.length) return;
     const path = toCleanName(pretprijatija[idx][COMPANY_SHEET_COLUMNS.NAME]);
     if (path) {
-      navigate(`/${currentLang}/company/${path}`);
+      navigate(`/${currentLang}/company/${path}${location.search}`);
     }
   };
 
@@ -102,34 +111,47 @@ function Company() {
     availableYears.forEach((y) => {
       const yearData = allMoney[y] || [];
       const companyYearData = yearData.filter(
-        (item) => item[MONEY_SHEET_COLUMNS.NAME] === currentCompany[COMPANY_SHEET_COLUMNS.NAME],
+        (item) =>
+          item[MONEY_SHEET_COLUMNS.NAME] ===
+          currentCompany[COMPANY_SHEET_COLUMNS.NAME],
       );
       companyYearData.forEach((item) => {
         data.push({ ...item, [MONEY_SHEET_COLUMNS.YEAR]: y });
       });
     });
     return data.sort((a, b) => {
-      if (a[MONEY_SHEET_COLUMNS.YEAR] !== b[MONEY_SHEET_COLUMNS.YEAR]) return b[MONEY_SHEET_COLUMNS.YEAR].localeCompare(a[MONEY_SHEET_COLUMNS.YEAR]);
+      if (a[MONEY_SHEET_COLUMNS.YEAR] !== b[MONEY_SHEET_COLUMNS.YEAR])
+        return b[MONEY_SHEET_COLUMNS.YEAR].localeCompare(
+          a[MONEY_SHEET_COLUMNS.YEAR],
+        );
       return a[MONEY_SHEET_COLUMNS.QUARTER] - b[MONEY_SHEET_COLUMNS.QUARTER];
     });
   }, [currentCompany, allMoney, availableYears]);
 
   const companyYears = useMemo(() => {
     if (!companyData) return [];
-    const years = [...new Set(companyData.map((item) => item[MONEY_SHEET_COLUMNS.YEAR]))];
+    const years = [
+      ...new Set(companyData.map((item) => item[MONEY_SHEET_COLUMNS.YEAR])),
+    ];
     return years.sort((a, b) => b.localeCompare(a));
   }, [companyData]);
 
   const filteredData = useMemo(() => {
     if (!companyData) return [];
     if (!selectedYear || selectedYear === "") return companyData;
-    return companyData.filter((item) => item[MONEY_SHEET_COLUMNS.YEAR] === selectedYear);
+    return companyData.filter(
+      (item) => item[MONEY_SHEET_COLUMNS.YEAR] === selectedYear,
+    );
   }, [companyData, selectedYear]);
 
   const totals = useMemo(() => {
     return {
-      income: sumDecimalNumbers(filteredData.map((item) => item[MONEY_SHEET_COLUMNS.INCOME])),
-      expenses: sumDecimalNumbers(filteredData.map((item) => item[MONEY_SHEET_COLUMNS.EXPENSES])),
+      income: sumDecimalNumbers(
+        filteredData.map((item) => item[MONEY_SHEET_COLUMNS.INCOME]),
+      ),
+      expenses: sumDecimalNumbers(
+        filteredData.map((item) => item[MONEY_SHEET_COLUMNS.EXPENSES]),
+      ),
       "financial-result": sumDecimalNumbers(
         filteredData.map((item) => item[MONEY_SHEET_COLUMNS.FINANCIAL_RESULT]),
       ),
@@ -140,17 +162,29 @@ function Company() {
     if (!filteredData || filteredData.length === 0) return null;
 
     const showQuarterly = selectedYear && selectedYear !== "";
-    const groupKey = showQuarterly ? MONEY_SHEET_COLUMNS.QUARTER : MONEY_SHEET_COLUMNS.YEAR;
+    const groupKey = showQuarterly
+      ? MONEY_SHEET_COLUMNS.QUARTER
+      : MONEY_SHEET_COLUMNS.YEAR;
 
     const grouped = {};
     filteredData.forEach((item) => {
       const key = item[groupKey];
       if (!grouped[key]) {
-        grouped[key] = { [MONEY_SHEET_COLUMNS.INCOME]: [], [MONEY_SHEET_COLUMNS.EXPENSES]: [], [MONEY_SHEET_COLUMNS.FINANCIAL_RESULT]: [] };
+        grouped[key] = {
+          [MONEY_SHEET_COLUMNS.INCOME]: [],
+          [MONEY_SHEET_COLUMNS.EXPENSES]: [],
+          [MONEY_SHEET_COLUMNS.FINANCIAL_RESULT]: [],
+        };
       }
-      grouped[key][MONEY_SHEET_COLUMNS.INCOME].push(item[MONEY_SHEET_COLUMNS.INCOME]);
-      grouped[key][MONEY_SHEET_COLUMNS.EXPENSES].push(item[MONEY_SHEET_COLUMNS.EXPENSES]);
-      grouped[key][MONEY_SHEET_COLUMNS.FINANCIAL_RESULT].push(item[MONEY_SHEET_COLUMNS.FINANCIAL_RESULT]);
+      grouped[key][MONEY_SHEET_COLUMNS.INCOME].push(
+        item[MONEY_SHEET_COLUMNS.INCOME],
+      );
+      grouped[key][MONEY_SHEET_COLUMNS.EXPENSES].push(
+        item[MONEY_SHEET_COLUMNS.EXPENSES],
+      );
+      grouped[key][MONEY_SHEET_COLUMNS.FINANCIAL_RESULT].push(
+        item[MONEY_SHEET_COLUMNS.FINANCIAL_RESULT],
+      );
     });
 
     let keys = Object.keys(grouped);
@@ -164,9 +198,11 @@ function Company() {
       showQuarterly ? (k === "0" ? t("company.allQuarters") : k) : k,
     );
 
+    const rate = CURRENCIES[currency]?.rate || 1;
+
     const createDataset = (label, data, color, isDashed) => ({
       label,
-      data,
+      data: data.map((v) => v * rate),
       borderColor: color.border,
       backgroundColor: color.bg,
       borderDash: isDashed ? [5, 5] : undefined,
@@ -178,29 +214,35 @@ function Company() {
       datasets: [
         createDataset(
           t("cards.income"),
-          keys.map((k) => sumDecimalNumbers(grouped[k][MONEY_SHEET_COLUMNS.INCOME])),
+          keys.map((k) =>
+            sumDecimalNumbers(grouped[k][MONEY_SHEET_COLUMNS.INCOME]),
+          ),
           INCOME_COLOR,
           false,
         ),
         createDataset(
           t("cards.expenses"),
-          keys.map((k) => sumDecimalNumbers(grouped[k][MONEY_SHEET_COLUMNS.EXPENSES])),
+          keys.map((k) =>
+            sumDecimalNumbers(grouped[k][MONEY_SHEET_COLUMNS.EXPENSES]),
+          ),
           EXPENSES_COLOR,
           false,
         ),
         createDataset(
           t("cards.financial-result"),
-          keys.map((k) => sumDecimalNumbers(grouped[k][MONEY_SHEET_COLUMNS.FINANCIAL_RESULT])),
+          keys.map((k) =>
+            sumDecimalNumbers(grouped[k][MONEY_SHEET_COLUMNS.FINANCIAL_RESULT]),
+          ),
           FINRESULT_COLOR,
           true,
         ),
       ],
     };
-  }, [filteredData, selectedYear, t]);
+  }, [filteredData, selectedYear, t, currency]);
 
   const chartOptions = useMemo(
-    () => createChartOptions(currentLang, true),
-    [currentLang],
+    () => createChartOptions(currentLang, true, currency),
+    [currentLang, currency],
   );
 
   useEffect(() => {
@@ -275,34 +317,42 @@ function Company() {
             {getLocalizedCompanyName(currentCompany, currentLang)}
           </h1>
           <p>{getLocalizedCompanyDescription(currentCompany, currentLang)}</p>
-          {currentCompany[COMPANY_SHEET_COLUMNS.WEBSITE] && isValidHttpUrl(currentCompany[COMPANY_SHEET_COLUMNS.WEBSITE]) && (
-            <a
-              title={`Мрежно место на ${currentCompany[COMPANY_SHEET_COLUMNS.NAME]}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-outline-secondary align-self-start"
-              href={currentCompany[COMPANY_SHEET_COLUMNS.WEBSITE]}
-            >
-              <i className="bi bi-box-arrow-up-right"></i>
-            </a>
-          )}
+          {currentCompany[COMPANY_SHEET_COLUMNS.WEBSITE] &&
+            isValidHttpUrl(currentCompany[COMPANY_SHEET_COLUMNS.WEBSITE]) && (
+              <a
+                title={`Мрежно место на ${currentCompany[COMPANY_SHEET_COLUMNS.NAME]}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline-secondary align-self-start"
+                href={currentCompany[COMPANY_SHEET_COLUMNS.WEBSITE]}
+              >
+                <i className="bi bi-box-arrow-up-right"></i>
+              </a>
+            )}
         </div>
         <div className="col-lg-4 align-items-end">
-          <div className="form-floating">
-            <select
-              value={selectedYear || ""}
-              className="form-select"
-              id="years"
-              onChange={(e) => setSelectedYear(e.target.value || null)}
-            >
-              <option value="">{t("company.allYears")}</option>
-              {companyYears.map((y) => (
-                <option key={y} value={y}>
-                  {y}
-                </option>
-              ))}
-            </select>
-            <label htmlFor="years">{t("nav.year")}</label>
+          <div className="row g-2">
+            <div className="col-md-6">
+              <div className="form-floating">
+                <select
+                  value={selectedYear || ""}
+                  className="form-select"
+                  id="years"
+                  onChange={(e) => setSelectedYear(e.target.value || null)}
+                >
+                  <option value="">{t("company.allYears")}</option>
+                  {companyYears.map((y) => (
+                    <option key={y} value={y}>
+                      {y}
+                    </option>
+                  ))}
+                </select>
+                <label htmlFor="years">{t("nav.year")}</label>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <CurrencySwitcher />
+            </div>
           </div>
         </div>
       </div>
@@ -333,7 +383,7 @@ function Company() {
                   const finResult = item[MONEY_SHEET_COLUMNS.FINANCIAL_RESULT];
                   const finResultNum =
                     finResult != null
-                      ? parseDecimalNumber(finResult, currentLang)
+                      ? parseDecimalNumber(finResult, currentLang, currency)
                       : "—";
                   const finResultColor =
                     finResult != null && formatDecimalNumber(finResult) < 0
@@ -349,12 +399,20 @@ function Company() {
                       </td>
                       <td className="text-end">
                         {item[MONEY_SHEET_COLUMNS.INCOME] != null
-                          ? parseDecimalNumber(item[MONEY_SHEET_COLUMNS.INCOME], currentLang)
+                          ? parseDecimalNumber(
+                              item[MONEY_SHEET_COLUMNS.INCOME],
+                              currentLang,
+                              currency,
+                            )
                           : "—"}
                       </td>
                       <td className="text-end">
                         {item[MONEY_SHEET_COLUMNS.EXPENSES] != null
-                          ? parseDecimalNumber(item[MONEY_SHEET_COLUMNS.EXPENSES], currentLang)
+                          ? parseDecimalNumber(
+                              item[MONEY_SHEET_COLUMNS.EXPENSES],
+                              currentLang,
+                              currency,
+                            )
                           : "—"}
                       </td>
                       <td className={`text-end text-${finResultColor}`}>

@@ -1,18 +1,20 @@
 import { useTranslation } from "react-i18next";
 import { parseDecimalNumber, formatDecimalNumber } from "../utils/decimalNumbers";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
+import { useUrlParams } from "../hooks/useUrlParams";
 
 export default function DefinitionList({ title, total, numbers, quarter, icon, isActive }) {
   const { t, i18n } = useTranslation();
   const lang = i18n.language || "mk";
+  const { selectedCurrency: currency } = useUrlParams([], []);
 
   const quarterNum = parseInt(quarter, 10) || 0;
   const quarterData = quarterNum !== 0 && numbers ? numbers.find((item) => item[MONEY_SHEET_COLUMNS.QUARTER] === quarterNum) : null;
 
   const displayValue = quarterNum === 0
-    ? parseDecimalNumber(total, lang)
+    ? parseDecimalNumber(total, lang, currency)
     : quarterData
-      ? parseDecimalNumber(quarterData[title], lang)
+      ? parseDecimalNumber(quarterData[title], lang, currency)
       : "—";
 
   const isFinancialResult = title === t("cards.financial-result");

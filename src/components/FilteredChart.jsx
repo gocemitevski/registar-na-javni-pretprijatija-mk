@@ -13,6 +13,8 @@ import {
   dashedBorderPlugin,
 } from "../utils/charts";
 import { COMPANY_SHEET_COLUMNS, MONEY_SHEET_COLUMNS } from "../utils/columns";
+import { CURRENCIES } from "../utils/currencies";
+import { useUrlParams } from "../hooks/useUrlParams";
 
 export default function FilteredChart({
   tableData,
@@ -26,6 +28,8 @@ export default function FilteredChart({
   const { lang } = useParams();
   const currentLang = lang || "mk";
   const chartRef = useRef(null);
+  const { selectedCurrency: currency } = useUrlParams([], []);
+  const currencyRate = CURRENCIES[currency]?.rate || 1;
 
   const chartTitle = useMemo(() => {
     const count = tableData?.length || 0;
@@ -94,7 +98,7 @@ export default function FilteredChart({
         datasets: [
           {
             label: t("cards.income"),
-            data: sortedEntries.map(([, totals]) => totals.income),
+            data: sortedEntries.map(([, totals]) => totals.income * currencyRate),
             backgroundColor: INCOME_COLOR.bg,
             borderColor: INCOME_COLOR.border,
             borderWidth: 1,
@@ -112,7 +116,7 @@ export default function FilteredChart({
         datasets: [
           {
             label: t("cards.expenses"),
-            data: sortedEntries.map(([, totals]) => totals.expenses),
+            data: sortedEntries.map(([, totals]) => totals.expenses * currencyRate),
             backgroundColor: EXPENSES_COLOR.bg,
             borderColor: EXPENSES_COLOR.border,
             borderWidth: 1,
@@ -129,7 +133,7 @@ export default function FilteredChart({
       datasets: [
         {
           label: t("cards.financial-result"),
-          data: sortedEntries.map(([, totals]) => totals.result),
+          data: sortedEntries.map(([, totals]) => totals.result * currencyRate),
           backgroundColor: FINRESULT_COLOR.bg,
           borderColor: "transparent",
           borderWidth: 0,
@@ -138,12 +142,12 @@ export default function FilteredChart({
         },
       ],
     };
-  }, [tableData, money, activeSort, filter, t, currentLang]);
+  }, [tableData, money, activeSort, filter, t, currentLang, currencyRate]);
 
   const chartOptions = useMemo(
     () =>
-      createHorizontalChartOptions(currentLang, chartData?.labels, false, 360),
-    [currentLang, chartData],
+      createHorizontalChartOptions(currentLang, chartData?.labels, false, 360, currency),
+    [currentLang, chartData, currency],
   );
 
   useEffect(() => {

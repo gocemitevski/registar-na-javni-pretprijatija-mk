@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { sumDecimalNumbers } from "../utils/decimalNumbers";
@@ -12,6 +12,7 @@ import { isValidHttpUrl } from "../utils/isValidUrl";
 export default function Card({ row, numbers, activeSort }) {
   const { t, i18n } = useTranslation();
   const { lang, quarter } = useParams();
+  const location = useLocation();
   const currentLang = lang || i18n.language || "mk";
 
   const SORT_KEYS = {
@@ -43,7 +44,7 @@ export default function Card({ row, numbers, activeSort }) {
         <div className="row g-3">
           <div className="col-lg-6 col-xl-8 vstack">
             <h1 className="card-title fs-5">
-              <Link to={`/${currentLang}/company/${cleanName(transliterate(row[COMPANY_SHEET_COLUMNS.NAME]))}`}>
+              <Link to={`/${currentLang}/company/${cleanName(transliterate(row[COMPANY_SHEET_COLUMNS.NAME]))}${location.search}`}>
                 {getLocalizedCompanyName(row, currentLang)}
               </Link>
             </h1>

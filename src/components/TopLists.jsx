@@ -1,10 +1,11 @@
 import { parseDecimalNumber } from "../utils/decimalNumbers";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
 import { getLocalizedCompanyName } from "../utils/localizeCompanyName";
 import { COMPANY_SHEET_COLUMNS } from "../utils/columns";
+import { useUrlParams } from "../hooks/useUrlParams";
 
 function TopLists({
   topExpenses,
@@ -19,7 +20,9 @@ function TopLists({
 }) {
   const { t, i18n } = useTranslation();
   const { lang } = useParams();
+  const location = useLocation();
   const currentLang = lang || i18n.language || "mk";
+  const { selectedCurrency: currency } = useUrlParams([], []);
 
   const renderList = (title, items, icon) => (
     <div className="col">
@@ -40,10 +43,10 @@ function TopLists({
               <Link
                 key={idx}
                 className="list-group-item link-primary hstack gap-3 justify-content-between align-items-center flex-fill"
-                to={`/${currentLang}/company/${cleanName(transliterate(name))}`}
+                to={`/${currentLang}/company/${cleanName(transliterate(name))}${location.search}`}
               >
                 <strong className="fw-bold">{localizedName}</strong>
-                <span className="text-body-emphasis text-nowrap">{parseDecimalNumber(value, currentLang)}</span>
+                <span className="text-body-emphasis text-nowrap">{parseDecimalNumber(value, currentLang, currency)}</span>
               </Link>
             );
           })}

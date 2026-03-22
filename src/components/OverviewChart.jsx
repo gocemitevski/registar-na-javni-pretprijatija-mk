@@ -2,14 +2,16 @@ import { useEffect, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import Chart from "chart.js/auto";
 import { createChartOptions, CHART_HEIGHT, dashedBorderPlugin } from "../utils/charts";
+import { useUrlParams } from "../hooks/useUrlParams";
 
 function OverviewChart({ chartData, selectedYear, selectedQuarter }) {
   const { t, i18n } = useTranslation();
   const chartRef = useRef(null);
+  const { selectedCurrency: currency } = useUrlParams([], []);
 
   const chartOptions = useMemo(
-    () => createChartOptions(i18n.language || "mk", false),
-    [i18n.language]
+    () => createChartOptions(i18n.language || "mk", false, currency),
+    [i18n.language, currency]
   );
 
   useEffect(() => {
