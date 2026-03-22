@@ -41,7 +41,8 @@ const resources = {
         all: "Сите квартали",
         sorting: "Подредување",
         order: "Редослед",
-        reset: "Врати ги основните вредности"
+        reset: "Врати ги основните вредности",
+        currency: "Валута"
       },
       search: {
         placeholder: "Пребарајте...",
@@ -181,6 +182,8 @@ const resources = {
         ai: "Вештачка интелигенција",
         aiDesc: "При изработката на проектот се користени различни модели за вештачка интелигенција, како MiniMax M2.5, Gemini и Qwen 3.5, со помош на алатката",
         opencode: "„OpenCode“",
+        currencyConversionTitle: "Претворање на валути",
+        currencyConversionDesc: "Презентацијата овозможува прегледување на финансиските податоци во македонски денари (MKD), евра (EUR), американски долари (USD) или британски фунти (GBP). Користените курсни вредности се фиксни (1 EUR = 0,017 MKD, 1 USD = 0,018 MKD, 1 GBP = 0,014 MKD) и не ги одразуваат моменталните пазарни курсеви. Претворањето на валутите е од информативен карактер.",
         sourceCodeTitle: "Изворен код",
         sourceCodeDesc: "на оваа компјутерска презентација е објавен на мрежата GitHub и слободно достапен за користење на сите заинтересирани страни под условите предвидени во лиценцата.",
         licenseTitle: "Лиценца за користење",
@@ -227,7 +230,8 @@ const resources = {
         all: "All quarters",
         sorting: "Sort by",
         order: "Order",
-        reset: "Reset to defaults"
+        reset: "Reset to defaults",
+        currency: "Currency"
       },
       search: {
         placeholder: "Search...",
@@ -367,6 +371,8 @@ const resources = {
         ai: "Artificial Intelligence",
         aiDesc: "Various artificial intelligence models, such as MiniMax M2.5, Gemini and Qwen 3.5, were used in the development of the project, using",
         opencode: "OpenCode",
+        currencyConversionTitle: "Currency Conversion",
+        currencyConversionDesc: "The application allows you to view financial data in Macedonian denar (MKD), Euro (EUR), US dollar (USD) or British pound (GBP). The exchange rates used are fixed values (1 EUR = 0.017 MKD, 1 USD = 0.018 MKD, 1 GBP = 0.014 MKD) and do not reflect real-time market rates. Currency conversion is for informational purposes only.",
         sourceCodeTitle: "Source Code",
         sourceCodeDesc: "of this computer presentation is published on GitHub and freely available for use by all interested parties under the terms of the license.",
         licenseTitle: "License",

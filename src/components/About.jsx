@@ -87,6 +87,8 @@ export default function About() {
             </a>
             .
           </p>
+          <h2 className="h4 mt-4 mb-3 text-primary-emphasis">{t("about.currencyConversionTitle")}</h2>
+          <p>{t("about.currencyConversionDesc")}</p>
           <h2 className="h4 mt-4 mb-3 text-primary-emphasis">{t("about.updatesTitle")}</h2>
           <p>{t("about.updates")}</p>
           <h2 className="h4 mt-4 mb-3 text-primary-emphasis">{t("about.responsibilityTitle")}</h2>
