@@ -47,7 +47,7 @@ function Breadcrumbs() {
   };
 
   const breadcrumbs = [
-    { label: t("breadcrumbs.home"), href: `/${currentLang}` },
+    { label: t("breadcrumbs.home"), href: location.search ? `/${currentLang}${location.search}` : `/${currentLang}` },
   ];
 
   if (isFilteredPageWithFilter) {
