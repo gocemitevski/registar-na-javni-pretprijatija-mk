@@ -14,6 +14,7 @@ import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import Breadcrumbs from "./components/Breadcrumbs.jsx";
 import CompanyWrapper from "./components/CompanyWrapper.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 import Loading from "./components/Loading.jsx";
 import CookieConsentWrapper from "./components/CookieConsentWrapper.jsx";
 import About from "./components/About.jsx";
@@ -49,6 +50,7 @@ function AppContent() {
 
   return (
     <>
+      <ScrollToTop />
       <Header />
       <Breadcrumbs />
       <Suspense fallback={<Loading />}>

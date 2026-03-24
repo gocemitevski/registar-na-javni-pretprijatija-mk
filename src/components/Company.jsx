@@ -87,10 +87,6 @@ function Company() {
   );
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [currentCompanyParam]);
-
-  useEffect(() => {
     if (!currentCompany) return;
 
     updateDocumentMeta(location, t, currentCompany, currentLang);
@@ -100,6 +96,7 @@ function Company() {
     if (idx < 0 || idx >= pretprijatija.length) return;
     const path = toCleanName(pretprijatija[idx][COMPANY_SHEET_COLUMNS.NAME]);
     if (path) {
+      window.scrollTo(0, 0);
       navigate(`/${currentLang}/company/${path}${location.search}`);
     }
   };
