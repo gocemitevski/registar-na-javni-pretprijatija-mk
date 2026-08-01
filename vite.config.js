@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import react, { reactCompilerPreset } from '@vitejs/plugin-react'
+import babel from '@rolldown/plugin-babel'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { execSync } from 'child_process'
@@ -26,11 +27,8 @@ const odsDateStr = getOdsDate()
 export default defineConfig({
   base: "./",
   plugins: [
-    react({
-      babel: {
-        plugins: [['babel-plugin-react-compiler']],
-      },
-    }),
+    react(),
+    babel({ presets: [reactCompilerPreset()] }),
   ],
   define: {
     __ODS_DATE__: JSON.stringify(odsDateStr),
@@ -39,11 +37,11 @@ export default defineConfig({
     include: ['chart.js'],
   },
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        manualChunks: {
-          'xlsx': ['xlsx'],
-          'chart': ['chart.js'],
+        manualChunks(id) {
+          if (id.includes('node_modules/xlsx')) return 'xlsx'
+          if (id.includes('node_modules/chart.js')) return 'chart'
         },
       },
     },
