@@ -7,11 +7,11 @@ This is a React 19 + Vite application that displays a registry of Macedonian pub
 ## Tech Stack
 
 - **Framework**: React 19 with React Compiler
-- **Build Tool**: Vite 7
-- **Styling**: Bootstrap 5 + SCSS (sass-embedded)
+- **Build Tool**: Vite 8
+- **Styling**: Bootstrap 5 + SCSS (Dart Sass)
 - **Routing**: React Router DOM 7
 - **Data Processing**: xlsx library for Excel parsing
-- **Linting**: ESLint 9 with react-hooks and react-refresh plugins
+- **Linting**: ESLint 10 with react-hooks and react-refresh plugins
 
 ---
 
