@@ -81,6 +81,7 @@ export function updateDocumentMeta(location, t, company = null, lang = "mk") {
 export default function usePageTitle() {
   const { t, i18n } = useTranslation();
   const location = useLocation();
+  const lang = i18n.language || "mk";
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
@@ -89,18 +90,6 @@ export default function usePageTitle() {
       return;
     }
 
-    const meta = computeMeta(location, t);
-    const lang = i18n.language || "mk";
-    const imageUrl = `${window.location.origin}${window.location.pathname}registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
-
-    document.title = meta.title;
-
-    document.querySelector('meta[name="description"]')?.setAttribute("content", meta.description);
-    document.querySelector('meta[property="og:title"]')?.setAttribute("content", meta.title);
-    document.querySelector('meta[property="og:description"]')?.setAttribute("content", meta.description);
-    document.querySelector('meta[property="og:image"]')?.setAttribute("content", imageUrl);
-    document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", meta.title);
-    document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", meta.description);
-    document.querySelector('meta[name="twitter:image"]')?.setAttribute("content", imageUrl);
-  }, [location.pathname, location.search, i18n.language, t]);
+    updateDocumentMeta(location, t, null, lang);
+  }, [location.pathname, location.search, i18n.language, t, lang]);
 }

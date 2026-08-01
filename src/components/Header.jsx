@@ -11,15 +11,16 @@ export default function Header() {
   const { lang } = useParams();
   const location = useLocation();
   const currentLang = lang || i18n.language || "mk";
-  const [pageTitle, setPageTitle] = useState(() => computeTitle(location, t));
+  const [titleOverride, setTitleOverride] = useState(null);
 
-  useEffect(() => {
-    setPageTitle(computeTitle(location, t));
-  }, [location, t]);
+  const pageTitle = useMemo(
+    () => titleOverride ?? computeTitle(location, t),
+    [titleOverride, location, t]
+  );
 
   useEffect(() => {
     const handleTitleUpdate = (e) => {
-      setPageTitle(e.detail.title);
+      setTitleOverride(e.detail.title);
     };
     window.addEventListener(TITLE_UPDATE_EVENT, handleTitleUpdate);
     return () =>
