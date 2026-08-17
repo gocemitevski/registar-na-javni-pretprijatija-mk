@@ -23,12 +23,19 @@ export function useUrlParams(availableYears = [], availableQuarters = []) {
     return availableYears.includes(params.yearParam) ? params.yearParam : latestYear;
   }, [params.yearParam, availableYears]);
 
+  const quarters = useMemo(() => {
+    if (typeof availableQuarters === "function") {
+      return availableQuarters(selectedYear);
+    }
+    return availableQuarters;
+  }, [availableQuarters, selectedYear]);
+
   const selectedQuarter = useMemo(() => {
     const q = params.quarterParam ? parseInt(params.quarterParam, 10) : 0;
     if (isNaN(q)) return 0;
-    if (availableQuarters.length > 0 && !availableQuarters.includes(q)) return 0;
+    if (quarters.length > 0 && !quarters.includes(q)) return 0;
     return q;
-  }, [params.quarterParam, availableQuarters]);
+  }, [params.quarterParam, quarters]);
 
   const selectedCurrency = useMemo(() => {
     if (!params.currencyParam) return DEFAULT_CURRENCY;
@@ -41,5 +48,6 @@ export function useUrlParams(availableYears = [], availableQuarters = []) {
     selectedYear,
     selectedQuarter,
     selectedCurrency,
+    quarters,
   };
 }

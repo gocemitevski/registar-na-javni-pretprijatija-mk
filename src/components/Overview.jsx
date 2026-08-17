@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useCallback, useRef } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useData } from "../hooks/useData";
@@ -24,11 +24,17 @@ function Overview() {
   const isNavigating = useRef(false);
   const { allMoney, availableYears, pretprijatija } = useData();
 
-  const quarters = useMemo(() => {
-    return [...new Set((allMoney[availableYears[0]] || []).map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]))].filter((q) => q !== 0).sort((a, b) => a - b);
-  }, [allMoney, availableYears]);
+  const getQuarters = useCallback(
+    (year) => [
+      ...new Set([
+        0,
+        ...(allMoney[year] || []).map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]),
+      ]),
+    ].sort((a, b) => a - b),
+    [allMoney],
+  );
 
-  const { selectedYear, selectedQuarter, selectedCurrency: currency } = useUrlParams(availableYears, quarters);
+  const { selectedYear, selectedQuarter, selectedCurrency: currency } = useUrlParams(availableYears, getQuarters);
 
   const currentLang = lang || "mk";
 

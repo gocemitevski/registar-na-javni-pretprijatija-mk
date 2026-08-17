@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useCallback, useRef } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useData } from "../hooks/useData";
 import { formatDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
@@ -17,11 +17,17 @@ function Registry() {
 
   const currentLang = lang || "mk";
 
-  const quarters = useMemo(() => {
-    return [...new Set((allMoney[availableYears[0]] || []).map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]))].filter((q) => q !== 0).sort((a, b) => a - b);
-  }, [allMoney, availableYears]);
+  const getQuarters = useCallback(
+    (year) => [
+      ...new Set([
+        0,
+        ...(allMoney[year] || []).map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]),
+      ]),
+    ].sort((a, b) => a - b),
+    [allMoney],
+  );
 
-  const { selectedYear, selectedQuarter } = useUrlParams(availableYears, quarters);
+  const { selectedYear, selectedQuarter } = useUrlParams(availableYears, getQuarters);
 
   const money = useMemo(() => {
     return allMoney[selectedYear] || [];

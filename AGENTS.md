@@ -230,9 +230,30 @@ The project uses ESLint with these rules:
 URL parameters are handled consistently using the `useUrlParams` hook from `src/hooks/useUrlParams.js`:
 
 ```js
+const quarters = [0, 1, 2, 3, 4];
+
 const { selectedYear, selectedQuarter, selectedCurrency } = useUrlParams(
   availableYears,
   quarters,
+);
+```
+
+The `availableQuarters` argument accepts either an array (shown above) or a function `(selectedYear) => quarters[]`. Use the function form when quarters depend on the selected year's sheet (e.g., derived from `allMoney[selectedYear]`) so the Квартал dropdown and quarter validation always reflect the currently selected year:
+
+```js
+const getQuarters = useCallback(
+  (year) => [
+    ...new Set([
+      0,
+      ...(allMoney[year] || []).map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]),
+    ]),
+  ],
+  [allMoney],
+);
+
+const { selectedYear, selectedQuarter, selectedCurrency } = useUrlParams(
+  availableYears,
+  getQuarters,
 );
 ```
 
@@ -241,6 +262,7 @@ The hook returns:
 - `selectedYear` - validated year from URL or default
 - `selectedQuarter` - validated quarter from URL or 0
 - `selectedCurrency` - validated currency (MKD, EUR, USD, GBP) or default MKD
+- `quarters` - the resolved quarters list used for validation (useful for rendering dropdown options)
 
 All components that need URL params should use this hook for consistency.
 

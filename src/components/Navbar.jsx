@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -28,23 +28,21 @@ export default function Navbar({
   const location = useLocation();
   const { availableYears, allMoney } = useData();
 
-  const quarters = useMemo(
-    () => [
+  const getQuarters = useCallback(
+    (year) => [
       ...new Set([
         0,
-        ...new Set(
-          (allMoney[availableYears[0]] || []).map(
-            (item) => item[MONEY_SHEET_COLUMNS.QUARTER],
-          ),
+        ...(allMoney[year] || []).map(
+          (item) => item[MONEY_SHEET_COLUMNS.QUARTER],
         ),
       ]),
-    ],
-    [allMoney, availableYears],
+    ].sort((a, b) => a - b),
+    [allMoney],
   );
 
-  const { selectedYear, selectedQuarter, selectedCurrency } = useUrlParams(
+  const { selectedYear, selectedQuarter, selectedCurrency, quarters } = useUrlParams(
     availableYears,
-    quarters,
+    getQuarters,
   );
 
   const selectedSorting = useMemo(

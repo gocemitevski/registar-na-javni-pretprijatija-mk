@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useData } from "../hooks/useData";
 import { useUrlParams } from "../hooks/useUrlParams";
@@ -19,15 +19,17 @@ function FilteredCompanies() {
   const { filter } = useParams();
   const { pretprijatija, allMoney, availableYears } = useData();
 
-  const money = useMemo(() => {
-    return allMoney[availableYears[0]] || [];
-  }, [allMoney, availableYears]);
+  const getQuarters = useCallback(
+    (year) => [
+      ...new Set([
+        0,
+        ...(allMoney[year] || []).map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]),
+      ]),
+    ].sort((a, b) => a - b),
+    [allMoney],
+  );
 
-  const availableQuarters = useMemo(() => {
-    return [...new Set(money.map((item) => item[MONEY_SHEET_COLUMNS.QUARTER]))].filter((q) => q !== 0).sort((a, b) => a - b);
-  }, [money]);
-
-  const { selectedYear, selectedQuarter } = useUrlParams(availableYears, availableQuarters);
+  const { selectedYear, selectedQuarter } = useUrlParams(availableYears, getQuarters);
 
   const yearMoney = useMemo(() => {
     return allMoney[selectedYear] || [];
