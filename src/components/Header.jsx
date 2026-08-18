@@ -2,6 +2,7 @@ import { Link, useParams, useLocation } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { socialLinkButtons } from "../utils/socialLinkButtons";
+import { getCanonicalUrl } from "../utils/canonicalUrl";
 import { computeTitle, TITLE_UPDATE_EVENT } from "../hooks/usePageTitle";
 import LanguageSwitcher from "./LanguageSwitcher";
 import LastDataUpdate from "./LastDataUpdate";
@@ -27,9 +28,11 @@ export default function Header() {
       window.removeEventListener(TITLE_UPDATE_EVENT, handleTitleUpdate);
   }, []);
 
+  const shareUrl = useMemo(() => getCanonicalUrl(location), [location]);
+
   const socialLinks = useMemo(
-    () => socialLinkButtons(pageTitle, window.location.href),
-    [pageTitle]
+    () => socialLinkButtons(pageTitle, shareUrl),
+    [pageTitle, shareUrl]
   );
 
   const homePath = location.search

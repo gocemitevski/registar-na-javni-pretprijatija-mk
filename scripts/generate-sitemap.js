@@ -10,7 +10,7 @@ const __dirname = dirname(__filename);
 const projectRoot = join(__dirname, "..");
 
 // eslint-disable-next-line no-undef
-const BASE_URL = process.env.VITE_SITE_URL || "https://pretprijatija.gocemitevski.com/#";
+const BASE_URL = process.env.VITE_SITE_URL || "https://pretprijatija.gocemitevski.com";
 
 const odsPath = join(projectRoot, "public/ods/registar-javni-pretprijatija-r-s-makedonija.ods");
 
@@ -28,23 +28,23 @@ const filters = [
 ];
 
 const staticRoutes = [
-  { path: "/mk", priority: "1.0" },
-  { path: "/en", priority: "1.0" },
-  { path: "/mk/registry", priority: "0.8" },
-  { path: "/en/registry", priority: "0.8" },
-  { path: "/mk/about", priority: "0.5" },
-  { path: "/en/about", priority: "0.5" },
+  { path: "/mk/", priority: "1.0" },
+  { path: "/en/", priority: "1.0" },
+  { path: "/mk/registry/", priority: "0.8" },
+  { path: "/en/registry/", priority: "0.8" },
+  { path: "/mk/about/", priority: "0.5" },
+  { path: "/en/about/", priority: "0.5" },
   ...filters.flatMap((filter) => [
-    { path: `/mk/filtered/${filter}`, priority: "0.9" },
-    { path: `/en/filtered/${filter}`, priority: "0.9" },
+    { path: `/mk/filtered/${filter}/`, priority: "0.9" },
+    { path: `/en/filtered/${filter}/`, priority: "0.9" },
   ]),
 ];
 
 const companyRoutes = companies.flatMap((company) => {
   const name = cleanName(transliterate(company["Назив"]));
   return [
-    { path: `/mk/company/${name}`, priority: "0.7" },
-    { path: `/en/company/${name}`, priority: "0.7" },
+    { path: `/mk/company/${name}/`, priority: "0.7" },
+    { path: `/en/company/${name}/`, priority: "0.7" },
   ];
 });
 

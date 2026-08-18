@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import ReactGA from "react-ga4";
 import { Cookies } from "react-cookie-consent";
 import "./assets/scss/style.scss";
-import { Route, Routes, Navigate, HashRouter, useLocation, useParams } from "react-router-dom";
+import { Route, Routes, Navigate, BrowserRouter, useLocation, useParams } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n/index.js";
 
@@ -45,7 +45,7 @@ function AppContent() {
   }, []);
 
   useEffect(() => {
-    ReactGA.send({ hitType: "pageview", page: location.pathname + location.hash });
+    ReactGA.send({ hitType: "pageview", page: location.pathname + location.search });
   }, [location]);
 
   return (
@@ -79,12 +79,17 @@ if (Cookies.get(import.meta.env.VITE_APP_GA_ID) === "true") {
     });
 }
 
+if (window.location.hash.startsWith("#/")) {
+  const cleanPath = window.location.hash.slice(1);
+  window.history.replaceState(null, "", cleanPath + window.location.search);
+}
+
 createRoot(root).render(
   <StrictMode>
-    <HashRouter>
+    <BrowserRouter>
       <I18nextProvider i18n={i18n}>
         <AppContent />
       </I18nextProvider>
-    </HashRouter>
+    </BrowserRouter>
   </StrictMode>
 );

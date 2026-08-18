@@ -340,13 +340,17 @@ The component accepts:
 - `selectedYear` - currently selected year
 - `selectedQuarter` - currently selected quarter (0 = all quarters)
 
-### Generating Sitemap
+### Generating Sitemap and Static Pages
 
-The sitemap is generated dynamically at build time using `scripts/generate-sitemap.mjs`. It runs automatically before `vite build` and:
+The sitemap and per-route static HTML shells are generated dynamically at build time. The build chain is:
 
-- Reads company data from the ODS file
-- Generates routes for all static pages and company detail pages
-- Outputs to `dist/sitemap.xml`
+```bash
+node scripts/generate-sitemap.js && vite build && node scripts/generate-pages.js && node scripts/generate-404.js
+```
+
+- `scripts/generate-sitemap.js` reads company data from the ODS file, generates routes for all static pages and company detail pages, and outputs to `dist/sitemap.xml`
+- `scripts/generate-pages.js` reads the built `dist/index.html`, and for every route writes a shell to `dist/<path>/index.html` with the correct title, meta description, canonical URL, OG/Twitter tags, and JSON-LD (WebSite on home, Organization with financial `additionalProperty` on company pages)
+- `scripts/generate-404.js` copies `dist/index.html` to `dist/404.html` (GitHub Pages serves this as the SPA fallback for unknown paths)
 
 To customize the site URL, set the `VITE_SITE_URL` environment variable:
 
@@ -354,7 +358,7 @@ To customize the site URL, set the `VITE_SITE_URL` environment variable:
 VITE_SITE_URL=https://example.com npm run build
 ```
 
-Defaults to `https://gocemitevski.github.io/registar-na-javni-pretprijatija-mk` if not set.
+Defaults to `https://pretprijatija.gocemitevski.com` if not set.
 
 ### Adding a New Route
 

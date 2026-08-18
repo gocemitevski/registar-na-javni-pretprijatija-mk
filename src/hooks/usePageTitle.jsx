@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { getLocalizedCompanyName, getLocalizedCompanyDescription } from "../utils/localizeCompanyName";
+import { getCanonicalUrl } from "../utils/canonicalUrl";
 
 export const TITLE_UPDATE_EVENT = "page-title-update";
 
@@ -54,7 +55,7 @@ export function computeTitle(location, t) {
 
 export function updateDocumentMeta(location, t, company = null, lang = "mk") {
   const meta = computeMeta(location, t);
-  const imageUrl = `${window.location.origin}${window.location.pathname}registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
+  const imageUrl = `${window.location.origin}${import.meta.env.BASE_URL}registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
 
   if (company && location.pathname.includes("/company/")) {
     const companyName = getLocalizedCompanyName(company, lang);
@@ -67,6 +68,8 @@ export function updateDocumentMeta(location, t, company = null, lang = "mk") {
 
   document.title = meta.title;
 
+  document.querySelector('link[rel="canonical"]')?.setAttribute("href", getCanonicalUrl(location));
+  document.querySelector('meta[property="og:url"]')?.setAttribute("content", getCanonicalUrl(location));
   document.querySelector('meta[name="description"]')?.setAttribute("content", meta.description);
   document.querySelector('meta[property="og:title"]')?.setAttribute("content", meta.ogTitle || meta.title);
   document.querySelector('meta[property="og:description"]')?.setAttribute("content", meta.ogDescription || meta.description);
