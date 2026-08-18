@@ -45,8 +45,8 @@ function Company() {
     loading: dataLoading,
     error,
   } = useData();
-  const [selectedYear, setSelectedYear] = useState(null);
   const chartRef = useRef(null);
+  const [selectedYear, setSelectedYear] = useState(null);
 
   const companyIndex = useMemo(
     () =>
@@ -99,6 +99,23 @@ function Company() {
       window.scrollTo(0, 0);
       navigate(`/${currentLang}/company/${path}${location.search}`);
     }
+  };
+
+  const handleYearChange = (e) => {
+    const newYear = e.target.value || null;
+    setSelectedYear(newYear);
+    const params = new URLSearchParams(location.search);
+    if (!newYear) {
+      params.delete("year");
+    } else {
+      params.set("year", newYear);
+    }
+    const newSearch = params.toString();
+    const basePath = location.pathname;
+    navigate(`${basePath}${newSearch ? `?${newSearch}` : ""}`, {
+      replace: true,
+      preventScrollReset: true,
+    });
   };
 
   const companyData = useMemo(() => {
@@ -335,7 +352,7 @@ function Company() {
                   value={selectedYear || ""}
                   className="form-select"
                   id="years"
-                  onChange={(e) => setSelectedYear(e.target.value || null)}
+                  onChange={handleYearChange}
                 >
                   <option value="">{t("company.allYears")}</option>
                   {companyYears.map((y) => (
