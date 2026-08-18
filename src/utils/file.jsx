@@ -1,1 +1,1 @@
-export const file = "ods/registar-javni-pretprijatija-r-s-makedonija.ods";
+export const file = `${import.meta.env.BASE_URL}ods/registar-javni-pretprijatija-r-s-makedonija.ods`;
