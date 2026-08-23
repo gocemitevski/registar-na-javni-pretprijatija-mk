@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 export default function About() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language || "mk";
-  const photo = `registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
+  const photo = `${import.meta.env.BASE_URL}registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
 
   return (
     <>
