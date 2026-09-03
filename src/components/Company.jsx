@@ -2,8 +2,8 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Chart from "chart.js/auto";
-import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
+import { transliterate } from "../utils/transliterate";
 import {
   formatDecimalNumber,
   parseDecimalNumber,
@@ -29,7 +29,7 @@ import { COMPANY_SHEET_COLUMNS, MONEY_SHEET_COLUMNS } from "../utils/columns";
 import { CURRENCIES } from "../utils/currencies";
 import { useUrlParams } from "../hooks/useUrlParams";
 
-const toCleanName = (name) => cleanName(transliterate(name));
+const toCleanName = (name) => cleanName(transliterate(name ?? ""));
 
 function Company() {
   const { t, i18n } = useTranslation();

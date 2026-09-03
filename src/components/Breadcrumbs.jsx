@@ -1,10 +1,10 @@
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useData } from "../hooks/useData";
-import { transliterate } from "../utils/transliterate";
 import { cleanName } from "../utils/cleanName";
+import { transliterate } from "../utils/transliterate";
 import { getLocalizedCompanyName } from "../utils/localizeCompanyName";
-import { MONEY_SHEET_COLUMNS } from "../utils/columns";
+import { COMPANY_SHEET_COLUMNS } from "../utils/columns";
 import { useUrlParams } from "../hooks/useUrlParams";
 
 function Breadcrumbs() {
@@ -26,7 +26,15 @@ function Breadcrumbs() {
   const filter = pathParts[langIndex + 1];
 
   const companySlug = isCompanyPage
-    ? decodeURIComponent(location.pathname.split("/company/")[1])
+    ? (() => {
+        const raw = location.pathname.split("/company/")[1] || "";
+        const firstSegment = raw.split("/")[0];
+        try {
+          return decodeURIComponent(firstSegment);
+        } catch {
+          return firstSegment;
+        }
+      })()
     : null;
 
   if (!isCompanyPage && !isFilteredPageWithFilter) {
@@ -60,7 +68,7 @@ function Breadcrumbs() {
     breadcrumbs.push({ label: filterTitles[filter] || filter, href: null });
   } else if (isCompanyPage) {
     const currentCompany = pretprijatija.find(
-      (el) => cleanName(transliterate(el[MONEY_SHEET_COLUMNS.NAME])) === companySlug,
+      (el) => cleanName(transliterate(el[COMPANY_SHEET_COLUMNS.NAME] ?? "")) === companySlug,
     );
     const companyName = getLocalizedCompanyName(currentCompany, currentLang) || companySlug || "...";
     breadcrumbs.push({ label: t("breadcrumbs.registry"), href: `/${currentLang}/registry${location.search}` });
