@@ -44,6 +44,16 @@ export const resources = {
         error: "Грешка при вчитување на податоците:",
         noResults: "Не постојат јавни претпријатија и трговски друштва за внесените параметри или пак, сте направиле некоја грешка при пребарувањето."
       },
+      error: {
+        title: "Грешка",
+        technicalData: "Технички податоци",
+        retry: "Обиди се повторно",
+        cors_error: "Техничка грешка при вчитување. Ве молам контактирајте со администраторот.",
+        file_not_found: "Не можам да пристапам до податоците. Проверете ја врската или обидете се подоцна.",
+        network_error: "Не успеав да се поврзам со серверот. Проверете ја врската до Интернет и обидете се повторно.",
+        corrupted_data: "Податоците не можат да се вчитаат поради техничка грешка. Ве молам обидете се подоцна.",
+        unknown: "Се случи непредвидена грешка при вчитување на податоците. Ве молам обидете се подоцна или побарајте поддршка."
+      },
       filters: {
         id: "Реден број",
         quarter: "Квартал",
@@ -232,6 +242,16 @@ export const resources = {
         loading: "Loading...",
         error: "Error loading data:",
         noResults: "No public enterprises or companies match your search criteria, or you may have made an error during your search."
+      },
+      error: {
+        title: "Error",
+        technicalData: "Technical details",
+        retry: "Try again",
+        cors_error: "Technical error loading data. Please contact the administrator.",
+        file_not_found: "Unable to access data. Please check your connection or try again later.",
+        network_error: "Unable to connect to server. Check your internet connection and try again.",
+        corrupted_data: "Data cannot be loaded due to a technical error. Please try again later.",
+        unknown: "An unexpected error occurred while loading data. Please try again later or contact support."
       },
       summary: {
         explore: "Explore",
