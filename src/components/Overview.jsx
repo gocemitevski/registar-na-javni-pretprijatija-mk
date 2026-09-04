@@ -2,10 +2,12 @@ import { useEffect, useMemo, useCallback, useRef } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useData } from "../hooks/useData";
+import DataErrorView from "./DataErrorView";
+import Loading from "./Loading";
 import Navbar from "./Navbar";
+import OverviewChart from "./OverviewChart";
 import SummaryCards from "./SummaryCards";
 import TopLists from "./TopLists";
-import OverviewChart from "./OverviewChart";
 import {
   formatDecimalNumber,
   sumDecimalNumbers,
@@ -22,7 +24,7 @@ function Overview() {
   const navigate = useNavigate();
   const location = useLocation();
   const isNavigating = useRef(false);
-  const { allMoney, availableYears, pretprijatija } = useData();
+  const { allMoney, availableYears, pretprijatija, loading, hasError, errorInfo, retry } = useData();
 
   const getQuarters = useCallback(
     (year) => [
@@ -155,6 +157,14 @@ function Overview() {
       ],
     };
   }, [allMoney, selectedYear, selectedQuarter, t, currency]);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (hasError) {
+    return <DataErrorView errorInfo={errorInfo} onRetry={retry} />;
+  }
 
   return (
     <>

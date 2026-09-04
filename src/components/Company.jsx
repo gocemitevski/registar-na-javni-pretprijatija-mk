@@ -10,6 +10,8 @@ import {
   sumDecimalNumbers,
 } from "../utils/decimalNumbers";
 import { useData } from "../hooks/useData";
+import DataErrorView from "./DataErrorView";
+import Loading from "./Loading";
 import TableFooterValue from "./TableFooterValue";
 import CurrencySwitcher from "./CurrencySwitcher";
 import {
@@ -43,7 +45,9 @@ function Company() {
     allMoney,
     availableYears,
     loading: dataLoading,
-    error,
+    hasError,
+    errorInfo,
+    retry,
   } = useData();
   const chartRef = useRef(null);
   const [selectedYear, setSelectedYear] = useState(null);
@@ -283,31 +287,11 @@ function Company() {
   }, [chartData, chartOptions]);
 
   if (dataLoading) {
-    return (
-      <div className="container my-5 flex-fill">
-        <div className="row">
-          <div className="col-12 text-center">
-            <div className="spinner-border" role="status">
-              <span className="visually-hidden">{t("common.loading")}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
-  if (error) {
-    return (
-      <div className="container my-5 flex-fill">
-        <div className="row">
-          <div className="col-12">
-            <div className="alert alert-danger" role="alert">
-              {t("common.error")} {error}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+  if (hasError) {
+    return <DataErrorView errorInfo={errorInfo} onRetry={retry} />;
   }
 
   if (!currentCompany) {
@@ -337,7 +321,7 @@ function Company() {
                 title={`Мрежно место на ${currentCompany[COMPANY_SHEET_COLUMNS.NAME]}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-outline-secondary align-self-start"
+                className="btn btn-sm btn-outline-secondary align-self-start"
                 href={currentCompany[COMPANY_SHEET_COLUMNS.WEBSITE]}
               >
                 <i className="bi bi-box-arrow-up-right"></i>

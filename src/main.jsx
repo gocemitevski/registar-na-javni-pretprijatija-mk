@@ -1,4 +1,4 @@
-import { StrictMode, Suspense, lazy, useEffect } from "react";
+import { StrictMode, Suspense, lazy, useEffect, useCallback } from "react";
 import { createRoot } from "react-dom/client";
 import ReactGA from "react-ga4";
 import { Cookies } from "react-cookie-consent";
@@ -6,22 +6,22 @@ import "./assets/scss/style.scss";
 import { Route, Routes, Navigate, BrowserRouter, useLocation, useParams } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n/index.js";
-
-document.documentElement.lang = i18n.language;
-
 import usePageTitle from "./hooks/usePageTitle";
-import Header from "./components/Header.jsx";
-import Footer from "./components/Footer.jsx";
+import About from "./components/About.jsx";
 import Breadcrumbs from "./components/Breadcrumbs.jsx";
 import CompanyWrapper from "./components/CompanyWrapper.jsx";
-import ScrollToTop from "./components/ScrollToTop.jsx";
-import Loading from "./components/Loading.jsx";
 import CookieConsentWrapper from "./components/CookieConsentWrapper.jsx";
-import About from "./components/About.jsx";
+import DataErrorBoundary from "./components/DataErrorBoundary.jsx";
+import Footer from "./components/Footer.jsx";
+import Header from "./components/Header.jsx";
+import Loading from "./components/Loading.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 
 export const Registry = lazy(() => import("./components/Registry.jsx"));
 export const Overview = lazy(() => import("./components/Overview.jsx"));
 export const FilteredCompanies = lazy(() => import("./components/FilteredCompanies.jsx"));
+
+document.documentElement.lang = i18n.language;
 
 function AppContent() {
   const location = useLocation();
@@ -48,8 +48,13 @@ function AppContent() {
     ReactGA.send({ hitType: "pageview", page: location.pathname + location.search });
   }, [location]);
 
+  // Render errors (chunk/Chart) need hard reload to re-fetch chunks
+  const handleRetry = useCallback(() => {
+    window.location.reload();
+  }, []);
+
   return (
-    <>
+    <DataErrorBoundary onRetry={handleRetry}>
       <ScrollToTop />
       <Header />
       <Breadcrumbs />
@@ -65,7 +70,7 @@ function AppContent() {
       </Suspense>
       <Footer />
       <CookieConsentWrapper />
-    </>
+    </DataErrorBoundary>
   );
 }
 

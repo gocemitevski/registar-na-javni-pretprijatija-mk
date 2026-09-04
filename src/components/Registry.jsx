@@ -5,15 +5,17 @@ import { formatDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers"
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
 import { buildQuery, sortByField, DEFAULT_SORTING, DEFAULT_ORDER, ASCENDING_ORDER, parseSortingParam, parseOrderParam } from "../utils/url";
 import { useUrlParams } from "../hooks/useUrlParams";
-import Navbar from "./Navbar";
 import Cards from "./Cards";
+import DataErrorView from "./DataErrorView";
+import Loading from "./Loading";
+import Navbar from "./Navbar";
 
 function Registry() {
   const { lang } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const isNavigating = useRef(false);
-  const { pretprijatija, allMoney, availableYears } = useData();
+  const { pretprijatija, allMoney, availableYears, loading, hasError, errorInfo, retry } = useData();
 
   const currentLang = lang || "mk";
 
@@ -110,6 +112,14 @@ function Registry() {
       return fieldMap[selectedSorting] ?? 0;
     }, direction);
   }, [money, selectedQuarter, selectedSorting, selectedOrder, direction]);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (hasError) {
+    return <DataErrorView errorInfo={errorInfo} onRetry={retry} />;
+  }
 
   return (
     <>

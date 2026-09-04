@@ -5,6 +5,8 @@ import { useUrlParams } from "../hooks/useUrlParams";
 import { formatDecimalNumber } from "../utils/decimalNumbers";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
 import Cards from "./Cards";
+import DataErrorView from "./DataErrorView";
+import Loading from "./Loading";
 
 const FILTERS = {
   "positive-result": (c) => c.totalResult > 0,
@@ -17,7 +19,7 @@ const FILTERS = {
 
 function FilteredCompanies() {
   const { filter } = useParams();
-  const { pretprijatija, allMoney, availableYears } = useData();
+  const { pretprijatija, allMoney, availableYears, loading, hasError, errorInfo, retry } = useData();
 
   const getQuarters = useCallback(
     (year) => [
@@ -83,6 +85,14 @@ function FilteredCompanies() {
   };
 
   const activeSort = FILTER_TO_SORT[filter] || "id";
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (hasError) {
+    return <DataErrorView errorInfo={errorInfo} onRetry={retry} />;
+  }
 
   return (
     <Cards

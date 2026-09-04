@@ -10,7 +10,7 @@ import { useUrlParams } from "../hooks/useUrlParams";
 function Breadcrumbs() {
   const { t, i18n } = useTranslation();
   const location = useLocation();
-  const { pretprijatija, loading, availableYears } = useData();
+  const { pretprijatija, loading, hasError, availableYears } = useData();
   const { lang } = useParams();
   const currentLang = lang || i18n.language || "mk";
 
@@ -41,7 +41,7 @@ function Breadcrumbs() {
     return null;
   }
 
-  if ((isFilteredPageWithFilter || isCompanyPage) && loading) {
+  if ((isFilteredPageWithFilter || isCompanyPage) && (loading || hasError)) {
     return null;
   }
 
