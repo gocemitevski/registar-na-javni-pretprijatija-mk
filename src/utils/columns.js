@@ -14,6 +14,7 @@ export const MONEY_SHEET_COLUMNS = {
   QUARTER: "Квартал",
   YEAR: "Година",
   ID: "Реден број",
+  DIRECTOR: "Директор",
 };
 
 export const SEARCH_COLUMNS = {

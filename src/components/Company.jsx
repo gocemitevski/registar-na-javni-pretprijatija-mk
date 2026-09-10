@@ -24,6 +24,7 @@ import {
 import {
   getLocalizedCompanyName,
   getLocalizedCompanyDescription,
+  getLocalizedDirectorName,
 } from "../utils/localizeCompanyName";
 import { updateDocumentMeta } from "../hooks/usePageTitle";
 import { isValidHttpUrl } from "../utils/isValidUrl";
@@ -175,6 +176,74 @@ function Company() {
       ),
     };
   }, [filteredData]);
+
+  const directorsTimeline = useMemo(() => {
+    if (!filteredData || filteredData.length === 0) return [];
+    const sorted = [...filteredData]
+      .filter((item) =>
+        item[MONEY_SHEET_COLUMNS.DIRECTOR]?.toString().trim(),
+      )
+      .sort((a, b) => {
+        if (a[MONEY_SHEET_COLUMNS.YEAR] !== b[MONEY_SHEET_COLUMNS.YEAR])
+          return a[MONEY_SHEET_COLUMNS.YEAR].localeCompare(
+            b[MONEY_SHEET_COLUMNS.YEAR],
+          );
+        return a[MONEY_SHEET_COLUMNS.QUARTER] - b[MONEY_SHEET_COLUMNS.QUARTER];
+      });
+    const timeline = [];
+    sorted.forEach((item) => {
+      const director = item[MONEY_SHEET_COLUMNS.DIRECTOR].toString().trim();
+      if (
+        timeline.length > 0 &&
+        timeline[timeline.length - 1].director === director
+      )
+        return;
+      timeline.push({
+        year: item[MONEY_SHEET_COLUMNS.YEAR],
+        quarter: item[MONEY_SHEET_COLUMNS.QUARTER],
+        director,
+      });
+    });
+    return timeline;
+  }, [filteredData]);
+
+  const directorsMaxYear = useMemo(() => {
+    if (!filteredData || filteredData.length === 0) return null;
+    let max = null;
+    filteredData.forEach((item) => {
+      // Only years backed by an actual director value count as evidence,
+      // so the incumbent's end badge never outruns the data.
+      if (!item[MONEY_SHEET_COLUMNS.DIRECTOR]?.toString().trim()) return;
+      const year = item[MONEY_SHEET_COLUMNS.YEAR];
+      if (max === null || year.localeCompare(max) > 0) max = year;
+    });
+    return max;
+  }, [filteredData]);
+
+  const showDirectorRanges = !selectedYear || selectedYear === "";
+
+  const directorStats = useMemo(() => {
+    if (!showDirectorRanges || directorsTimeline.length < 2) return null;
+    // Attribute each change to the year the new director took over,
+    // then look for 2+ changes across any two back-to-back years.
+    const changeYears = [];
+    for (let i = 1; i < directorsTimeline.length; i++) {
+      changeYears.push(parseInt(directorsTimeline[i].year, 10));
+    }
+    let best = null;
+    const minYear = Math.min(...changeYears);
+    const maxYear = Math.max(...changeYears);
+    // Windows are capped at maxYear so the warning never names a year
+    // beyond the dataset (e.g. "2024–2025" when 2024 is the latest data).
+    for (let from = minYear - 1; from < maxYear; from++) {
+      const to = from + 1;
+      const changes = changeYears.filter((y) => y === from || y === to).length;
+      if (changes >= 2 && (!best || changes > best.changes)) {
+        best = { changes, from, to };
+      }
+    }
+    return best;
+  }, [directorsTimeline, showDirectorRanges]);
 
   const chartData = useMemo(() => {
     if (!filteredData || filteredData.length === 0) return null;
@@ -365,6 +434,83 @@ function Company() {
               </div>
             </div>
           )}
+          <div className="my-4 my-lg-5">
+            <div className="hstack flex-wrap gap-2 gap-lg-3 mb-3">
+              <h2 className="h5 mb-0">{t("company.directors")}</h2>
+              {directorStats && (
+                <div
+                  className="alert alert-warning hstack gap-2 px-3 py-2 mb-0 ms-auto"
+                  role="alert"
+                >
+                  <i
+                    className="bi bi-exclamation-triangle-fill flex-shrink-0"
+                    aria-hidden="true"
+                  ></i>
+                  <span>
+                    {t("company.directorChanges", {
+                      changes: directorStats.changes,
+                      from: directorStats.from,
+                      to: directorStats.to,
+                    })}
+                  </span>
+                </div>
+              )}
+            </div>
+            {directorsTimeline.length > 0 ? (
+              <ol className="directors-timeline list-unstyled mb-0">
+                {directorsTimeline.map((entry, idx) => {
+                  const endYear =
+                    idx < directorsTimeline.length - 1
+                      ? directorsTimeline[idx + 1].year
+                      : (directorsMaxYear ?? entry.year);
+                  return (
+                    <li
+                      key={`${entry.year}-${entry.quarter}-${entry.director}-${idx}`}
+                      className={`d-flex position-relative directors-timeline-item ${idx === directorsTimeline.length - 1 ? "pb-0" : "pb-3"}`}
+                    >
+                      <div
+                        className="directors-timeline-rail flex-shrink-0"
+                        aria-hidden="true"
+                      >
+                        <span className="directors-timeline-dot d-block mx-auto flex-shrink-0 position-relative z-1 rounded-circle bg-secondary"></span>
+                      </div>
+                      <div className="ms-3 flex-fill hstack gap-2 gap-lg-3 align-items-center">
+                        {showDirectorRanges ? (
+                          <span className="hstack gap-2 flex-shrink-0">
+                            <span className="badge text-bg-light">
+                              {entry.year}
+                            </span>
+                            <span className="hstack gap-2 me-1">
+                              <span>–</span>
+                              <span className="badge text-bg-light">
+                                {endYear}
+                              </span>
+                            </span>
+                          </span>
+                        ) : (
+                          <span className="badge text-bg-light flex-shrink-0 me-1">
+                            {entry.year}
+                          </span>
+                        )}
+                        <div className="border rounded px-3 py-2 shadow-sm bg-body flex-fill">
+                          <strong className="fw-semibold">
+                            {getLocalizedDirectorName(
+                              entry.director,
+                              currentLang,
+                            )}
+                          </strong>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+            ) : (
+              <div className="alert alert-secondary">
+                {t("company.noDirectors")}
+              </div>
+            )}
+          </div>
           <div className="table-responsive">
             <table className="table table-striped table-hover">
               <thead>
