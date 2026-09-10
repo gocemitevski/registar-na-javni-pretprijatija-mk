@@ -165,7 +165,9 @@ export const resources = {
         directors: "Директори",
         noDirectors: "Нема податоци за директорите за избраниот период.",
         directorChanges:
-          "Директорот бил променет {{changes}} пати во периодот {{from}}–{{to}} година."
+          "Директорот бил променет {{changes}} пати во периодот {{from}}–{{to}} година.",
+        directorAlsoIn: "И во уште {{count}} претпријатија",
+        directorAlsoIn_singular: "И во уште {{count}} претпријатие"
       },
       about: {
         intro: "Регистарот на јавни претпријатија и трговски друштва во државна сопственост на Р. С. Македонија е изработен за да овозможи увид во работата на јавните претпријатија и трговските друштва во сопственост на Република Северна Македонија.",
@@ -368,7 +370,9 @@ export const resources = {
         directors: "Directors",
         noDirectors: "No directors data available for the selected period.",
         directorChanges:
-          "The director has changed {{changes}} times in the period {{from}}–{{to}}."
+          "The director has changed {{changes}} times in the period {{from}}–{{to}}.",
+        directorAlsoIn: "Also at {{count}} more companies",
+        directorAlsoIn_singular: "Also at {{count}} more company"
       },
       about: {
         intro: "The Registry of Public Enterprises and Trading Companies in State Ownership of R. N. Macedonia has been created to provide insight into the work of public enterprises and trading companies in state ownership of the Republic of North Macedonia.",

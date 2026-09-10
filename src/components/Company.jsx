@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Chart from "chart.js/auto";
 import { cleanName } from "../utils/cleanName";
@@ -245,6 +245,52 @@ function Company() {
     return best;
   }, [directorsTimeline, showDirectorRanges]);
 
+  // Other companies each director served at (tenure spans across all years),
+  // keyed by raw Cyrillic name to match timeline entries before localization.
+  const directorOtherCompanies = useMemo(() => {
+    if (!currentCompany || Object.keys(allMoney).length === 0) return {};
+    const currentName = currentCompany[COMPANY_SHEET_COLUMNS.NAME];
+    const spans = {};
+    availableYears.forEach((y) => {
+      (allMoney[y] || []).forEach((item) => {
+        const director = item[MONEY_SHEET_COLUMNS.DIRECTOR]
+          ?.toString()
+          .trim();
+        const company = item[MONEY_SHEET_COLUMNS.NAME];
+        if (
+          !director ||
+          !company ||
+          company === currentName ||
+          !toCleanName(company)
+        )
+          return;
+        spans[director] ??= {};
+        const span = (spans[director][company] ??= {
+          company,
+          from: y,
+          to: y,
+        });
+        if (y.localeCompare(span.from) < 0) span.from = y;
+        if (y.localeCompare(span.to) > 0) span.to = y;
+      });
+    });
+    const result = {};
+    Object.entries(spans).forEach(([director, byCompany]) => {
+      result[director] = Object.values(byCompany).sort((a, b) =>
+        a.from.localeCompare(b.from),
+      );
+    });
+    return result;
+  }, [currentCompany, allMoney, availableYears]);
+
+  const companyNameByName = useMemo(() => {
+    const map = {};
+    pretprijatija.forEach((row) => {
+      map[row[COMPANY_SHEET_COLUMNS.NAME]] = row;
+    });
+    return map;
+  }, [pretprijatija]);
+
   const chartData = useMemo(() => {
     if (!filteredData || filteredData.length === 0) return null;
 
@@ -463,6 +509,8 @@ function Company() {
                     idx < directorsTimeline.length - 1
                       ? directorsTimeline[idx + 1].year
                       : (directorsMaxYear ?? entry.year);
+                  const others =
+                    directorOtherCompanies[entry.director] ?? [];
                   return (
                     <li
                       key={`${entry.year}-${entry.quarter}-${entry.director}-${idx}`}
@@ -493,12 +541,74 @@ function Company() {
                           </span>
                         )}
                         <div className="border rounded px-3 py-2 shadow-sm bg-body flex-fill">
-                          <strong className="fw-semibold">
-                            {getLocalizedDirectorName(
-                              entry.director,
-                              currentLang,
-                            )}
-                          </strong>
+                          {others.length > 0 ? (
+                            <details className="director-details">
+                              <summary className="hstack gap-2">
+                                <strong className="fw-semibold me-auto">
+                                  {getLocalizedDirectorName(
+                                    entry.director,
+                                    currentLang,
+                                  )}
+                                </strong>
+                                <span className="badge text-bg-success fw-normal">
+                                  {others.length === 1
+                                    ? t("company.directorAlsoIn_singular", {
+                                        count: others.length,
+                                      })
+                                    : t("company.directorAlsoIn", {
+                                        count: others.length,
+                                      })}
+                                  <i
+                                    className="bi bi-chevron-down ms-1 director-details-chevron"
+                                    aria-hidden="true"
+                                  ></i>
+                                </span>
+                              </summary>
+                              <ul className="list-unstyled vstack gap-1 mt-2 mb-0 small">
+                                {others.map((o) => {
+                                  const row = companyNameByName[o.company];
+                                  return (
+                                    <li
+                                      key={o.company}
+                                      className="hstack gap-2"
+                                    >
+                                      {row ? (
+                                        <Link
+                                          className="fw-bolder"
+                                          to={`/${currentLang}/company/${toCleanName(o.company)}${location.search}`}
+                                        >
+                                          {getLocalizedCompanyName(
+                                            row,
+                                            currentLang,
+                                          )}
+                                        </Link>
+                                      ) : (
+                                        <span className="fw-bolder">
+                                          {o.company}
+                                        </span>
+                                      )}
+                                      <span className="ms-auto hstack gap-2 flex-shrink-0">
+                                        <span className="badge text-bg-light">
+                                          {o.from}
+                                        </span>
+                                        <span>–</span>
+                                        <span className="badge text-bg-light">
+                                          {o.to}
+                                        </span>
+                                      </span>
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            </details>
+                          ) : (
+                            <strong className="fw-semibold">
+                              {getLocalizedDirectorName(
+                                entry.director,
+                                currentLang,
+                              )}
+                            </strong>
+                          )}
                         </div>
                       </div>
                     </li>

@@ -106,3 +106,24 @@
 .directors-timeline-item:only-child::before {
   display: none;
 }
+
+.director-details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.director-details > summary::marker {
+  content: "";
+}
+
+.director-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.director-details-chevron {
+  transition: transform 150ms ease-in-out;
+}
+
+.director-details[open] .director-details-chevron {
+  transform: rotate(180deg);
+}
