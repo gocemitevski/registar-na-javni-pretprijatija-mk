@@ -485,7 +485,7 @@ function Company() {
               <h2 className="h5 mb-0">{t("company.directors")}</h2>
               {directorStats && (
                 <div
-                  className="alert alert-warning hstack gap-2 px-3 py-2 mb-0 ms-auto"
+                  className="alert alert-warning hstack fs-sm gap-2 px-3 py-2 mb-0 ms-auto"
                   role="alert"
                 >
                   <i
