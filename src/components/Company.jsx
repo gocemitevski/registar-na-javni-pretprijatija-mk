@@ -522,7 +522,7 @@ function Company() {
                       >
                         <span className="directors-timeline-dot d-block mx-auto flex-shrink-0 position-relative z-1 rounded-circle bg-secondary"></span>
                       </div>
-                      <div className="ms-3 flex-fill hstack gap-2 gap-lg-3 align-items-center">
+                      <div className="ms-3 flex-fill hstack flex-wrap gap-2 gap-lg-3 align-items-center">
                         {showDirectorRanges ? (
                           <span className="hstack gap-2 flex-shrink-0">
                             <span className="badge text-bg-light">
@@ -543,14 +543,14 @@ function Company() {
                         <div className="border rounded px-3 py-2 shadow-sm bg-body flex-fill">
                           {others.length > 0 ? (
                             <details className="director-details">
-                              <summary className="hstack gap-2">
+                              <summary className="hstack flex-wrap gap-2">
                                 <strong className="fw-semibold me-auto">
                                   {getLocalizedDirectorName(
                                     entry.director,
                                     currentLang,
                                   )}
                                 </strong>
-                                <span className="badge text-bg-success fw-normal">
+                                <span className="badge text-bg-success fw-normal text-wrap">
                                   {others.length === 1
                                     ? t("company.directorAlsoIn_singular", {
                                         count: others.length,
@@ -570,7 +570,7 @@ function Company() {
                                   return (
                                     <li
                                       key={o.company}
-                                      className="hstack gap-2"
+                                      className="hstack flex-wrap gap-2"
                                     >
                                       {row ? (
                                         <Link
