@@ -82,29 +82,12 @@
 .directors-timeline-dot {
   width: 0.625rem;
   height: 0.625rem;
-  margin-top: 1rem;
+  flex-shrink: 0;
 }
 
-.directors-timeline-item::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: calc(0.5rem - 1px);
+.directors-timeline-connector {
   width: 2px;
   background-color: var(--bs-secondary-bg-subtle, #e2e3e5);
-}
-
-.directors-timeline-item:first-child::before {
-  top: 1.3rem;
-}
-
-.directors-timeline-item:last-child::before {
-  bottom: calc(100% - 1.3rem);
-}
-
-.directors-timeline-item:only-child::before {
-  display: none;
 }
 
 .director-details > summary {

@@ -542,22 +542,36 @@ function Company() {
                   return (
                     <li
                       key={`${entry.year}-${entry.quarter}-${entry.director}-${idx}`}
-                      className={`d-flex position-relative directors-timeline-item ${idx === directorsTimeline.length - 1 ? "pb-0" : "pb-3"}`}
+                      className="d-flex"
                     >
                       <div
-                        className="directors-timeline-rail flex-shrink-0"
+                        className="directors-timeline-rail flex-shrink-0 d-flex flex-column align-items-center"
                         aria-hidden="true"
                       >
-                        <span className="directors-timeline-dot d-block mx-auto flex-shrink-0 position-relative z-1 rounded-circle bg-secondary"></span>
+                        <span
+                          className={`flex-fill ${idx > 0 ? "directors-timeline-connector" : ""}`}
+                        ></span>
+                        <span className="directors-timeline-dot rounded-circle bg-secondary"></span>
+                        {/*
+                          pb-3 must match the row's mb-3 below: the padding is
+                          painted with the line color, so the connector covers
+                          the inter-item gap while the dot stays centered on
+                          the card instead of shifting by half the margin.
+                        */}
+                        <span
+                          className={`flex-fill ${idx < directorsTimeline.length - 1 ? "directors-timeline-connector pb-3" : ""}`}
+                        ></span>
                       </div>
-                      <div className="ms-3 flex-fill hstack flex-wrap gap-2 gap-lg-3 align-items-center">
+                      <div
+                        className={`ms-3 flex-fill hstack flex-wrap gap-2 gap-lg-3 align-items-center ${idx === directorsTimeline.length - 1 ? "mb-0" : "mb-3"}`}
+                      >
                         {showDirectorRanges ? (
                           <span className="hstack gap-2 flex-shrink-0">
                             <span className="badge text-bg-light">
                               {entry.year}
                             </span>
                             <span className="hstack gap-2 me-1">
-                              <span>–</span>
+                              <span className="lh-1">–</span>
                               <span className="badge text-bg-light">
                                 {endYear}
                               </span>
