@@ -245,12 +245,16 @@ function Company() {
     return best;
   }, [directorsTimeline, showDirectorRanges]);
 
-  // Other companies each director served at (tenure spans across all years),
-  // keyed by raw Cyrillic name to match timeline entries before localization.
+  // Other companies each director served at, keyed by raw Cyrillic name
+  // to match timeline entries before localization. One entry per stint
+  // (return tenures are listed separately, not merged).
+  // End year follows timeline semantics: the year the next tenure at that
+  // company started (or the latest evidenced year for an ongoing tenure),
+  // so details spans always agree with timeline badges.
   const directorOtherCompanies = useMemo(() => {
     if (!currentCompany || Object.keys(allMoney).length === 0) return {};
     const currentName = currentCompany[COMPANY_SHEET_COLUMNS.NAME];
-    const spans = {};
+    const rowsByCompany = {};
     availableYears.forEach((y) => {
       (allMoney[y] || []).forEach((item) => {
         const director = item[MONEY_SHEET_COLUMNS.DIRECTOR]
@@ -264,19 +268,40 @@ function Company() {
           !toCleanName(company)
         )
           return;
-        spans[director] ??= {};
-        const span = (spans[director][company] ??= {
-          company,
-          from: y,
-          to: y,
+        (rowsByCompany[company] ??= []).push({
+          director,
+          year: y,
+          quarter: item[MONEY_SHEET_COLUMNS.QUARTER],
         });
-        if (y.localeCompare(span.from) < 0) span.from = y;
-        if (y.localeCompare(span.to) > 0) span.to = y;
+      });
+    });
+    const stintsByDirector = {};
+    Object.entries(rowsByCompany).forEach(([company, rows]) => {
+      rows.sort(
+        (a, b) =>
+          a.year.localeCompare(b.year) || a.quarter - b.quarter,
+      );
+      const tenures = [];
+      rows.forEach(({ director, year }) => {
+        if (
+          tenures.length > 0 &&
+          tenures[tenures.length - 1].director === director
+        )
+          return;
+        tenures.push({ director, year });
+      });
+      const maxEvYear = rows[rows.length - 1].year;
+      tenures.forEach((tenure, i) => {
+        (stintsByDirector[tenure.director] ??= []).push({
+          company,
+          from: tenure.year,
+          to: i + 1 < tenures.length ? tenures[i + 1].year : maxEvYear,
+        });
       });
     });
     const result = {};
-    Object.entries(spans).forEach(([director, byCompany]) => {
-      result[director] = Object.values(byCompany).sort((a, b) =>
+    Object.entries(stintsByDirector).forEach(([director, stints]) => {
+      result[director] = stints.sort((a, b) =>
         a.from.localeCompare(b.from),
       );
     });
@@ -511,6 +536,9 @@ function Company() {
                       : (directorsMaxYear ?? entry.year);
                   const others =
                     directorOtherCompanies[entry.director] ?? [];
+                  const otherCompanyCount = new Set(
+                    others.map((o) => o.company),
+                  ).size;
                   return (
                     <li
                       key={`${entry.year}-${entry.quarter}-${entry.director}-${idx}`}
@@ -551,12 +579,12 @@ function Company() {
                                   )}
                                 </strong>
                                 <span className="badge text-bg-success fw-normal text-wrap">
-                                  {others.length === 1
+                                  {otherCompanyCount === 1
                                     ? t("company.directorAlsoIn_singular", {
-                                        count: others.length,
+                                        count: otherCompanyCount,
                                       })
                                     : t("company.directorAlsoIn", {
-                                        count: others.length,
+                                        count: otherCompanyCount,
                                       })}
                                   <i
                                     className="bi bi-chevron-down ms-1 director-details-chevron"
@@ -565,11 +593,11 @@ function Company() {
                                 </span>
                               </summary>
                               <ul className="list-unstyled vstack gap-1 mt-2 mb-0 small">
-                                {others.map((o) => {
+                                {others.map((o, oIdx) => {
                                   const row = companyNameByName[o.company];
                                   return (
                                     <li
-                                      key={o.company}
+                                      key={`${o.company}-${o.from}-${o.to}-${oIdx}`}
                                       className="hstack flex-wrap gap-2"
                                     >
                                       {row ? (
