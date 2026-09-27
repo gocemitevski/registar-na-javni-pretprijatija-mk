@@ -187,7 +187,7 @@ export default function Navbar({
             <div className={`${showSortingFilters ? `col-xxl-7` : `col-xxl-6`}`}>
               <div className="row g-2">
                 <div
-                  className={`${showSortingFilters ? `col-lg-2` : `col-lg-3`} flex-fill`}
+                  className={`${showSortingFilters ? `col-md-2` : `col-md-3`} flex-fill`}
                 >
                   <div className="form-floating flex-fill">
                     <select
@@ -206,7 +206,7 @@ export default function Navbar({
                   </div>
                 </div>
                 <div
-                  className={`${showSortingFilters ? `col-lg-2` : `col-lg-3`} flex-fill`}
+                  className={`${showSortingFilters ? `col-md-2` : `col-md-3`} flex-fill`}
                 >
                   <div className="form-floating flex-fill">
                     <select
@@ -226,7 +226,7 @@ export default function Navbar({
                 </div>
                 {showSortingFilters && (
                   <>
-                    <div className="col-lg-2 flex-fill">
+                    <div className="col-md-2 flex-fill">
                       <div className="form-floating flex-fill">
                         <select
                           value={selectedSorting}
@@ -244,7 +244,7 @@ export default function Navbar({
                       </div>
                     </div>
                     {selectedSorting !== DEFAULT_SORTING && (
-                      <div className="col-lg-2 flex-fill">
+                      <div className="col-md-2 flex-fill">
                         <div className="form-floating flex-fill">
                           <select
                             value={selectedOrder}
@@ -265,7 +265,7 @@ export default function Navbar({
                   </>
                 )}
                 <div
-                  className={`col-auto ${showSortingFilters ? `col-lg-2` : `col-lg-3`} flex-fill`}
+                  className={`col-auto ${showSortingFilters ? `col-md-2` : `col-md-3`} flex-fill`}
                 >
                   <CurrencySwitcher />
                 </div>
