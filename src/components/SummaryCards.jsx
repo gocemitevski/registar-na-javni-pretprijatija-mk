@@ -156,7 +156,7 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
             <div key={index} className="col">
               <div className={`card h-100 shadow ${cardValues[index] !== 0 ? `btn-link-arrow btn-link-shadow` : ``}`}>
                 <div className="card-body hstack gap-3">
-                  <div className="flex-fill vstack gap-3">
+                  <div className="flex-fill align-self-center vstack gap-2">
                     <h2
                       className={`card-text mb-0 fw-light text-uppercase order-1 fs-6`}
                     >
