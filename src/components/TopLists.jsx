@@ -42,7 +42,7 @@ function TopLists({
             return (
               <Link
                 key={idx}
-                className="list-group-item link-primary hstack gap-3 justify-content-between align-items-center flex-fill"
+                className="list-group-item link-primary hstack flex-wrap flex-sm-nowrap gap-3 justify-content-between align-items-center flex-fill"
                 to={`/${currentLang}/company/${cleanName(transliterate(name))}${location.search}`}
               >
                 <strong className="fw-bold">{localizedName}</strong>
