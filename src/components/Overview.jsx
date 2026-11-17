@@ -12,7 +12,7 @@ import {
   formatDecimalNumber,
   sumDecimalNumbers,
 } from "../utils/decimalNumbers";
-import { buildQuery } from "../utils/url";
+import { buildQuery, URL_NORMALIZATION_STATE } from "../utils/url";
 import { INCOME_COLOR, EXPENSES_COLOR, FINRESULT_COLOR } from "../utils/charts";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
 import { CURRENCIES } from "../utils/currencies";
@@ -56,7 +56,7 @@ function Overview() {
 
     if (currentPath !== targetPath) {
       isNavigating.current = true;
-      navigate(targetPath, { replace: true });
+      navigate(targetPath, { replace: true, state: URL_NORMALIZATION_STATE });
     }
   }, [
     currentLang,

@@ -365,6 +365,22 @@ Defaults to `https://pretprijatija.gocemitevski.com` if not set.
 1. Import component in `main.jsx`
 2. Add `<Route path="/path" element={<Component />} />` inside `<Routes>`
 
+### Analytics (Matomo)
+
+Analytics uses self-hosted, cookieless Matomo — no cookies or consent banner. Logic lives in `src/utils/matomo.js`:
+
+- `initMatomo()` - queued once from `main.jsx`; pushes `disableCookies`, `setDoNotTrack`, tracker URL/site ID, and injects `matomo.js` async
+- `trackPageView({ path, title, isUrlNormalization })` - SPA page view; consecutive duplicates are dropped. Normalisation navigations (e.g. `/mk` → `/mk?year=2026`) are suppressed so the same page isn't double-counted
+- `getCurrentPath()` - returns `pathname + search`
+
+Page views are **not** sent on route change. They are sent on the `TITLE_UPDATE_EVENT` dispatched by `updateDocumentMeta`, because company pages only resolve their title after their data loads. When adding a page that sets its own title outside `usePageTitle`, call `updateDocumentMeta` so the page view is reported.
+
+Tracker URL and site ID default to the production values and can be overridden with `VITE_APP_MATOMO_URL` / `VITE_APP_MATOMO_SITE_ID`.
+
+#### Normalisation suppression (fix 3)
+
+List pages (`/mk`, `/mk/registry`) fill in default query params once their data loads. The navigation is a *replace* that only adds the defaults to the URL. The tracker detects this by comparing the new URL's pathname against the last tracked pathname — if they match, it's suppressed as the same page view. User-initiated changes (e.g. selecting a different year on an already-populated company page) are **not** suppressed because their previous tracked URL already carried a query string.
+
 ---
 
 ## Notes

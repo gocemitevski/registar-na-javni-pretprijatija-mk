@@ -53,7 +53,13 @@ export function computeTitle(location, t) {
   return meta.title;
 }
 
-export function updateDocumentMeta(location, t, company = null, lang = "mk") {
+export function updateDocumentMeta(
+  location,
+  t,
+  company = null,
+  lang = "mk",
+  { title = null, isUrlNormalization = false } = {},
+) {
   const meta = computeMeta(location, t);
   const imageUrl = `${window.location.origin}${import.meta.env.BASE_URL}registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${lang}-1200x675.webp`;
 
@@ -64,6 +70,13 @@ export function updateDocumentMeta(location, t, company = null, lang = "mk") {
     meta.description = companyDescription || t("app.description");
     meta.ogTitle = companyName;
     meta.ogDescription = companyDescription;
+  }
+
+  // Callers may override the computed title (e.g. company not found, where
+  // there is no company object to derive the title from).
+  if (title) {
+    meta.title = title;
+    meta.ogTitle = title;
   }
 
   document.title = meta.title;
@@ -78,7 +91,11 @@ export function updateDocumentMeta(location, t, company = null, lang = "mk") {
   document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", meta.description);
   document.querySelector('meta[name="twitter:image"]')?.setAttribute("content", imageUrl);
 
-  window.dispatchEvent(new CustomEvent(TITLE_UPDATE_EVENT, { detail: { title: meta.title } }));
+  window.dispatchEvent(
+    new CustomEvent(TITLE_UPDATE_EVENT, {
+      detail: { title: meta.title, isUrlNormalization },
+    }),
+  );
 }
 
 export default function usePageTitle() {
@@ -88,11 +105,20 @@ export default function usePageTitle() {
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
+    // The root route immediately redirects to /mk, so the "/" render is
+    // transient: tracking it would report the redirected URL with a stale
+    // title. The landing page dispatch covers it.
+    if (location.pathname === "/") {
+      return;
+    }
+
     // Skip company pages - Company.jsx handles those with full data
     if (location.pathname.includes("/company/")) {
       return;
     }
 
-    updateDocumentMeta(location, t, null, lang);
-  }, [location.pathname, location.search, i18n.language, t, lang]);
+    updateDocumentMeta(location, t, null, lang, {
+      isUrlNormalization: location.state?.urlNormalization === true,
+    });
+  }, [location.pathname, location.search, i18n.language, t, lang, location.state]);
 }

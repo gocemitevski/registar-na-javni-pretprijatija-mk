@@ -5,6 +5,11 @@ export const DEFAULT_ORDER = order[0];
 export const ASCENDING_ORDER = order[1];
 export const DEFAULT_CURRENCY = "MKD";
 
+// Location state marking a programmatic redirect that only fills in default
+// query params. Analytics ignores these so the normalised URL is not counted
+// as an extra page view.
+export const URL_NORMALIZATION_STATE = { urlNormalization: true };
+
 export function buildQuery(year, quarter, sort, orderParam, currentSearch = "") {
   const params = new URLSearchParams(currentSearch);
   params.delete("year");

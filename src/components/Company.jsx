@@ -92,10 +92,19 @@ function Company() {
   );
 
   useEffect(() => {
-    if (!currentCompany) return;
+    // The company is only known once the data has loaded; dispatching in the
+    // meantime would report a "not found" title for a valid company.
+    if (dataLoading || hasError) return;
+
+    if (!currentCompany) {
+      updateDocumentMeta(location, t, null, currentLang, {
+        title: `${t("company.notFound")} - ${t("app.title_short")}`,
+      });
+      return;
+    }
 
     updateDocumentMeta(location, t, currentCompany, currentLang);
-  }, [currentCompany, currentLang, t, location]);
+  }, [currentCompany, currentLang, t, location, dataLoading, hasError]);
 
   const goToCompany = (idx) => {
     if (idx < 0 || idx >= pretprijatija.length) return;

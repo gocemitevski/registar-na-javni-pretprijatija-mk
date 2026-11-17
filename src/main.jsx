@@ -1,16 +1,14 @@
 import { StrictMode, Suspense, lazy, useEffect, useCallback } from "react";
 import { createRoot } from "react-dom/client";
-import ReactGA from "react-ga4";
-import { Cookies } from "react-cookie-consent";
 import "./assets/scss/style.scss";
-import { Route, Routes, Navigate, BrowserRouter, useLocation, useParams } from "react-router-dom";
+import { Route, Routes, Navigate, BrowserRouter, useParams } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n/index.js";
-import usePageTitle from "./hooks/usePageTitle";
+import usePageTitle, { TITLE_UPDATE_EVENT } from "./hooks/usePageTitle";
+import { getCurrentPath, initMatomo, trackPageView } from "./utils/matomo";
 import About from "./components/About.jsx";
 import Breadcrumbs from "./components/Breadcrumbs.jsx";
 import CompanyWrapper from "./components/CompanyWrapper.jsx";
-import CookieConsentWrapper from "./components/CookieConsentWrapper.jsx";
 import DataErrorBoundary from "./components/DataErrorBoundary.jsx";
 import Footer from "./components/Footer.jsx";
 import Header from "./components/Header.jsx";
@@ -24,7 +22,6 @@ export const FilteredCompanies = lazy(() => import("./components/FilteredCompani
 document.documentElement.lang = i18n.language;
 
 function AppContent() {
-  const location = useLocation();
   const { lang } = useParams();
 
   usePageTitle();
@@ -43,10 +40,6 @@ function AppContent() {
     i18n.on("languageChanged", updateLang);
     return () => i18n.off("languageChanged", updateLang);
   }, []);
-
-  useEffect(() => {
-    ReactGA.send({ hitType: "pageview", page: location.pathname + location.search });
-  }, [location]);
 
   // Render errors (chunk/Chart) need hard reload to re-fetch chunks
   const handleRetry = useCallback(() => {
@@ -69,20 +62,28 @@ function AppContent() {
         </Routes>
       </Suspense>
       <Footer />
-      <CookieConsentWrapper />
     </DataErrorBoundary>
   );
 }
 
 const root = document.getElementById("root");
 
-if (Cookies.get(import.meta.env.VITE_APP_GA_ID) === "true") {
-  import.meta.env.VITE_APP_GA &&
-    ReactGA.initialize(import.meta.env.VITE_APP_GA, {
-      debug: false,
-      gaOptions: { cookieDomain: "pretprijatija.gocemitevski.com" },
-    });
-}
+// Cookieless analytics: no cookies or other identifiers are stored on the
+// visitor's device, so the tracker runs without a consent gate.
+initMatomo();
+
+// Page views are reported when the title for the current route is finalised.
+// usePageTitle and Company.jsx both dispatch TITLE_UPDATE_EVENT once a page's
+// metadata is ready, which also covers company pages whose title only resolves
+// after their data has loaded. The listener is registered here, before React
+// mounts, so the very first page view is not missed.
+window.addEventListener(TITLE_UPDATE_EVENT, (event) => {
+  trackPageView({
+    path: getCurrentPath(),
+    title: document.title,
+    isUrlNormalization: event.detail?.isUrlNormalization === true,
+  });
+});
 
 if (window.location.hash.startsWith("#/")) {
   const cleanPath = window.location.hash.slice(1);

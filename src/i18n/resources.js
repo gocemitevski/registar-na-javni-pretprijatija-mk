@@ -16,10 +16,6 @@ export const resources = {
         author: "Гоце Митевски",
         availableOn: "е достапен на GitHub под лиценцата"
       },
-      cookieConsent: {
-        message: "Ова мрежно место користи т.н. колачиња за подобрување на корисничкото искуство.",
-        button: "Во ред"
-      },
       nav: {
         home: "Почетна",
         registry: "Регистар",
@@ -194,6 +190,8 @@ export const resources = {
         licenseDesc: "Изворниот код на оваа компјутерска презентација може слободно да се користи под условите предвидени во лиценцата",
         updatesTitle: "Ажурирање",
         updates: "Податоците се ажурираат повремено, соодветно на објавите на Министерството за финансии на Република Северна Македонија. Датумот на последното ажурирање е назначен во заглавието на секоја страница.",
+        analyticsTitle: "Аналитика",
+        analytics: "За увид во посетеноста се користи Matomo, алатка за аналитика со отворен код поставена на сопствен сервер. Следењето работи без колачиња: на вашиот уред не се зачувуваат колачиња, не се создаваат кориснички профили и не сте следени низ други мрежни места. Податоците се користат исклучиво во сумарна форма, за подобрување на презентацијата.",
         responsibilityTitle: "Одговорност",
         responsibility: "Авторот на оваа компјутерска презентација во целост",
         responsibilityStrong: "се иззема од одговорност за можни грешки во изворните или обработените податоци.",
@@ -220,10 +218,6 @@ export const resources = {
         madeBy: "Made by",
         author: "Goce Mitevski",
         availableOn: "is available on GitHub under the"
-      },
-      cookieConsent: {
-        message: "This website uses cookies to improve user experience.",
-        button: "Got it"
       },
       nav: {
         home: "Home",
@@ -399,6 +393,8 @@ export const resources = {
         licenseDesc: "The source code of this computer presentation can be freely used under the terms of the license",
         updatesTitle: "Updates",
         updates: "Data is updated periodically, in accordance with announcements from the Ministry of Finance of the Republic of North Macedonia. The date of the last update is indicated in the header of each page.",
+        analyticsTitle: "Analytics",
+        analytics: "Visitor statistics are collected with Matomo, an open-source analytics tool hosted on its own server. Tracking is cookieless: no cookies are stored on your device, no user profiles are created, and you are not followed across other websites. The data is used exclusively in aggregate form, to improve this presentation.",
         responsibilityTitle: "Responsibility",
         responsibility: "The author of this computer presentation entirely",
         responsibilityStrong: "accepts no responsibility for possible errors in the source or processed data.",

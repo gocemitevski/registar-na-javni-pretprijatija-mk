@@ -3,7 +3,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useData } from "../hooks/useData";
 import { formatDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
-import { buildQuery, sortByField, DEFAULT_SORTING, DEFAULT_ORDER, ASCENDING_ORDER, parseSortingParam, parseOrderParam } from "../utils/url";
+import { buildQuery, URL_NORMALIZATION_STATE, sortByField, DEFAULT_SORTING, DEFAULT_ORDER, ASCENDING_ORDER, parseSortingParam, parseOrderParam } from "../utils/url";
 import { useUrlParams } from "../hooks/useUrlParams";
 import Cards from "./Cards";
 import DataErrorView from "./DataErrorView";
@@ -52,7 +52,7 @@ function Registry() {
 
     if (currentPath !== targetPath) {
       isNavigating.current = true;
-      navigate(targetPath, { replace: true });
+      navigate(targetPath, { replace: true, state: URL_NORMALIZATION_STATE });
     }
   }, [currentLang, selectedYear, selectedQuarter, selectedSorting, selectedOrder, navigate, location.pathname, location.search, availableYears]);
 
