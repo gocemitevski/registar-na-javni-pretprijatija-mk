@@ -6,8 +6,9 @@
   <link rel="icon" type="image/svg+xml" href="/buildings.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>%VITE_APP_META_TITLE%</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="image" href="/img/hero-mobile.webp" media="(max-width: 991.98px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="/img/hero-desktop.webp" media="(min-width: 992px)" fetchpriority="high" />
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/noto-sans-cyrillic.woff2" crossorigin />
   <link rel="canonical" href="%VITE_APP_CANONICAL_URL%" />
   <meta name="description" content="%VITE_APP_META_DESCRIPTION%" />
   <meta name="google-site-verification" content="%VITE_APP_GSV%" />
@@ -26,8 +27,6 @@
   <meta name="twitter:site" content="%VITE_APP_TWITTER%" />
   <meta name="twitter:creator" content="%VITE_APP_TWITTER%" />
   <meta name="twitter:image" content="%VITE_APP_CANONICAL_URL%%VITE_APP_OG_IMAGE%" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-    rel="stylesheet">
 </head>
 
 <body class="vh-100 vstack gap-0">

@@ -40,7 +40,6 @@ export default defineConfig({
     rolldownOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules/xlsx')) return 'xlsx'
           if (id.includes('node_modules/chart.js')) return 'chart'
         },
       },

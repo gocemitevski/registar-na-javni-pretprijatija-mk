@@ -6,6 +6,7 @@ import { cleanName } from "../utils/cleanName";
 import { getLocalizedCompanyName } from "../utils/localizeCompanyName";
 import { COMPANY_SHEET_COLUMNS } from "../utils/columns";
 import { useUrlParams } from "../hooks/useUrlParams";
+import Icon from "./Icon";
 
 function TopLists({
   topExpenses,
@@ -29,7 +30,7 @@ function TopLists({
       <div className="card text-bg-light vstack h-100 shadow">
         <div className="card-body flex-grow-0">
           <h2 className="card-title fs-5 hstack gap-3 mb-0">
-            <i className={`text-warning-emphasis bi bi-${icon}`}></i>
+            <Icon name={icon} className="text-warning-emphasis" />
             <span>
               {title} {selectedQuarter > 0 ? t("toplists.titleQuarter", { year: selectedYear, quarter: selectedQuarter }) : t("toplists.titleYear", { year: selectedYear })}
             </span>

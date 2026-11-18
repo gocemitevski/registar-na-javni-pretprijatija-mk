@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Chart from "chart.js/auto";
+import Chart from "../utils/chartSetup";
 import { cleanName } from "../utils/cleanName";
 import { transliterate } from "../utils/transliterate";
 import {
@@ -14,6 +14,7 @@ import DataErrorView from "./DataErrorView";
 import Loading from "./Loading";
 import TableFooterValue from "./TableFooterValue";
 import CurrencySwitcher from "./CurrencySwitcher";
+import Icon from "./Icon";
 import {
   INCOME_COLOR,
   EXPENSES_COLOR,
@@ -473,7 +474,7 @@ function Company() {
                 className="btn btn-sm btn-outline-secondary align-self-start"
                 href={currentCompany[COMPANY_SHEET_COLUMNS.WEBSITE]}
               >
-                <i className="bi bi-box-arrow-up-right"></i>
+                <Icon name="box-arrow-up-right" />
               </a>
             )}
         </div>
@@ -522,10 +523,10 @@ function Company() {
                   className="alert alert-warning hstack fs-sm gap-2 px-3 py-2 mb-0 ms-auto"
                   role="alert"
                 >
-                  <i
-                    className="bi bi-exclamation-triangle-fill flex-shrink-0"
-                    aria-hidden="true"
-                  ></i>
+                  <Icon
+                    name="exclamation-triangle-fill"
+                    className="flex-shrink-0"
+                  />
                   <span>
                     {t("company.directorChanges", {
                       changes: directorStats.changes,
@@ -609,10 +610,10 @@ function Company() {
                                     : t("company.directorAlsoIn", {
                                         count: otherCompanyCount,
                                       })}
-                                  <i
-                                    className="bi bi-chevron-down ms-1 director-details-chevron"
-                                    aria-hidden="true"
-                                  ></i>
+                                  <Icon
+                                    name="chevron-down"
+                                    className="ms-1 director-details-chevron"
+                                  />
                                 </span>
                               </summary>
                               <ul className="list-unstyled vstack gap-1 mt-2 mb-0 small">
@@ -772,7 +773,7 @@ function Company() {
                     <h5 className="h6 me-5">
                       {getLocalizedCompanyName(previousCompany, currentLang)}
                     </h5>
-                    <i className="bi bi-arrow-left text-primary"></i>
+                    <Icon name="arrow-left" className="text-primary" />
                   </button>
                 </div>
               )}
@@ -789,7 +790,7 @@ function Company() {
                     <h5 className="h6 ms-5">
                       {getLocalizedCompanyName(nextCompany, currentLang)}
                     </h5>
-                    <i className="bi bi-arrow-right text-primary"></i>
+                    <Icon name="arrow-right" className="text-primary" />
                   </button>
                 </div>
               )}

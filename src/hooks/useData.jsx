@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import { read, utils } from "xlsx";
-import { file } from "../utils/file";
 import { getErrorMessageKey } from "../utils/errorMessages";
 
-let workbookPromise = null;
-let generation = 0; // bumped on resetWorkbook to cancel stale in-flight promises
+const DATA_URL = `${import.meta.env.BASE_URL}data/registar.json`;
+
+let dataPromise = null;
+let generation = 0; // bumped on resetData to cancel stale in-flight promises
 const resetCallbacks = new Set();
 
-export function resetWorkbook() {
-  workbookPromise = null;
+export function resetData() {
+  dataPromise = null;
   generation += 1;
   resetCallbacks.forEach((cb) => cb());
 }
@@ -21,26 +21,33 @@ export function registerReset(callback) {
 if (import.meta.hot) {
   import.meta.hot.dispose(() => {
     resetCallbacks.clear();
-    workbookPromise = null;
+    dataPromise = null;
     generation = 0;
   });
 }
 
-function loadWorkbook() {
-  if (workbookPromise) return workbookPromise;
+function loadData() {
+  if (dataPromise) return dataPromise;
 
-  workbookPromise = (async () => {
-    const response = await fetch(file);
+  dataPromise = (async () => {
+    const response = await fetch(DATA_URL);
     if (!response.ok) {
       const err = new Error(`Failed to fetch data: ${response.status}`);
       err.status = response.status;
       throw err;
     }
-    const arrayBuffer = await response.arrayBuffer();
-    return read(arrayBuffer);
+    const data = await response.json();
+
+    if (!Array.isArray(data?.companies) || !Array.isArray(data?.years) || typeof data?.moneyByYear !== "object") {
+      const err = new Error("invalid data: unexpected registry payload");
+      err.code = "INVALID_DATA";
+      throw err;
+    }
+
+    return data;
   })();
 
-  return workbookPromise;
+  return dataPromise;
 }
 
 export function useData() {
@@ -54,7 +61,7 @@ export function useData() {
   const [retryKey, setRetryKey] = useState(0);
 
   const retry = useCallback(() => {
-    resetWorkbook();
+    resetData();
   }, []);
 
   useEffect(() => {
@@ -71,27 +78,15 @@ export function useData() {
     if (hasInitialized.current) return;
     hasInitialized.current = true;
 
-    const myGen = generation; // capture generation to discard stale settlement after resetWorkbook
+    const myGen = generation; // capture generation to discard stale settlement after resetData
 
-    loadWorkbook()
-      .then((wb) => {
+    loadData()
+      .then((data) => {
         if (myGen !== generation) return;
-        const companies = utils.sheet_to_json(wb.Sheets["Претпријатија"], {
-          blankrows: false,
-        });
 
-        const years = wb.SheetNames.filter((_, index) => index > 0).sort().reverse();
-
-        const moneyByYear = {};
-        years.forEach((y) => {
-          moneyByYear[y] = utils.sheet_to_json(wb.Sheets[y], {
-            blankrows: false,
-          });
-        });
-
-        setPretprijatija(companies);
-        setAllMoney(moneyByYear);
-        setAvailableYears(years);
+        setPretprijatija(data.companies);
+        setAllMoney(data.moneyByYear);
+        setAvailableYears(data.years);
         setLoading(false);
       })
       .catch((err) => {

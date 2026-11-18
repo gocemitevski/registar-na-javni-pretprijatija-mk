@@ -8,7 +8,6 @@ import usePageTitle, { TITLE_UPDATE_EVENT } from "./hooks/usePageTitle";
 import { getCurrentPath, initMatomo, trackPageView } from "./utils/matomo";
 import About from "./components/About.jsx";
 import Breadcrumbs from "./components/Breadcrumbs.jsx";
-import CompanyWrapper from "./components/CompanyWrapper.jsx";
 import DataErrorBoundary from "./components/DataErrorBoundary.jsx";
 import Footer from "./components/Footer.jsx";
 import Header from "./components/Header.jsx";
@@ -18,6 +17,7 @@ import ScrollToTop from "./components/ScrollToTop.jsx";
 export const Registry = lazy(() => import("./components/Registry.jsx"));
 export const Overview = lazy(() => import("./components/Overview.jsx"));
 export const FilteredCompanies = lazy(() => import("./components/FilteredCompanies.jsx"));
+export const CompanyWrapper = lazy(() => import("./components/CompanyWrapper.jsx"));
 
 document.documentElement.lang = i18n.language;
 

@@ -6,6 +6,7 @@ import { getCanonicalUrl } from "../utils/canonicalUrl";
 import { computeTitle, TITLE_UPDATE_EVENT } from "../hooks/usePageTitle";
 import LanguageSwitcher from "./LanguageSwitcher";
 import LastDataUpdate from "./LastDataUpdate";
+import Icon from "./Icon";
 
 export default function Header() {
   const { t, i18n } = useTranslation();
@@ -80,7 +81,7 @@ export default function Header() {
                           rel="noopener noreferrer"
                           className="nav-link link-light"
                         >
-                          <i className={`bi ${icon.icon}`}></i>
+                          <Icon name={icon.icon} />
                           <span className="visually-hidden">
                             {t("header.shareOn", { title: icon.title })}
                           </span>

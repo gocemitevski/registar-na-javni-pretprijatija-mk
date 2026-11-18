@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { sumDecimalNumbers } from "../utils/decimalNumbers";
 import DefinitionList from "./DefinitionList";
+import Icon from "./Icon";
 import { cleanName } from "../utils/cleanName";
 import { transliterate } from "../utils/transliterate";
 import { getLocalizedCompanyName, getLocalizedCompanyDescription } from "../utils/localizeCompanyName";
@@ -57,7 +58,7 @@ export default function Card({ row, numbers, activeSort }) {
                 className="btn btn-sm btn-outline-secondary me-auto"
                 href={websiteUrl}
               >
-                <i className="bi bi-box-arrow-up-right"></i>
+                <Icon name="box-arrow-up-right" />
               </a>
             )}
           </div>
@@ -67,7 +68,7 @@ export default function Card({ row, numbers, activeSort }) {
               total={totalIncome}
               numbers={numbers}
               quarter={quarter}
-              icon="bi-arrow-down"
+              icon="arrow-down"
               isActive={activeTitle === t("cards.income")}
             />
             <DefinitionList
@@ -75,7 +76,7 @@ export default function Card({ row, numbers, activeSort }) {
               total={totalExpenses}
               numbers={numbers}
               quarter={quarter}
-              icon="bi-arrow-up"
+              icon="arrow-up"
               isActive={activeTitle === t("cards.expenses")}
             />
             <DefinitionList
@@ -83,7 +84,7 @@ export default function Card({ row, numbers, activeSort }) {
               total={totalFinancialResults}
               numbers={numbers}
               quarter={quarter}
-              icon="bi-arrow-down-up"
+              icon="arrow-down-up"
               isActive={activeTitle === t("cards.financial-result")}
             />
           </div>

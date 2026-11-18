@@ -3,6 +3,7 @@ import { Link, useParams, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { formatDecimalNumber } from "../utils/decimalNumbers";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
+import Icon from "./Icon";
 
 function SummaryCards({ money, selectedYear, selectedQuarter }) {
   const { t, i18n } = useTranslation();
@@ -176,7 +177,7 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
                       <span className="visually-hidden">
                         {t("summary.explore")}
                       </span>
-                      <i className="bi bi-arrow-right fs-3"></i>
+                      <Icon name="arrow-right" className="fs-3" />
                     </Link>
                   )}
                 </div>

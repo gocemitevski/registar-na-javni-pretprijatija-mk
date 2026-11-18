@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is a React 19 + Vite application that displays a registry of Macedonian public enterprises with financial data. The app loads data from ODS/Excel files and displays company information, financials, and search/filter capabilities.
+This is a React 19 + Vite application that displays a registry of Macedonian public enterprises with financial data. The app fetches a JSON payload that is generated at build time from the source ODS/Excel file, and displays company information, financials, and search/filter capabilities.
 
 ## Tech Stack
 
@@ -10,7 +10,8 @@ This is a React 19 + Vite application that displays a registry of Macedonian pub
 - **Build Tool**: Vite 8
 - **Styling**: Bootstrap 5 + SCSS (Dart Sass)
 - **Routing**: React Router DOM 7
-- **Data Processing**: xlsx library for Excel parsing
+- **Data Processing**: xlsx (build scripts only, never shipped to the browser)
+- **Charts**: Chart.js with explicit module registration (`src/utils/chartSetup.js`)
 - **Linting**: ESLint 10 with react-hooks and react-refresh plugins
 
 ---
@@ -20,8 +21,11 @@ This is a React 19 + Vite application that displays a registry of Macedonian pub
 ### Development
 
 ```bash
-npm run dev          # Start Vite dev server with HMR
+npm run dev          # Generate data, then start Vite dev server with HMR
+npm run data         # Regenerate public/data/registar.json from the ODS file
 ```
+
+`public/data/` is generated and gitignored, so run `npm run data` after changing the ODS file. `npm run dev` and `npm run build` do it automatically.
 
 ### Production Build
 
@@ -55,11 +59,13 @@ npm run lint         # Run ESLint on all files
 - **Utilities**: Place in `src/utils/` - one file per utility function
 - **Routes/Pages**: Place in `src/` root - one file per page (e.g., `App.jsx`)
 - **Styles**: Place in `src/assets/scss/`
+- **Static assets**: `public/img/` (hero images), `public/fonts/` (self-hosted fonts); both are referenced with absolute URLs from the HTML/SCSS
+- **Build scripts**: `scripts/` (data, sitemap, static pages)
 
 ### Naming Conventions
 
 - **Components**: PascalCase (e.g., `Company.jsx`, `Cards.jsx`)
-- **Utility functions**: camelCase (e.g., `file.jsx`, `decimalNumbers.jsx`)
+- **Utility functions**: camelCase (e.g., `decimalNumbers.jsx`, `charts.js`)
 - **CSS/SCSS files**: Match component name (e.g., `Company.scss`)
 - **Constants**: PascalCase for exported constants (e.g., `AvailableYears`)
 
@@ -70,11 +76,10 @@ npm run lint         # Run ESLint on all files
 import { useState, useEffect, useMemo, useCallback } from "react";
 
 // 2. Third-party library imports (grouped)
-import { read, utils } from "xlsx";
 import { useParams } from "react-router-dom";
 
 // 3. Local imports (grouped) - relative paths
-import { file } from "../utils/file";
+import Icon from "./Icon";
 import { transliterate } from "../utils/transliterate";
 
 // 4. Constants (outside component for module-level caching)
@@ -340,12 +345,62 @@ The component accepts:
 - `selectedYear` - currently selected year
 - `selectedQuarter` - currently selected quarter (0 = all quarters)
 
+### Charts
+
+Charts are created with `Chart` imported from `src/utils/chartSetup.js`, **not** `chart.js/auto`:
+
+```jsx
+import Chart from "../utils/chartSetup";
+```
+
+`chartSetup.js` registers only the controllers/elements the app renders (bar + line, category/linear scales, tooltip, legend). `chart.js/auto` registers every chart type and roughly doubles the chart bundle. If a new chart type or plugin (e.g. `Filler`, `Title`, `RadialLinearScale`) is introduced, register it there.
+
+Routes that render charts are lazy-loaded in `main.jsx`, so Chart.js is not part of the initial entry bundle.
+
+### Icons
+
+Icons are inline SVG, not an icon font. Use the `Icon` component:
+
+```jsx
+import Icon from "./Icon";
+
+<Icon name="arrow-right" className="fs-3" />
+```
+
+- `name` is the Bootstrap Icons name **without** the `bi-` prefix (`arrow-down`, `box-arrow-up-right`, `twitter-x`, ...)
+- `className` is merged with `bi-icon`, which sets `1em` sizing and `currentColor` fill, so Bootstrap text color and font-size utilities apply as usual
+- Icons are decorative: the SVG is rendered with `aria-hidden="true"`. Pair it with a `visually-hidden` label or a `title` attribute when the icon carries meaning
+- Only the icons listed in `src/components/Icon.jsx` exist. To add one, copy its `<path>` markup from `node_modules/bootstrap-icons/icons/<name>.svg` into the `ICONS` map (if the package is installed) or from [icons.getbootstrap.com](https://icons.getbootstrap.com)
+
+### Fonts and Hero Images
+
+- Noto Sans (variable, upright, weights 300–800) is self-hosted from `public/fonts/` as three `woff2` subsets: `cyrillic`, `latin`, `latin-ext`. Declarations live in `src/assets/scss/_fonts.scss` with `unicode-range`, so a browser only downloads the subsets a page actually needs
+- `index.html` preloads the cyrillic subset; the others are discovered from the CSS
+- The hero/footer background images live in `public/img/` (`hero-mobile.webp` for < 992px, `hero-desktop.webp` for wider viewports) and are preloaded with media-scoped `<link rel="preload" as="image">` tags. They are referenced with absolute URLs (`/img/...`) from `_custom.scss`, so the URLs are stable and can be preloaded
+- The full-resolution source image is `src/assets/img/macedonian-denars.webp`; it is not shipped. Regenerate the derivatives with `cwebp`, e.g. `cwebp -q 55 -resize 900 0 src/assets/img/macedonian-denars.webp -o public/img/hero-mobile.webp`
+- Keep both preload tags in sync with the SCSS media query if a breakpoint changes
+- Do not reintroduce a Google Fonts `<link>`: it is render-blocking and needs two extra connections
+
+### Loading State
+
+`Loading.jsx` renders a lightweight skeleton instead of a spinner and reserves a full viewport of height (`.loading-skeleton` in `_custom.scss`). This keeps the footer below the fold while data loads, which is what prevents a large layout shift when content is swapped in. Don't remove the `min-height` without re-checking CLS.
+
+### Data Pipeline
+
+The ODS file in `public/ods/` is the source of truth, but it is **not** fetched by the browser:
+
+1. `scripts/generate-data.js` parses the ODS with `xlsx` and writes `public/data/registar.json` (`{ companies, years, moneyByYear }`)
+2. `npm run dev` and `npm run build` run it automatically (`npm run data` to run it alone)
+3. `src/hooks/useData.jsx` fetches `data/registar.json` once and shares the promise between components
+
+The generated file is gitignored. `xlsx` is a devDependency: if you need workbook access at runtime, don't — extend the generator instead.
+
 ### Generating Sitemap and Static Pages
 
 The sitemap and per-route static HTML shells are generated dynamically at build time. The build chain is:
 
 ```bash
-node scripts/generate-sitemap.js && vite build && node scripts/generate-pages.js && node scripts/generate-404.js
+npm run data && node scripts/generate-sitemap.js && vite build && node scripts/generate-pages.js && node scripts/generate-404.js
 ```
 
 - `scripts/generate-sitemap.js` reads company data from the ODS file, generates routes for all static pages and company detail pages, and outputs to `dist/sitemap.xml`
@@ -391,7 +446,7 @@ Two related rules live in the title update:
 ## Notes
 
 - This is a client-side SPA with no backend
-- Data is loaded from static ODS files in `./ods/` directory
+- Data is fetched from `data/registar.json`, generated at build time from the ODS file in `public/ods/`
 - The app uses Macedonian language for UI text
 - No TypeScript is used - plain JavaScript with JSX
 - Memory cleanup in useEffect is required for navigation subscriptions

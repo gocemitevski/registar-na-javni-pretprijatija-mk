@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Chart from "chart.js/auto";
+import Chart from "../utils/chartSetup";
 import { formatDecimalNumber } from "../utils/decimalNumbers";
 import { getLocalizedCompanyName } from "../utils/localizeCompanyName";
 import {

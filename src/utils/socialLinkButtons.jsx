@@ -10,7 +10,7 @@ export const socialLinkButtons = (
       encodeURIComponent(title) +
       "&url=" +
       encodeURIComponent(location),
-    icon: "bi-twitter-x",
+    icon: "twitter-x",
   },
   {
     name: "facebook",
@@ -20,7 +20,7 @@ export const socialLinkButtons = (
       encodeURIComponent(title) +
       "&u=" +
       encodeURIComponent(location),
-    icon: "bi-facebook",
+    icon: "facebook",
   },
   {
     name: "linkedin",
@@ -30,6 +30,6 @@ export const socialLinkButtons = (
       encodeURIComponent(location) +
       "&title=" +
       encodeURIComponent(title),
-    icon: "bi-linkedin",
+    icon: "linkedin",
   },
 ];

@@ -34,19 +34,19 @@ export default function CardsTotals({
             <DefinitionList
               title={t("cards.income")}
               total={totals.income}
-              icon="bi-arrow-down"
+              icon="arrow-down"
               isActive={activeSort === "income"}
             />
             <DefinitionList
               title={t("cards.expenses")}
               total={totals.expenses}
-              icon="bi-arrow-up"
+              icon="arrow-up"
               isActive={activeSort === "expenses"}
             />
             <DefinitionList
               title={t("cards.financial-result")}
               total={totals["financial-result"]}
-              icon="bi-arrow-down-up"
+              icon="arrow-down-up"
               isActive={activeSort === "financial-result"}
             />
           </div>

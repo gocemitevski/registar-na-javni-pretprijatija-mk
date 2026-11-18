@@ -43,7 +43,7 @@
 // @import "bootstrap/scss/carousel";
 @import "bootstrap/scss/spinners";
 // @import "bootstrap/scss/offcanvas";
-// @import "bootstrap/scss/placeholders";
+@import "bootstrap/scss/placeholders";
 
 // Helpers
 @import "bootstrap/scss/helpers";
@@ -55,9 +55,8 @@
 // Animations
 @import "animations";
 
+// Self-hosted fonts
+@import "fonts";
+
 // Custom SCSS
 @import "custom";
-
-// Bootstrap Icons
-$bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
-@import "bootstrap-icons/font/bootstrap-icons";

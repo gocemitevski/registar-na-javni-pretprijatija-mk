@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import Icon from "./Icon";
 
 function serializeError(err) {
   if (!err) return null;
@@ -34,7 +35,7 @@ function ErrorDisplay({ messageKey, originalError, onRetry }) {
   return (
     <div className="alert alert-danger" role="alert">
       <h5 className="alert-heading hstack gap-2">
-        <i className="bi bi-exclamation-triangle-fill"></i>
+        <Icon name="exclamation-triangle-fill" />
         {t("error.title")}
       </h5>
       <p>{errorMessage}</p>

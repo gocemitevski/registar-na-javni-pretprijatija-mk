@@ -5,15 +5,58 @@
 .bg-hero {
   background:
     linear-gradient(rgba($green-800, 0.85), rgba($green-900, 0.9)),
-    url("../img/macedonian-denars.webp") top;
+    url("/img/hero-mobile.webp") top;
   background-size: cover;
 }
 
 .bg-footer {
   background:
     linear-gradient(rgba($green-900, 0.9), rgba($green-800, 0.85)),
-    url("../img/macedonian-denars.webp") bottom;
+    url("/img/hero-mobile.webp") bottom;
   background-size: cover;
+}
+
+@media (min-width: 992px) {
+  .bg-hero {
+    background-image:
+      linear-gradient(rgba($green-800, 0.85), rgba($green-900, 0.9)),
+      url("/img/hero-desktop.webp");
+  }
+
+  .bg-footer {
+    background-image:
+      linear-gradient(rgba($green-900, 0.9), rgba($green-800, 0.85)),
+      url("/img/hero-desktop.webp");
+  }
+}
+
+.bi-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+// Keep the breadcrumb on a single line so its height does not change when the
+// company name resolves after the data loads (that growth shifted the whole
+// page below it, which showed up as CLS on company pages). The last item is
+// truncated with an ellipsis instead of wrapping.
+.breadcrumb {
+  flex-wrap: nowrap;
+}
+
+.breadcrumb-item.active {
+  min-width: 0;
+}
+
+// Keep the footer below the fold while the page data is loading. Without it
+// the footer is visible during the loading state and jumps down once the
+// content renders, which is the main source of layout shift on first load.
+.loading-skeleton {
+  min-height: 100vh;
+  min-height: 100svh;
 }
 
 .backdrop-blur {

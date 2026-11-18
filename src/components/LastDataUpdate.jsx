@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { formatOdsDate } from "../utils/formatOdsDate";
+import Icon from "./Icon";
 
 const odsDate =
   typeof __ODS_DATE__ === "string" && __ODS_DATE__ !== "null"
@@ -14,7 +15,7 @@ export default function LastDataUpdate() {
 
   return (
     <span className="badge text-bg-secondary-dark p-2 mb-3 hstack gap-2 d-none d-md-inline-flex">
-      <i className="bi bi-activity"></i>
+      <Icon name="activity" />
       <span className="fw-light text-truncate">{t("app.lastUpdated")} <strong className="fw-medium">{formatOdsDate(odsDate, lang)}</strong></span>
     </span>
   );

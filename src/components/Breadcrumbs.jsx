@@ -10,7 +10,7 @@ import { useUrlParams } from "../hooks/useUrlParams";
 function Breadcrumbs() {
   const { t, i18n } = useTranslation();
   const location = useLocation();
-  const { pretprijatija, loading, hasError, availableYears } = useData();
+  const { pretprijatija, availableYears } = useData();
   const { lang } = useParams();
   const currentLang = lang || i18n.language || "mk";
 
@@ -38,10 +38,6 @@ function Breadcrumbs() {
     : null;
 
   if (!isCompanyPage && !isFilteredPageWithFilter) {
-    return null;
-  }
-
-  if ((isFilteredPageWithFilter || isCompanyPage) && (loading || hasError)) {
     return null;
   }
 
@@ -83,7 +79,7 @@ function Breadcrumbs() {
             {breadcrumbs.map((crumb, idx) => (
               <li
                 key={idx}
-                className={`breadcrumb-item ${idx === breadcrumbs.length - 1 ? "active" : ""}`}
+                className={`breadcrumb-item ${idx === breadcrumbs.length - 1 ? "active text-truncate" : ""}`}
                 aria-current={idx === breadcrumbs.length - 1 ? "page" : undefined}
               >
                 {crumb.href ? (

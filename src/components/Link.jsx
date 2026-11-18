@@ -1,3 +1,5 @@
+import Icon from "./Icon";
+
 export default function Link({ href, value }) {
   return href ? (
     <a
@@ -8,7 +10,7 @@ export default function Link({ href, value }) {
     >
       <span>{value}</span>
       <p className="d-inline-flex mb-0">
-        <i className="bi bi-box-arrow-up-right fs-xs opacity-50 ms-2"></i>
+        <Icon name="box-arrow-up-right" className="fs-xs opacity-50 ms-2" />
       </p>
     </a>
   ) : (

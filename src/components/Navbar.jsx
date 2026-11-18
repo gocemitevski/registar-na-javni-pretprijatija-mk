@@ -16,6 +16,7 @@ import {
 } from "../utils/url";
 import { sorting, order } from "../utils/filterDefinitions";
 import CurrencySwitcher from "./CurrencySwitcher";
+import Icon from "./Icon";
 
 export default function Navbar({
   showSortingFilters = false,
@@ -157,7 +158,7 @@ export default function Navbar({
                   to={overviewPath}
                   title={t("nav.home")}
                 >
-                  <i className="bi bi-house d-sm-none"></i>
+                  <Icon name="house" className="d-sm-none" />
                   <span className="d-none d-sm-block">{t("nav.home")}</span>
                 </NavLink>
               </li>
@@ -167,7 +168,7 @@ export default function Navbar({
                   to={registryPath}
                   title={t("nav.registry")}
                 >
-                  <i className="bi bi-card-list d-sm-none"></i>
+                  <Icon name="card-list" className="d-sm-none" />
                   <span className="d-none d-sm-block">{t("nav.registry")}</span>
                 </NavLink>
               </li>
@@ -177,7 +178,7 @@ export default function Navbar({
                   to={aboutPath}
                   title={t("nav.about")}
                 >
-                  <i className="bi bi-question-square d-sm-none"></i>
+                  <Icon name="question-square" className="d-sm-none" />
                   <span className="d-none d-sm-block">{t("nav.about")}</span>
                 </NavLink>
               </li>
@@ -277,7 +278,7 @@ export default function Navbar({
                       onClick={handleReset}
                       title={t("nav.reset")}
                     >
-                      <i className="bi bi-arrow-counterclockwise"></i>
+                      <Icon name="arrow-counterclockwise" />
                     </button>
                   </div>
                 )}

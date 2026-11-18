@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import Icon from "./Icon";
 
 export default function SearchForm({ value, searchData }) {
   const { t } = useTranslation();
@@ -16,7 +17,7 @@ export default function SearchForm({ value, searchData }) {
         ></input>
         {!value && (
           <span className="input-group-text">
-            <i className="bi bi-search"></i>
+            <Icon name="search" />
           </span>
         )}
         {value && (
@@ -26,7 +27,7 @@ export default function SearchForm({ value, searchData }) {
             title={t("search.clearTitle")}
             onClick={() => searchData({ target: { value: "" } })}
           >
-            <i className="bi bi-x-lg"></i>
+            <Icon name="x-lg" />
             <span className="visually-hidden">{t("search.clear")}</span>
           </button>
         )}

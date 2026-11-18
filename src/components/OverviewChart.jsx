@@ -1,6 +1,6 @@
 import { useEffect, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import Chart from "chart.js/auto";
+import Chart from "../utils/chartSetup";
 import { createChartOptions, CHART_HEIGHT, dashedBorderPlugin } from "../utils/charts";
 import { useUrlParams } from "../hooks/useUrlParams";
 

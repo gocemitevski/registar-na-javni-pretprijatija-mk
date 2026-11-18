@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { parseDecimalNumber, formatDecimalNumber } from "../utils/decimalNumbers";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
 import { useUrlParams } from "../hooks/useUrlParams";
+import Icon from "./Icon";
 
 export default function DefinitionList({ title, total, numbers, quarter, icon, isActive }) {
   const { t, i18n } = useTranslation();
@@ -25,7 +26,7 @@ export default function DefinitionList({ title, total, numbers, quarter, icon, i
   return (
     <dl className={`hstack flex-wrap flex-xl-nowrap gap-2 mb-0 px-2 py-1 rounded ${isActive ? "bg-warning-subtle" : ""}`}>
       <dt className="hstack gap-3 mb-0">
-        <i className={`bi ${icon} text-warning-emphasis`}></i>
+        <Icon name={icon} className="text-warning-emphasis" />
         <span>{title}</span>
       </dt>
       <dd className={`mb-0 flex-fill text-end${color ? ` text-${color}` : ""}`}>
