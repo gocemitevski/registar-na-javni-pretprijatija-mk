@@ -33,7 +33,6 @@ export function initMatomo() {
   // Cookieless tracking: nothing is stored on the visitor's device, so no
   // cookie consent is required. Must be queued before any page view.
   window._paq.push(["disableCookies"]);
-  window._paq.push(["setDoNotTrack", true]);
   window._paq.push(["setTrackerUrl", `${MATOMO_URL}matomo.php`]);
   window._paq.push(["setSiteId", MATOMO_SITE_ID]);
   window._paq.push(["enableLinkTracking"]);

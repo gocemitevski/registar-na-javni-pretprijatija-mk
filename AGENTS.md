@@ -369,7 +369,7 @@ Defaults to `https://pretprijatija.gocemitevski.com` if not set.
 
 Analytics uses self-hosted, cookieless Matomo — no cookies or consent banner. Logic lives in `src/utils/matomo.js`:
 
-- `initMatomo()` - queued once from `main.jsx`; pushes `disableCookies`, `setDoNotTrack`, tracker URL/site ID, and injects `matomo.js` async
+- `initMatomo()` - queued once from `main.jsx`; pushes `disableCookies`, tracker URL/site ID, and `enableLinkTracking`, then injects `matomo.js` async
 - `trackPageView({ path, title, isUrlNormalization })` - SPA page view; consecutive duplicates are dropped. Normalisation navigations (e.g. `/mk` → `/mk?year=2026`) are suppressed so the same page isn't double-counted
 - `getCurrentPath()` - returns `pathname + search`
 
@@ -377,9 +377,14 @@ Page views are **not** sent on route change. They are sent on the `TITLE_UPDATE_
 
 Tracker URL and site ID default to the production values and can be overridden with `VITE_APP_MATOMO_URL` / `VITE_APP_MATOMO_SITE_ID`.
 
-#### Normalisation suppression (fix 3)
+#### Normalisation suppression
 
-List pages (`/mk`, `/mk/registry`) fill in default query params once their data loads. The navigation is a *replace* that only adds the defaults to the URL. The tracker detects this by comparing the new URL's pathname against the last tracked pathname — if they match, it's suppressed as the same page view. User-initiated changes (e.g. selecting a different year on an already-populated company page) are **not** suppressed because their previous tracked URL already carried a query string.
+List pages (`/mk`, `/mk/registry`) fill in default query params once their data loads, using a replace navigation that only adds defaults to the URL. Those navigations pass `state: URL_NORMALIZATION_STATE` (from `src/utils/url.js`), and `updateDocumentMeta` forwards `location.state.urlNormalization` to the tracker, which skips the view when it is still the same page. Use the same marker if you add another URL normalisation; do **not** infer it from `replace` alone, since user actions such as the company year selector also replace and must still be counted.
+
+Two related rules live in the title update:
+
+- The transient `/` render is skipped in `usePageTitle`; the redirect target (`/mk`) is what gets tracked.
+- Unknown company slugs now dispatch a page view with the `company.notFound` title from `Company.jsx`, so stale links are not invisible in analytics.
 
 ---
 
