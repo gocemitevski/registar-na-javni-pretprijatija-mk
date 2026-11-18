@@ -85,7 +85,7 @@ function Breadcrumbs() {
             {breadcrumbs.map((crumb, idx) => (
               <li
                 key={idx}
-                className={`breadcrumb-item hstack ${idx === breadcrumbs.length - 1 ? "active text-truncate" : ""}`}
+                className={`breadcrumb-item ${idx === breadcrumbs.length - 1 ? "active text-truncate" : "hstack"}`}
                 aria-current={idx === breadcrumbs.length - 1 ? "page" : undefined}
               >
                 {crumb.href ? (
