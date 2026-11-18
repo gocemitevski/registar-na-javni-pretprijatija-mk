@@ -187,6 +187,27 @@ Order imports in groups (with blank line between groups):
 - Follow Bootstrap naming for custom CSS classes
 - Use Bootstrap's utility classes for quick styling
 
+#### Sass deprecation warnings
+
+Bootstrap 5.3.x is still `@import`-based and calls legacy Sass globals, so compiling
+`src/assets/scss/style.scss` emits ~300 deprecation warnings that cannot be fixed
+from this repository (309 of 314 came from Bootstrap's own `_functions.scss`).
+`vite.config.js` silences exactly four ids (`import`, `global-builtin`,
+`if-function`, `color-functions`) and nothing else. Because silencing is global,
+those four will not warn for our own files either, so the rule below matters:
+always reach for the module functions by hand. Any *other* deprecation id still
+surfaces.
+
+- Write new SCSS with the module system: `@use "sass:color"` + `color.mix(...)`,
+  `@use "sass:string"` + `string.quote(...)`. `_variables.scss` and
+  `_variables-dark.scss` already do this.
+- The two variable files are copies of Bootstrap's `_variables*.scss`; keep the
+  module calls when you re-sync them from a new Bootstrap release.
+- Drop the `silenceDeprecations` list when Bootstrap 6 (which uses `@use`) lands.
+- Verification trick: if a Sass refactor only replaces deprecated globals with
+  their module equivalents, the built CSS keeps the same content hash
+  (`dist/assets/index-*.css` filename must not change).
+
 ### Constants and Configuration
 
 - Hardcoded values (like dropdown options) are defined in `src/utils/` files

@@ -33,6 +33,23 @@ export default defineConfig({
   define: {
     __ODS_DATE__: JSON.stringify(odsDateStr),
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // Bootstrap 5.3.x still ships @import-based partials and uses legacy
+        // Sass globals (mix(), red()/green()/blue(), if()), so compiling it
+        // emits ~300 deprecation warnings that cannot be fixed from here:
+        //   import          -> every Bootstrap partial + our style.scss imports
+        //   global-builtin  -> mix()/rgba()/nth()... inside Bootstrap functions
+        //   if-function     -> the Sass if() syntax inside Bootstrap functions
+        //   color-functions -> red()/green()/blue() inside luminance()
+        // Our own partials avoid the deprecated globals (they use sass:color and
+        // sass:string); remove these entries once Bootstrap 6 lands with @use.
+        // https://sass-lang.com/documentation/breaking-changes/
+        silenceDeprecations: ['import', 'global-builtin', 'if-function', 'color-functions'],
+      },
+    },
+  },
   optimizeDeps: {
     include: ['chart.js'],
   },
