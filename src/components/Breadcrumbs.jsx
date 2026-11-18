@@ -10,7 +10,7 @@ import { useUrlParams } from "../hooks/useUrlParams";
 function Breadcrumbs() {
   const { t, i18n } = useTranslation();
   const location = useLocation();
-  const { pretprijatija, availableYears } = useData();
+  const { pretprijatija, availableYears, loading } = useData();
   const { lang } = useParams();
   const currentLang = lang || i18n.language || "mk";
 
@@ -66,7 +66,13 @@ function Breadcrumbs() {
     const currentCompany = pretprijatija.find(
       (el) => cleanName(transliterate(el[COMPANY_SHEET_COLUMNS.NAME] ?? "")) === companySlug,
     );
-    const companyName = getLocalizedCompanyName(currentCompany, currentLang) || companySlug || "...";
+    // While the data loads the name is unknown; show an ellipsis instead of the
+    // raw URL slug so the crumb keeps its single-line height without leaking
+    // the slug into the UI.
+    const companyName =
+      getLocalizedCompanyName(currentCompany, currentLang) ||
+      (loading ? "…" : companySlug) ||
+      "...";
     breadcrumbs.push({ label: t("breadcrumbs.registry"), href: `/${currentLang}/registry${location.search}` });
     breadcrumbs.push({ label: companyName, href: null });
   }
