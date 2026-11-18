@@ -152,12 +152,12 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
             ? t("summary.quickFactsQuarter", { year: selectedYear, quarter: selectedQuarter })
             : t("summary.quickFacts", { year: selectedYear })}
         </h1>
-        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 py-2 py-lg-4">
+        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6 g-3 py-2 py-lg-4">
           {CARDS.map((card, index) => (
             <div key={index} className="col">
               <div className={`card h-100 shadow ${cardValues[index] !== 0 ? `btn-link-arrow btn-link-shadow` : ``}`}>
-                <div className="card-body hstack gap-3">
-                  <div className="flex-fill align-self-center vstack gap-2">
+                <div className="card-body hstack flex-xl-wrap gap-3">
+                  <div className="flex-fill align-self-center align-self-xl-start vstack gap-2">
                     <h2
                       className={`card-text mb-0 fw-light text-uppercase order-1 fs-6`}
                     >
@@ -172,7 +172,7 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
                   {cardValues[index] !== 0 && (
                     <Link
                       to={getLink(card.filter)}
-                      className={`btn btn-link link-${card.color} stretched-link align-self-end`}
+                      className={`btn btn-link link-${card.color} stretched-link align-self-end p-0`}
                     >
                       <span className="visually-hidden">
                         {t("summary.explore")}
