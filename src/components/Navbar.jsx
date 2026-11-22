@@ -152,7 +152,7 @@ export default function Navbar({
           className={`row align-items-center justify-content-between gy-2 gx-3 flex-fill nav-fill`}
         >
           <div className="col-xxl-auto">
-            <ul className="nav nav-pills text-uppercase text-bg-secondary rounded gap-2">
+            <ul className="nav nav-pills text-uppercase text-bg-secondary rounded gap-0">
               <li className="nav-item">
                 <NavLink
                   end
