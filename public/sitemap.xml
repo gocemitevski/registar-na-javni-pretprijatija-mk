@@ -21,6 +21,16 @@
     <priority>0.8</priority>
   </url>
 <url>
+    <loc>https://pretprijatija.gocemitevski.com/mk/compare/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+<url>
+    <loc>https://pretprijatija.gocemitevski.com/en/compare/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+<url>
     <loc>https://pretprijatija.gocemitevski.com/mk/about/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

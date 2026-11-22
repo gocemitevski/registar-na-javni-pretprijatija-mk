@@ -78,6 +78,8 @@ export default function Navbar({
 
   const overviewPath = `/${currentLang}?${buildQuery(selectedYear, selectedQuarter, selectedSorting, selectedOrder, location.search)}`;
   const registryPath = `/${currentLang}/registry?${buildQuery(selectedYear, selectedQuarter, selectedSorting, selectedOrder, location.search)}`;
+  const compareCurrency = new URLSearchParams(location.search).get("currency");
+  const comparePath = `/${currentLang}/compare${compareCurrency ? `?currency=${compareCurrency}` : ""}`;
   const aboutPath = `/${currentLang}/about`;
 
   const handleYearChange = (e) => {
@@ -170,6 +172,16 @@ export default function Navbar({
                 >
                   <Icon name="card-list" className="d-sm-none" />
                   <span className="d-none d-sm-block">{t("nav.registry")}</span>
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  className="nav-link py-3"
+                  to={comparePath}
+                  title={t("nav.compare")}
+                >
+                  <Icon name="arrow-left-right" className="d-sm-none" />
+                  <span className="d-none d-sm-block">{t("nav.compare")}</span>
                 </NavLink>
               </li>
               <li className="nav-item">

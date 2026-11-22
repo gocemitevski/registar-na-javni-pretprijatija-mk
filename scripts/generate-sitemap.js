@@ -32,6 +32,8 @@ const staticRoutes = [
   { path: "/en/", priority: "1.0" },
   { path: "/mk/registry/", priority: "0.8" },
   { path: "/en/registry/", priority: "0.8" },
+  { path: "/mk/compare/", priority: "0.8" },
+  { path: "/en/compare/", priority: "0.8" },
   { path: "/mk/about/", priority: "0.5" },
   { path: "/en/about/", priority: "0.5" },
   ...filters.flatMap((filter) => [

@@ -142,6 +142,12 @@ LANGS.forEach((lang) => {
   });
 
   routes.push({
+    path: `${lang}/compare/`,
+    title: `${t.titles.compare} - ${titleShort}`,
+    description: t.compare.description,
+  });
+
+  routes.push({
     path: `${lang}/about/`,
     title: `${t.titles.about} - ${titleShort}`,
     description: t.app.description,
