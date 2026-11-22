@@ -151,7 +151,7 @@ export default function Navbar({
         <div
           className={`row align-items-center justify-content-between gy-2 gx-3 flex-fill nav-fill`}
         >
-          <div className="col-xxl-4">
+          <div className="col-xxl-auto">
             <ul className="nav nav-pills text-uppercase text-bg-secondary rounded gap-2">
               <li className="nav-item">
                 <NavLink
@@ -160,8 +160,8 @@ export default function Navbar({
                   to={overviewPath}
                   title={t("nav.home")}
                 >
-                  <Icon name="house" className="d-sm-none" />
-                  <span className="d-none d-sm-block">{t("nav.home")}</span>
+                  <Icon name="house" />
+                  <span className="visually-hidden">{t("nav.home")}</span>
                 </NavLink>
               </li>
               <li className="nav-item">

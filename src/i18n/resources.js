@@ -92,7 +92,8 @@ export const resources = {
         company_plural: "јавни претпријатија или трговски друштва"
       },
       table: {
-        total: "Вкупно"
+        total: "Вкупно",
+        company: "Претпријатие или трговско друштво"
       },
       sort: {
         id: "Реден број",
@@ -171,7 +172,8 @@ export const resources = {
       compare: {
         description:
           "Споредба на финансиските показатели на јавните претпријатија и трговските друштва помеѓу две години.",
-        title: "Споредба на години",
+        title:
+          "Споредба на финансиските показатели помеѓу две години",
         intro:
           "Изберете две години за да ги споредите приходите, расходите и финансиските резултати во регистарот.",
         baseYear: "Основна година",
@@ -184,9 +186,9 @@ export const resources = {
           "Потребни се најмалку две години со податоци за споредба.",
         chartTitle: "Вкупни показатели за {{base}} и {{compare}} година",
         change: "Промена",
-        changePercent: "Промена во %",
+        changePercent: "Промена во проценти",
         tableTitle: "Споредба по претпријатие",
-        company: "Претпријатие",
+        company: "Претпријатие или трговско друштво",
         metric: "Показател",
         sortBy: "Подредување",
         sort: {
@@ -406,7 +408,8 @@ export const resources = {
       compare: {
         description:
           "Compare the financial indicators of public enterprises and trading companies across two years.",
-        title: "Year Comparison",
+        title:
+          "Comparison of Financial Indicators Between Two Years",
         intro:
           "Choose two years to compare income, expenses and financial results across the registry.",
         baseYear: "Base year",
@@ -419,7 +422,7 @@ export const resources = {
           "At least two years with data are required for a comparison.",
         chartTitle: "Total indicators for {{base}} and {{compare}}",
         change: "Change",
-        changePercent: "Change %",
+        changePercent: "Percentage Change",
         tableTitle: "Comparison by company",
         company: "Company",
         metric: "Metric",

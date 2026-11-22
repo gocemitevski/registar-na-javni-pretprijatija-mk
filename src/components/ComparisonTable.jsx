@@ -191,12 +191,20 @@ export default function ComparisonTable({
                       </span>
                     )}
                   </td>
-                  <td className="text-end">{formatValue(baseValue)}</td>
-                  <td className="text-end">{formatValue(compareValue)}</td>
-                  <td className={`text-end ${getValueClass(delta)}`}>
+                  <td className="text-end text-nowrap">
+                    {formatValue(baseValue)}
+                  </td>
+                  <td className="text-end text-nowrap">
+                    {formatValue(compareValue)}
+                  </td>
+                  <td
+                    className={`text-end text-nowrap ${getValueClass(delta)}`}
+                  >
                     {formatValue(delta)}
                   </td>
-                  <td className={`text-end ${getValueClass(percent)}`}>
+                  <td
+                    className={`text-end text-nowrap ${getValueClass(percent)}`}
+                  >
                     {formatComparisonPercent(percent)}
                   </td>
                 </tr>
@@ -207,17 +215,19 @@ export default function ComparisonTable({
             <tfoot>
               <tr>
                 <th>{t("table.total")}</th>
-                <th className="text-end">
+                <th className="text-end text-nowrap">
                   {formatValue(totals[metric].base)}
                 </th>
-                <th className="text-end">
+                <th className="text-end text-nowrap">
                   {formatValue(totals[metric].compare)}
                 </th>
-                <th className={`text-end ${getValueClass(totals[metric].delta)}`}>
+                <th
+                  className={`text-end text-nowrap ${getValueClass(totals[metric].delta)}`}
+                >
                   {formatValue(totals[metric].delta)}
                 </th>
                 <th
-                  className={`text-end ${getValueClass(totals[metric].percent)}`}
+                  className={`text-end text-nowrap ${getValueClass(totals[metric].percent)}`}
                 >
                   {formatComparisonPercent(totals[metric].percent)}
                 </th>
