@@ -39,6 +39,9 @@ export function computeMeta(location, t) {
     }
   } else if (path.includes("/registry")) {
     title = `${t("titles.registry")} - ${t("app.title_short")}`;
+  } else if (path.includes("/compare")) {
+    title = `${t("titles.compare")} - ${t("app.title_short")}`;
+    description = t("compare.description");
   } else if (path.includes("/about")) {
     title = `${t("titles.about")} - ${t("app.title_short")}`;
   } else if (path.match(/^\/(mk|en)$/)) {

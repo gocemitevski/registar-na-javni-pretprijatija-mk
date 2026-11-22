@@ -19,6 +19,7 @@ export const resources = {
       nav: {
         home: "Почетна",
         registry: "Регистар",
+        compare: "Споредба",
         about: "За проектот",
         year: "Година",
         quarter: "Квартал",
@@ -77,6 +78,7 @@ export const resources = {
       breadcrumbs: {
         home: "Почетна",
         registry: "Регистар",
+        compare: "Споредба",
         quickFacts: "{{year}} година низ бројки",
         quickFactsQuarter: "Квартал {{quarter}} на {{year}} година низ бројки"
       },
@@ -136,6 +138,7 @@ export const resources = {
       titles: {
         home: "Почетна",
         registry: "Регистар",
+        compare: "Споредба на години",
         about: "За проектот",
         "positive-result": "Оствариле позитивен финансиски резултат",
         "income": "Оствариле приход",
@@ -164,6 +167,35 @@ export const resources = {
           "Директорот бил променет {{changes}} пати во периодот {{from}}–{{to}} година.",
         directorAlsoIn: "И во уште {{count}} претпријатија",
         directorAlsoIn_singular: "И во уште {{count}} претпријатие"
+      },
+      compare: {
+        description:
+          "Споредба на финансиските показатели на јавните претпријатија и трговските друштва помеѓу две години.",
+        title: "Споредба на години",
+        intro:
+          "Изберете две години за да ги споредите приходите, расходите и финансиските резултати во регистарот.",
+        baseYear: "Основна година",
+        compareYear: "Споредбена година",
+        partialShort: "делумна",
+        partialYear:
+          "{{year}} година не ги содржи сите четири квартали (достапни: {{quarters}}). Споредбата со целосна година може да биде неточна.",
+        noYearData: "Нема податоци за {{year}} година.",
+        notEnoughYears:
+          "Потребни се најмалку две години со податоци за споредба.",
+        chartTitle: "Вкупни показатели за {{base}} и {{compare}} година",
+        change: "Промена",
+        changePercent: "Промена во %",
+        tableTitle: "Споредба по претпријатие",
+        company: "Претпријатие",
+        metric: "Показател",
+        sortBy: "Подредување",
+        sort: {
+          name: "Назив",
+          delta: "Промена",
+          percent: "Промена во %"
+        },
+        noResults: "Нема претпријатија за прикажување.",
+        missingYear: "Нема податоци за {{year}}"
       },
       about: {
         intro: "Регистарот на јавни претпријатија и трговски друштва во државна сопственост на Р. С. Македонија е изработен за да овозможи увид во работата на јавните претпријатија и трговските друштва во сопственост на Република Северна Македонија.",
@@ -222,6 +254,7 @@ export const resources = {
       nav: {
         home: "Home",
         registry: "Registry",
+        compare: "Comparison",
         about: "About",
         year: "Year",
         quarter: "Quarter",
@@ -274,6 +307,7 @@ export const resources = {
       breadcrumbs: {
         home: "Home",
         registry: "Registry",
+        compare: "Comparison",
         quickFacts: "{{year}} in Numbers",
         quickFactsQuarter: "Q{{quarter}} of {{year}} in Numbers",
       },
@@ -339,6 +373,7 @@ export const resources = {
       titles: {
         home: "Home",
         registry: "Registry",
+        compare: "Year Comparison",
         about: "About",
         "positive-result": "Achieved Positive Financial Result",
         "income": "Earned Income",
@@ -367,6 +402,35 @@ export const resources = {
           "The director has changed {{changes}} times in the period {{from}}–{{to}}.",
         directorAlsoIn: "Also at {{count}} more companies",
         directorAlsoIn_singular: "Also at {{count}} more company"
+      },
+      compare: {
+        description:
+          "Compare the financial indicators of public enterprises and trading companies across two years.",
+        title: "Year Comparison",
+        intro:
+          "Choose two years to compare income, expenses and financial results across the registry.",
+        baseYear: "Base year",
+        compareYear: "Comparison year",
+        partialShort: "partial",
+        partialYear:
+          "{{year}} does not include all four quarters (available: {{quarters}}). Comparing it with a complete year may be inaccurate.",
+        noYearData: "No data available for {{year}}.",
+        notEnoughYears:
+          "At least two years with data are required for a comparison.",
+        chartTitle: "Total indicators for {{base}} and {{compare}}",
+        change: "Change",
+        changePercent: "Change %",
+        tableTitle: "Comparison by company",
+        company: "Company",
+        metric: "Metric",
+        sortBy: "Sort by",
+        sort: {
+          name: "Company name",
+          delta: "Change",
+          percent: "Change %"
+        },
+        noResults: "No companies to display.",
+        missingYear: "No data for {{year}}"
       },
       about: {
         intro: "The Registry of Public Enterprises and Trading Companies in State Ownership of R. N. Macedonia has been created to provide insight into the work of public enterprises and trading companies in state ownership of the Republic of North Macedonia.",

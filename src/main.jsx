@@ -17,6 +17,7 @@ import ScrollToTop from "./components/ScrollToTop.jsx";
 export const Registry = lazy(() => import("./components/Registry.jsx"));
 export const Overview = lazy(() => import("./components/Overview.jsx"));
 export const FilteredCompanies = lazy(() => import("./components/FilteredCompanies.jsx"));
+export const YearComparison = lazy(() => import("./components/YearComparison.jsx"));
 export const CompanyWrapper = lazy(() => import("./components/CompanyWrapper.jsx"));
 
 document.documentElement.lang = i18n.language;
@@ -56,6 +57,7 @@ function AppContent() {
           <Route path="/" element={<Navigate to="/mk" replace />} />
           <Route path="/:lang/filtered/:filter" element={<FilteredCompanies />} />
           <Route path="/:lang/registry" element={<Registry />} />
+          <Route path="/:lang/compare" element={<YearComparison />} />
           <Route path="/:lang/company/:company" element={<CompanyWrapper />} />
           <Route path="/:lang/about" element={<About />} />
           <Route path="/:lang" element={<Overview />} />
