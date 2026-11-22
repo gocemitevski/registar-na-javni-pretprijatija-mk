@@ -27,6 +27,26 @@ export function buildQuery(year, quarter, sort, orderParam, currentSearch = "") 
   return sortedParams.toString();
 }
 
+export function buildComparisonQuery(baseYear, compareYear, currentSearch = "") {
+  const params = new URLSearchParams(currentSearch);
+  params.delete("base");
+  params.delete("compare");
+  if (baseYear) params.set("base", baseYear);
+  if (compareYear) params.set("compare", compareYear);
+  const sortedParams = new URLSearchParams();
+  Array.from(params.keys()).sort().forEach((key) => {
+    params.getAll(key).forEach((value) => sortedParams.append(key, value));
+  });
+  return sortedParams.toString();
+}
+
+export function buildCompanyQuery(currentSearch = "") {
+  const params = new URLSearchParams(currentSearch);
+  params.delete("base");
+  params.delete("compare");
+  return params.toString();
+}
+
 export function parseYearParam(locationSearch, availableYears) {
   const params = new URLSearchParams(locationSearch);
   const yearParam = params.get("year");
