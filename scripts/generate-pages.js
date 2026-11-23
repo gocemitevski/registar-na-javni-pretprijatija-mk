@@ -5,6 +5,7 @@ import { dirname, join } from "path";
 import { transliterate } from "../src/utils/transliterate.js";
 import { cleanName } from "../src/utils/cleanName.js";
 import { COMPANY_SHEET_COLUMNS, MONEY_SHEET_COLUMNS } from "../src/utils/columns.js";
+import { isValidHttpUrl } from "../src/utils/isValidUrl.js";
 import { resources } from "../src/i18n/resources.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -88,6 +89,47 @@ const escapeHtml = (value) =>
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
+const interpolate = (template, values) =>
+  String(template ?? "").replace(/\{\{(\w+)\}\}/g, (_, key) =>
+    String(values[key] ?? ""),
+  );
+
+const getFullDescription = (t) => `${t.app.description} ${t.app.ministry}.`;
+
+const formatAmount = (value, lang) =>
+  `${new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }).format(
+    (value ?? 0) * 1000000,
+  )} ${lang === "mk" ? "ден." : "MKD"}`;
+
+function buildNavLinks(t, lang) {
+  return [
+    { label: t.nav.home, href: `${SITE_URL}/${lang}/` },
+    { label: t.nav.registry, href: `${SITE_URL}/${lang}/registry/` },
+    { label: t.nav.compare, href: `${SITE_URL}/${lang}/compare/` },
+    { label: t.nav.about, href: `${SITE_URL}/${lang}/about/` },
+  ];
+}
+
+function buildNoscript({ title, description, links = [], extra = "" }) {
+  const linkItems = links
+    .map(
+      (link) =>
+        `<li><a href="${escapeHtml(link.href)}">${escapeHtml(link.label)}</a></li>`,
+    )
+    .join("");
+
+  return `<div class="container my-5">
+  <h1>${escapeHtml(title)}</h1>
+  <p>${escapeHtml(description)}</p>
+  ${extra}
+  ${
+    linkItems
+      ? `<nav><ul class="list-unstyled">${linkItems}</ul></nav>`
+      : ""
+  }
+</div>`;
+}
+
 function renderShell(baseHtml, {
   title,
   description,
@@ -155,7 +197,7 @@ routes.push({
   path: "",
   canonical: `${SITE_URL}/mk/`,
   title: `${mkT.titles.home} - ${mkT.app.title_short}`,
-  description: mkT.app.description,
+  description: getFullDescription(mkT),
   jsonLd: {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -171,7 +213,7 @@ LANGS.forEach((lang) => {
   routes.push({
     path: `${lang}/`,
     title: `${t.titles.home} - ${titleShort}`,
-    description: t.app.description,
+    description: getFullDescription(t),
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "WebSite",
@@ -180,10 +222,27 @@ LANGS.forEach((lang) => {
     },
   });
 
+  const companyList = companies
+    .map((company) => {
+      const slug = cleanName(transliterate(company[COMPANY_SHEET_COLUMNS.NAME]));
+      if (!slug) return "";
+      return `<li><a href="${SITE_URL}/${lang}/company/${slug}/">${escapeHtml(
+        getLocalName(company, lang),
+      )}</a></li>`;
+    })
+    .filter(Boolean)
+    .join("");
+
   routes.push({
     path: `${lang}/registry/`,
     title: `${t.titles.registry} - ${titleShort}`,
-    description: t.app.description,
+    description: getFullDescription(t),
+    noscript: buildNoscript({
+      title: `${t.titles.registry} - ${titleShort}`,
+      description: getFullDescription(t),
+      links: buildNavLinks(t, lang),
+      extra: `<h2>${escapeHtml(t.nav.registry)}</h2><ul class="list-unstyled">${companyList}</ul>`,
+    }),
   });
 
   routes.push({
@@ -195,14 +254,14 @@ LANGS.forEach((lang) => {
   routes.push({
     path: `${lang}/about/`,
     title: `${t.titles.about} - ${titleShort}`,
-    description: t.app.description,
+    description: getFullDescription(t),
   });
 
   FILTERS.forEach((filter) => {
     routes.push({
       path: `${lang}/filtered/${filter}/`,
       title: `${t.titles[filter]} - ${titleShort}`,
-      description: t.app.description,
+      description: getFullDescription(t),
     });
   });
 });
@@ -237,8 +296,33 @@ companies.forEach((company) => {
     routes.push({
       path: `${lang}/company/${slug}/`,
       title: localName,
-      description: localDesc || t.app.description,
+      description: localDesc || getFullDescription(t),
       jsonLd,
+      noscript: buildNoscript({
+        title: localName,
+        description: localDesc || getFullDescription(t),
+        links: buildNavLinks(t, lang),
+        extra: `${
+          isValidHttpUrl(company[COMPANY_SHEET_COLUMNS.WEBSITE])
+            ? `<p><a href="${escapeHtml(company[COMPANY_SHEET_COLUMNS.WEBSITE])}">${escapeHtml(
+                interpolate(t.company.website, { name: localName }),
+              )}</a></p>`
+            : ""
+        }${
+          financials
+            ? `<h2>${escapeHtml(
+                interpolate(t.summary.quickFacts, {
+                  year: financials.year,
+                }),
+              )}</h2>
+  <ul class="list-unstyled">
+    <li><strong>${escapeHtml(t.cards.income)}:</strong> ${formatAmount(financials.income, lang)}</li>
+    <li><strong>${escapeHtml(t.cards.expenses)}:</strong> ${formatAmount(financials.expenses, lang)}</li>
+    <li><strong>${escapeHtml(t.cards["financial-result"])}:</strong> ${formatAmount(financials.financialResult, lang)}</li>
+  </ul>`
+            : ""
+        }`,
+      }),
     });
   });
 });
@@ -252,6 +336,14 @@ routes.forEach((route) => {
   const canonical = route.canonical ?? `${SITE_URL}/${route.path}`;
   const ogLang = route.path.split("/")[0] || "mk";
   const ogImage = `${SITE_URL}/registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${ogLang}-1200x675.webp`;
+  const t = resources[lang].translation;
+  const noscript =
+    route.noscript ??
+    buildNoscript({
+      title: route.title,
+      description: route.description,
+      links: buildNavLinks(t, lang),
+    });
   const html = renderShell(baseHtml, {
     title: route.title,
     description: route.description,
@@ -260,6 +352,7 @@ routes.forEach((route) => {
     jsonLd: route.jsonLd,
     lang,
     pathWithoutLang,
+    noscript,
   });
   const filePath = join(projectRoot, "dist", route.path, "index.html");
   mkdirSync(dirname(filePath), { recursive: true });
