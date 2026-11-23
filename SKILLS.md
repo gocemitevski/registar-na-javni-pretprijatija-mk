@@ -8,19 +8,21 @@ This document outlines the core skills and best practices required to work on th
 - **Build Tool:** Vite 8 – fast HMR, ES‑module based build
 - **Styling:** Bootstrap 5 + SCSS
 - **Routing:** react‑router‑dom 7
-- **Data Processing:** `xlsx` library for reading Excel/ODS files on the client
+- **Data Processing:** `xlsx` in build scripts only; the browser reads the generated `public/data/registar.json`
 - **Charts:** Chart.js for data visualization
 - **State & Data Flow:** Local component state, custom hook (`useData`) – no external state manager
 - **Testing / Linting:** ESLint 10 (React Hooks + React Refresh plugins)
-- **Utilities:** Small helper modules for decimal formatting, transliteration, file reading, and chart constants.
+- **Utilities:** Small helper modules for decimal formatting, transliteration, URL state, SEO metadata, and chart constants.
 
 ## 📐 Architectural Principles
 
 - **Component‑first**: Each UI piece lives in its own component file (`src/components`).
 - **Hooks for logic**: Shared data fetching is encapsulated in `useData.jsx`.
-- **URL‑driven state**: Filter parameters (year, quarter, sorting, order) are stored in the URL, not localStorage. This ensures consistent behavior across page navigation.
-- **Server‑side rendering not used** – the app is purely client‑side; data is loaded from static ODS files bundled with the build.
-- **Performance focus**: Use `React.memo`, `useMemo`, and `useCallback` where re‑renders are expensive (e.g., list rendering, chart calculations).
+- **URL‑driven state**: Filter parameters (year, quarter, sorting, order, currency) are stored in the URL, not localStorage. This ensures consistent behavior across page navigation.
+- **Static shells, client runtime**: There is no backend or SSR. The build generates per-route HTML shells with SEO metadata and a `<noscript>` fallback; React renders the interactive app from `data/registar.json`.
+- **Language routes**: Page routes live under `/:lang` with a `LangLayout` guard. Unsupported language prefixes and unknown paths render `NotFound`, which is `noindex`.
+- **Semantic headings**: Keep one `<h1>` per page. The site header brand is a `<p>`; cards and section titles use `<h2>`/`<h3>`.
+- **Performance focus**: React Compiler handles most memoization; `useMemo`/`useCallback` are still used for expensive derived values and stable effect dependencies.
 - **Accessibility**: Components use semantic HTML and Bootstrap utility classes; ARIA attributes added where necessary.
 
 ## 🚀 Common Workflows
@@ -31,22 +33,29 @@ This document outlines the core skills and best practices required to work on th
 2. Export the component as default.
 3. Import styles via SCSS or Bootstrap classes.
 4. If the component needs data, consume it from `useData` or pass props.
-5. Wrap heavy rendering logic with `React.memo` if needed.
+5. Extract a component or memoized value only where it measurably helps; React Compiler handles most of the baseline memoization.
 
 ### Data Fetching & Processing
 
-- The ODS file is loaded once in `useData.jsx`. Subsequent components read from the cached state.
-- Use `xlsx.read` to parse and convert sheets into plain JavaScript objects.
+- `scripts/generate-data.js` parses the ODS with `xlsx` at build time and writes `public/data/registar.json` (`{ companies, years, moneyByYear }`). `xlsx` is not shipped to the browser.
+- `useData` fetches that JSON once and shares the promise between components. The request is versioned with the ODS date (`?v=...`) to avoid stale cached data after a deployment.
+- Use the `?v=` version and the shared promise; do not fetch the ODS or JSON independently in components.
 - All numeric values are formatted using `decimalNumbers.jsx` (use `formatDecimalNumber` for parsing, `parseDecimalNumber` for display).
-- Data is cached using a shared promise pattern to prevent race conditions on page reload.
+- If a new deployment replaces lazy chunks, `main.jsx` reloads once on Vite's `vite:preloadError` event, with a 10-second guard against reload loops.
 
 ### Filter & Sorting
 
 - Filter definitions are centralized in `src/utils/filterDefinitions.jsx`.
-- URL parameters: `:lang`, `:year`, `:quarter`, `:sort`, `:order`, `:filter`.
+- URL state: path params `:lang`, `:filter`, `:company`; query params `year`, `quarter`, `sort`, `order`, `currency`, and compare-specific `base`/`compare`.
 - Filter types: `positive-result`, `negative-result`, `income`, `no-income`, `earned-more`, `spent-more`
 - Default values are computed at module level using constants (e.g., `DEFAULT_SORTING`, `DEFAULT_ORDER`).
 - Sorting/ordering logic should handle the default case specially (no sorting applied when both sorting and order are at defaults).
+
+### Comparison Page
+
+- `YearComparison.jsx` reads `base`/`compare` through `useComparisonParams`; the shared `Navbar` renders both year selects and the currency switcher via `showComparisonFilters`.
+- `buildYearComparison` merges renamed companies through `src/utils/companyAliases.js`. Add an alias when the ODS introduces a rename.
+- One-sided companies stay in the table, are labeled “Only in {year}”, and are sorted last; their values still count toward the year totals.
 
 ### Chart Rendering
 
@@ -58,15 +67,15 @@ This document outlines the core skills and best practices required to work on th
 
 ### Filtered Pages
 
-- Filtered pages (e.g., `/filtered/positive-result`) show a chart of companies matching the filter criteria.
+- Filtered pages (e.g., `/:lang/filtered/positive-result`) show a chart of companies matching the filter criteria.
 - The chart title is dynamic based on the filter type and displays localized text.
 - Use `FILTER_TO_SORT` mapping to determine which column to highlight in DefinitionLists.
 
 ## ⚠️ Constraints & Best Practices
 
-- **No class components** – only functional components with hooks.
-- **Avoid prop drilling** – use context or custom hooks for shared state.
-- **Keep side‑effects minimal** – `useEffect` is used only for data fetching; cleanup functions are provided when necessary.
+- **Functional components with hooks** – the only class component is `DataErrorBoundary`, because React error boundaries require a class.
+- **Use custom hooks for shared logic** – avoid adding a global store unless the data flow genuinely requires it.
+- **Keep side‑effects minimal** – `useEffect` is used for data fetching and chart lifecycle; cleanup functions are provided when necessary.
 - **Linting rules**: Follow ESLint config in `eslint.config.js`; no unused variables unless prefixed with `_`.
 - **Testing**: Although not yet configured, future tests should use Vitest + React Testing Library.
 
@@ -88,4 +97,4 @@ Review checklist:
 
 ---
 
-_Skill set last updated: August 2026_
+_Skill set last updated: November 2026_

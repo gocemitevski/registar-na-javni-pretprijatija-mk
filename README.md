@@ -31,6 +31,8 @@ npm run dev
 npm run build
 ```
 
+Изградбата ги генерира и податоците (`public/data/registar.json`), `public/sitemap.xml`, статичните HTML страници за секоја рута и `404.html`.
+
 Преглед на изградбената верзија локално:
 
 ```bash
@@ -55,26 +57,34 @@ npm run data
 
 ## Параметри на „URL“
 
-Апликацијата користи параметри на „URL“ за чување на состојбата:
+Апликацијата чува состојба во „URL“:
 
-- `:lang` - јазик (mk, en)
-- `:year` - избрана година
-- `:quarter` - избран квартал (0 = Сите квартали)
-- `:sort` - подредување (id, income, expenses, financial-result)
-- `:order` - редослед (asc, desc)
-- `:filter` - филтер за филтрирани страни (positive-result, negative-result, income, no-income, earned-more, spent-more)
-- `:currency` - валута (MKD, EUR, USD, GBP)
+- Патеки:
+  - `:lang` - јазик (mk, en)
+  - `:filter` - филтер за филтрирани страни (positive-result, negative-result, income, no-income, earned-more, spent-more)
+  - `:company` - slug на компанија
+- Query параметри:
+  - `year` - избрана година
+  - `quarter` - избран квартал (0 = Сите квартали)
+  - `sort` - подредување (id, income, expenses, financial-result)
+  - `order` - редослед (asc, desc)
+  - `currency` - валута (MKD, EUR, USD, GBP)
+  - `base` и `compare` - годините што се споредуваат на страницата за споредба
 
 Пример: `/mk/filtered/positive-result?year=2025&quarter=1&currency=EUR`
 
+Пример за споредба: `/mk/compare?base=2024&compare=2025&currency=EUR`
+
 ## Патеки
 
-- `/` - Главна страница со преглед
+- `/` - Пренасочување кон `/mk`
 - `/:lang` - Главна страница со преглед
+- `/:lang/registry` - Регистар на сите компании
+- `/:lang/compare` - Споредба на финансиски показатели помеѓу две години
 - `/:lang/filtered/:filter` - Филтрирани компании
-- `/:lang/registry` - Регистaр на сите компании
 - `/:lang/company/:company` - Детали за компанија
 - `/:lang/about` - За проектот
+- `*` - Страница „не е пронајдена“ (`NotFound`)
 
 ## Лиценца
 

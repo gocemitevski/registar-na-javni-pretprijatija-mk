@@ -226,8 +226,10 @@ The project uses ESLint with these rules:
 ### React Router Patterns
 
 - Define routes in `main.jsx` using `Routes` and `Route`
-- Use dynamic parameters with colon syntax: `/:year`, `/:year/:quarter`
-- Access params with `useParams()` hook
+- Language-prefixed routes live under `/:lang` with the `LangLayout` guard; unsupported language prefixes render `NotFound` instead of a page
+- Other path params are `/:lang/filtered/:filter` and `/:lang/company/:company`
+- Access params with `useParams()`
+- Keep a `path="*"` catch-all route for unknown paths; `NotFound` also adds a client-side `noindex` when the path is not a valid language route
 
 ---
 
@@ -301,6 +303,13 @@ The currency conversion feature allows displaying financial data in different cu
 - Default currency is MKD (not included in URL)
 - `parseCurrencyParam()` validates currency against allowed list
 - Chart values are converted before rendering, chart options format with correct suffix
+
+### Comparison Page
+
+- `YearComparison.jsx` reads `base`/`compare` from the URL through `useComparisonParams` and builds totals in `buildYearComparison`.
+- The base/comparison year selects and currency switcher live in the shared `Navbar` via `showComparisonFilters`; leaving the page keeps only the currency.
+- Renamed companies are merged through `src/utils/companyAliases.js`. When the ODS introduces a new rename, add an entry there so the comparison does not show one company closing and another opening.
+- Companies present in only one of the compared years are kept, labeled “Only in {year}”, and sorted below comparable rows. Their financial values still count toward the year totals.
 
 ### Adding Chart Constants
 
@@ -413,8 +422,11 @@ The ODS file in `public/ods/` is the source of truth, but it is **not** fetched 
 1. `scripts/generate-data.js` parses the ODS with `xlsx` and writes `public/data/registar.json` (`{ companies, years, moneyByYear }`)
 2. `npm run dev` and `npm run build` run it automatically (`npm run data` to run it alone)
 3. `src/hooks/useData.jsx` fetches `data/registar.json` once and shares the promise between components
+4. The request is versioned with the ODS date (`?v=...`) so a new deployment does not keep serving routinely cached old JSON
 
 The generated file is gitignored. `xlsx` is a devDependency: if you need workbook access at runtime, don't — extend the generator instead.
+
+GitHub Pages caches HTML and JSON for up to 10 minutes. Because lazy chunks are content-hashed, an open tab can reference chunks removed by a new deployment. `main.jsx` listens for Vite's `vite:preloadError` and reloads once (with a 10-second loop guard) so the tab picks up the current HTML and chunks.
 
 ### Generating Sitemap and Static Pages
 
@@ -424,9 +436,10 @@ The sitemap and per-route static HTML shells are generated dynamically at build 
 npm run data && node scripts/generate-sitemap.js && vite build && node scripts/generate-pages.js && node scripts/generate-404.js
 ```
 
-- `scripts/generate-sitemap.js` reads company data from the ODS file, generates routes for all static pages and company detail pages, and outputs to `dist/sitemap.xml`
-- `scripts/generate-pages.js` reads the built `dist/index.html`, and for every route writes a shell to `dist/<path>/index.html` with the correct title, meta description, canonical URL, OG/Twitter tags, and JSON-LD (WebSite on home, Organization with financial `additionalProperty` on company pages)
-- `scripts/generate-404.js` copies `dist/index.html` to `dist/404.html` (GitHub Pages serves this as the SPA fallback for unknown paths)
+- `scripts/generate-sitemap.js` reads company data from the ODS file and writes `public/sitemap.xml` (Vite copies it to `dist/`). It includes all static/company routes, a `lastmod` from the ODS `dc:date`, and `xhtml:link` alternates for `mk`, `en`, and `x-default`.
+- `scripts/generate-pages.js` reads the built `dist/index.html` and writes a shell to `dist/<path>/index.html` for every route, plus the root `dist/index.html` canonicalized to `/mk/`. Each shell gets the correct `<html lang>`, title, description, canonical, `hreflang`, `og:locale`, OG/Twitter tags, JSON-LD, and a `<noscript>` fallback. Company shells include the company description, official website and latest financials; registry shells list all company links.
+- `scripts/generate-404.js` reads the root shell, removes the canonical/hreflang tags, adds `noindex`, and writes `dist/404.html` with a not-found fallback (GitHub Pages serves this for unknown paths).
+- `src/components/NotFound.jsx` is the client-side counterpart for unknown routes and unsupported language prefixes.
 
 To customize the site URL, set the `VITE_SITE_URL` environment variable:
 
@@ -436,10 +449,21 @@ VITE_SITE_URL=https://example.com npm run build
 
 Defaults to `https://pretprijatija.gocemitevski.com` if not set.
 
+### SEO and Generated HTML
+
+- Keep exactly one `<h1>` per page. The site header brand is a `<p>`, page titles use `<h1>`, and cards/sections use `<h2>`/`<h3>`. Registry and filtered pages use a visually hidden `<h1>`.
+- Generated pages set `lang`, `hreflang`, and `og:locale`; the client updates them on SPA navigation in `src/hooks/usePageTitle.jsx`.
+- Filtered/list views keep query parameters such as `year` and `currency`, but canonical URLs omit them.
+- The root `/` canonicalizes to `/mk/`. Unknown paths are `noindex`; the generated `404.html` has no canonical/hreflang, and the client-side `NotFound` adds `noindex`.
+- When adding a route, update `scripts/generate-pages.js` and `scripts/generate-sitemap.js` so the static shell and sitemap stay in sync.
+
 ### Adding a New Route
 
-1. Import component in `main.jsx`
-2. Add `<Route path="/path" element={<Component />} />` inside `<Routes>`
+1. Import the component in `main.jsx`
+2. Add a nested route under `/:lang` (or a top-level route if it is not language-specific); keep the `path="*"` catch-all last
+3. Add route-specific title/description handling in `src/hooks/usePageTitle.jsx`
+4. Add the route to `scripts/generate-pages.js` and `scripts/generate-sitemap.js`
+5. Keep one `<h1>` per page and make sure the page works under both `/mk` and `/en`
 
 ### Analytics (Matomo)
 
@@ -468,7 +492,7 @@ Two related rules live in the title update:
 
 - This is a client-side SPA with no backend
 - Data is fetched from `data/registar.json`, generated at build time from the ODS file in `public/ods/`
-- The app uses Macedonian language for UI text
+- The UI is bilingual (Macedonian and English) through i18next; keep both `mk` and `en` resources in sync
 - No TypeScript is used - plain JavaScript with JSX
 - Memory cleanup in useEffect is required for navigation subscriptions
 - Use `useData` hook for shared data fetching to avoid duplicate loading
