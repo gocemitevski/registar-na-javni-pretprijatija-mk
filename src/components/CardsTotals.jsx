@@ -15,14 +15,14 @@ export default function CardsTotals({
       <aside className="container bg-total totals bg-opacity-25 backdrop-blur border border-light shadow-lg py-5 rounded">
         <div className="row mx-2">
           <div className="col-lg-6 col-xl-8 vstack gap-2 justify-content-center">
-            <h1 className="card-title fs-5">
+            <h2 className="card-title fs-5">
               {selectedQuarter > 0
                 ? t("cards.totalQuarter", {
                     year: selectedYear,
                     quarter: selectedQuarter,
                   })
                 : t("cards.total", { year: selectedYear })}
-            </h1>
+            </h2>
             <p className="card-text mb-4 mb-lg-0">
               {totalCompanies}{" "}
               {totalCompanies % 10 === 1 && totalCompanies !== 11

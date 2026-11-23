@@ -44,11 +44,11 @@ export default function Card({ row, numbers, activeSort }) {
       <div className="card-body">
         <div className="row g-3">
           <div className="col-lg-6 col-xl-8 vstack">
-            <h1 className="card-title fs-5">
+            <h2 className="card-title fs-5">
               <Link to={`/${currentLang}/company/${cleanName(transliterate(row[COMPANY_SHEET_COLUMNS.NAME]))}${location.search}`}>
                 {getLocalizedCompanyName(row, currentLang)}
               </Link>
-            </h1>
+            </h2>
             <p className="card-text flex-fill">{getLocalizedCompanyDescription(row, currentLang)}</p>
             {hasValidWebsite && (
               <a

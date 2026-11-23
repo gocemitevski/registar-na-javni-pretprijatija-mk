@@ -88,13 +88,23 @@ const escapeHtml = (value) =>
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-function renderShell(baseHtml, { title, description, canonical, ogImage, jsonLd }) {
+function renderShell(baseHtml, {
+  title,
+  description,
+  canonical,
+  ogImage,
+  jsonLd,
+  lang,
+  pathWithoutLang,
+  noscript,
+}) {
   let html = baseHtml;
   const safeTitle = escapeHtml(title);
   const safeDescription = escapeHtml(description);
   const safeCanonical = escapeHtml(canonical);
   const safeOgImage = escapeHtml(ogImage);
 
+  html = html.replace(/<html lang="[^"]*"/, `<html lang="${lang}"`);
   html = html.replace(/<title>.*?<\/title>/, `<title>${safeTitle}</title>`);
   html = html.replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${safeCanonical}$2`);
   html = html.replace(/(<meta name="description" content=")[^"]*(")/, `$1${safeDescription}$2`);
@@ -106,11 +116,32 @@ function renderShell(baseHtml, { title, description, canonical, ogImage, jsonLd 
   html = html.replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${safeDescription}$2`);
   html = html.replace(/(<meta name="twitter:image" content=")[^"]*(")/, `$1${safeOgImage}$2`);
 
+  // Keep the generated head idempotent when the script is re-run against a
+  // shell that already contains these tags.
+  html = html.replace(/<link rel="alternate"[^>]*>\s*/g, "");
+  html = html.replace(/<meta property="og:locale[^>]*>\s*/g, "");
+
+  const mkUrl = `${SITE_URL}/mk/${pathWithoutLang}`;
+  const enUrl = `${SITE_URL}/en/${pathWithoutLang}`;
+  const headExtras = [
+    `<link rel="alternate" hreflang="mk" href="${escapeHtml(mkUrl)}" />`,
+    `<link rel="alternate" hreflang="en" href="${escapeHtml(enUrl)}" />`,
+    `<link rel="alternate" hreflang="x-default" href="${escapeHtml(mkUrl)}" />`,
+    `<meta property="og:locale" content="${lang === "en" ? "en_US" : "mk_MK"}" />`,
+    `<meta property="og:locale:alternate" content="${lang === "en" ? "mk_MK" : "en_US"}" />`,
+  ];
+
   if (jsonLd) {
     const jsonString = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
+    headExtras.push(`<script type="application/ld+json">${jsonString}</script>`);
+  }
+
+  html = html.replace("</head>", `${headExtras.join("\n")}\n</head>`);
+
+  if (noscript) {
     html = html.replace(
-      "</head>",
-      `<script type="application/ld+json">${jsonString}</script>\n</head>`,
+      /(<div id="root"[^>]*><\/div>)/,
+      (match) => `${match}\n<noscript>${noscript}</noscript>`,
     );
   }
 
@@ -118,6 +149,20 @@ function renderShell(baseHtml, { title, description, canonical, ogImage, jsonLd 
 }
 
 const routes = [];
+const mkT = resources.mk.translation;
+
+routes.push({
+  path: "",
+  canonical: `${SITE_URL}/mk/`,
+  title: `${mkT.titles.home} - ${mkT.app.title_short}`,
+  description: mkT.app.description,
+  jsonLd: {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: mkT.app.title,
+    url: `${SITE_URL}/mk/`,
+  },
+});
 
 LANGS.forEach((lang) => {
   const t = resources[lang].translation;
@@ -202,14 +247,19 @@ const baseHtml = readFileSync(join(projectRoot, "dist/index.html"), "utf8");
 
 let count = 0;
 routes.forEach((route) => {
-  const canonical = `${SITE_URL}/${route.path}`;
-  const ogImage = `${SITE_URL}/registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${route.path.split("/")[0]}-1200x675.webp`;
+  const lang = route.path.startsWith("en/") ? "en" : "mk";
+  const pathWithoutLang = route.path.replace(/^(mk|en)\/?/, "");
+  const canonical = route.canonical ?? `${SITE_URL}/${route.path}`;
+  const ogLang = route.path.split("/")[0] || "mk";
+  const ogImage = `${SITE_URL}/registar-javni-pretprijatija-trgovski-drustva-r-s-makedonija-${ogLang}-1200x675.webp`;
   const html = renderShell(baseHtml, {
     title: route.title,
     description: route.description,
     canonical,
     ogImage,
     jsonLd: route.jsonLd,
+    lang,
+    pathWithoutLang,
   });
   const filePath = join(projectRoot, "dist", route.path, "index.html");
   mkdirSync(dirname(filePath), { recursive: true });

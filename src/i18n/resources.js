@@ -41,6 +41,11 @@ export const resources = {
         error: "Грешка при вчитување на податоците:",
         noResults: "Не постојат јавни претпријатија и трговски друштва за внесените параметри или пак, сте направиле некоја грешка при пребарувањето."
       },
+      notFound: {
+        title: "Страницата не е пронајдена",
+        description: "Проверете дали адресата е точна или вратете се на почетната страница.",
+        home: "На почетна"
+      },
       error: {
         title: "Грешка",
         technicalData: "Технички податоци",
@@ -276,6 +281,11 @@ export const resources = {
         loading: "Loading...",
         error: "Error loading data:",
         noResults: "No public enterprises or companies match your search criteria, or you may have made an error during your search."
+      },
+      notFound: {
+        title: "Page Not Found",
+        description: "Check that the address is correct or return to the home page.",
+        home: "Go to home"
       },
       error: {
         title: "Error",

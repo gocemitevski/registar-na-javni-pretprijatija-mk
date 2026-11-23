@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useCallback, useRef } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useData } from "../hooks/useData";
 import { formatDecimalNumber, sumDecimalNumbers } from "../utils/decimalNumbers";
 import { MONEY_SHEET_COLUMNS } from "../utils/columns";
@@ -11,6 +12,7 @@ import Loading from "./Loading";
 import Navbar from "./Navbar";
 
 function Registry() {
+  const { t } = useTranslation();
   const { lang } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -131,6 +133,7 @@ function Registry() {
         selectedYear={selectedYear}
         selectedQuarter={selectedQuarter}
         showChart={false}
+        heading={t("nav.registry")}
       />
     </>
   );

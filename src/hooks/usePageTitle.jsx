@@ -6,6 +6,62 @@ import { getCanonicalUrl } from "../utils/canonicalUrl";
 
 export const TITLE_UPDATE_EVENT = "page-title-update";
 
+function getAlternateUrls(location) {
+  const match = location.pathname.match(/^\/(mk|en)(?=\/|$)/);
+  if (!match) return null;
+
+  const origin = window.location.origin;
+  const pathWithoutLang = location.pathname.slice(match[0].length);
+  const normalizedPath =
+    pathWithoutLang === "" || pathWithoutLang === "/"
+      ? "/"
+      : `${pathWithoutLang.replace(/\/$/, "")}/`;
+
+  return {
+    mk: `${origin}/mk${normalizedPath}`,
+    en: `${origin}/en${normalizedPath}`,
+  };
+}
+
+function updateAlternateLinks(location) {
+  const urls = getAlternateUrls(location);
+  const existingLinks = document.head.querySelectorAll(
+    'link[rel="alternate"][hreflang]',
+  );
+
+  if (!urls) {
+    existingLinks.forEach((link) => link.remove());
+    return;
+  }
+
+  const setLink = (hreflang, href) => {
+    let link = document.head.querySelector(
+      `link[rel="alternate"][hreflang="${hreflang}"]`,
+    );
+    if (!link) {
+      link = document.createElement("link");
+      link.setAttribute("rel", "alternate");
+      link.setAttribute("hreflang", hreflang);
+      document.head.appendChild(link);
+    }
+    link.setAttribute("href", href);
+  };
+
+  setLink("mk", urls.mk);
+  setLink("en", urls.en);
+  setLink("x-default", urls.mk);
+}
+
+function setMetaProperty(property, content) {
+  let meta = document.head.querySelector(`meta[property="${property}"]`);
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.setAttribute("property", property);
+    document.head.appendChild(meta);
+  }
+  meta.setAttribute("content", content);
+}
+
 export function computeMeta(location, t) {
   const searchParams = new URLSearchParams(location.search);
   const yearParam = searchParams.get("year");
@@ -93,6 +149,13 @@ export function updateDocumentMeta(
   document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", meta.ogTitle || meta.title);
   document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", meta.description);
   document.querySelector('meta[name="twitter:image"]')?.setAttribute("content", imageUrl);
+
+  setMetaProperty("og:locale", lang === "en" ? "en_US" : "mk_MK");
+  setMetaProperty(
+    "og:locale:alternate",
+    lang === "en" ? "mk_MK" : "en_US",
+  );
+  updateAlternateLinks(location);
 
   window.dispatchEvent(
     new CustomEvent(TITLE_UPDATE_EVENT, {

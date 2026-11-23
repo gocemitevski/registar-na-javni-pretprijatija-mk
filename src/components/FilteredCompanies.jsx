@@ -1,5 +1,6 @@
 import { useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useData } from "../hooks/useData";
 import { useUrlParams } from "../hooks/useUrlParams";
 import { formatDecimalNumber } from "../utils/decimalNumbers";
@@ -18,6 +19,7 @@ const FILTERS = {
 };
 
 function FilteredCompanies() {
+  const { t } = useTranslation();
   const { filter } = useParams();
   const { pretprijatija, allMoney, availableYears, loading, hasError, errorInfo, retry } = useData();
 
@@ -103,6 +105,7 @@ function FilteredCompanies() {
       selectedQuarter={selectedQuarter}
       filter={filter}
       showSearch={false}
+      heading={t(`titles.${filter}`, filter)}
     />
   );
 }

@@ -1,7 +1,7 @@
 import { StrictMode, Suspense, lazy, useEffect, useCallback } from "react";
 import { createRoot } from "react-dom/client";
 import "./assets/scss/style.scss";
-import { Route, Routes, Navigate, BrowserRouter, useParams } from "react-router-dom";
+import { Route, Routes, Navigate, BrowserRouter, Outlet, useParams } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n/index.js";
 import usePageTitle, { TITLE_UPDATE_EVENT } from "./hooks/usePageTitle";
@@ -12,6 +12,7 @@ import DataErrorBoundary from "./components/DataErrorBoundary.jsx";
 import Footer from "./components/Footer.jsx";
 import Header from "./components/Header.jsx";
 import Loading from "./components/Loading.jsx";
+import NotFound from "./components/NotFound.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 
 export const Registry = lazy(() => import("./components/Registry.jsx"));
@@ -22,13 +23,27 @@ export const CompanyWrapper = lazy(() => import("./components/CompanyWrapper.jsx
 
 document.documentElement.lang = i18n.language;
 
+function LangLayout() {
+  const { lang } = useParams();
+
+  if (lang !== "mk" && lang !== "en") {
+    return <NotFound />;
+  }
+
+  return <Outlet />;
+}
+
 function AppContent() {
   const { lang } = useParams();
 
   usePageTitle();
 
   useEffect(() => {
-    if (lang && lang !== i18n.language) {
+    if (
+      lang &&
+      (lang === "mk" || lang === "en") &&
+      lang !== i18n.language
+    ) {
       i18n.changeLanguage(lang);
     }
   }, [lang]);
@@ -55,12 +70,15 @@ function AppContent() {
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/" element={<Navigate to="/mk" replace />} />
-          <Route path="/:lang/filtered/:filter" element={<FilteredCompanies />} />
-          <Route path="/:lang/registry" element={<Registry />} />
-          <Route path="/:lang/compare" element={<YearComparison />} />
-          <Route path="/:lang/company/:company" element={<CompanyWrapper />} />
-          <Route path="/:lang/about" element={<About />} />
-          <Route path="/:lang" element={<Overview />} />
+          <Route path="/:lang" element={<LangLayout />}>
+            <Route path="filtered/:filter" element={<FilteredCompanies />} />
+            <Route path="registry" element={<Registry />} />
+            <Route path="compare" element={<YearComparison />} />
+            <Route path="company/:company" element={<CompanyWrapper />} />
+            <Route path="about" element={<About />} />
+            <Route index element={<Overview />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
       <Footer />

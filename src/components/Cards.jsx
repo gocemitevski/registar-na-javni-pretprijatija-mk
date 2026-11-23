@@ -19,6 +19,7 @@ export default function Cards({
   showChart = true,
   showSearch = true,
   filter,
+  heading,
 }) {
   const { i18n } = useTranslation();
   const lang = i18n.language || "mk";
@@ -99,6 +100,7 @@ export default function Cards({
   return (
     <main className="bg-primary-subtle bg-shade-img pt-4 pb-3 flex-fill">
       <div className="container">
+        {heading && <h1 className="visually-hidden">{heading}</h1>}
         {showChart && (
           <FilteredChart
             tableData={results}

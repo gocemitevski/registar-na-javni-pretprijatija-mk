@@ -1,433 +1,777 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/registry/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/registry/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/registry/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/registry/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/registry/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/registry/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/registry/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/registry/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/compare/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/compare/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/compare/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/compare/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/compare/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/compare/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/compare/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/compare/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/about/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/about/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/about/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/about/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/about/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/about/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/about/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/about/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/filtered/positive-result/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/filtered/positive-result/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/filtered/positive-result/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/filtered/positive-result/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/filtered/positive-result/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/filtered/positive-result/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/filtered/positive-result/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/filtered/positive-result/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/filtered/negative-result/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/filtered/negative-result/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/filtered/negative-result/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/filtered/negative-result/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/filtered/negative-result/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/filtered/negative-result/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/filtered/negative-result/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/filtered/negative-result/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/filtered/income/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/filtered/income/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/filtered/income/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/filtered/income/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/filtered/income/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/filtered/income/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/filtered/income/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/filtered/income/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/filtered/no-income/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/filtered/no-income/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/filtered/no-income/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/filtered/no-income/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/filtered/no-income/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/filtered/no-income/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/filtered/no-income/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/filtered/no-income/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/filtered/earned-more/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/filtered/earned-more/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/filtered/earned-more/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/filtered/earned-more/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/filtered/earned-more/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/filtered/earned-more/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/filtered/earned-more/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/filtered/earned-more/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/filtered/spent-more/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/filtered/spent-more/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/filtered/spent-more/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/filtered/spent-more/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/filtered/spent-more/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/filtered/spent-more/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/filtered/spent-more/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/filtered/spent-more/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/ad-elektrani-na-severna-makedonija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-elektrani-na-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-elektrani-na-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-elektrani-na-severna-makedonija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/ad-elektrani-na-severna-makedonija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-elektrani-na-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-elektrani-na-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-elektrani-na-severna-makedonija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/ad-za-prenos-na-elektrichna-energija-i-upravuvanje-so-elektroenergetskiot-sistem-vo-drzhavna-sopstvenost-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-prenos-na-elektrichna-energija-i-upravuvanje-so-elektroenergetskiot-sistem-vo-drzhavna-sopstvenost-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-za-prenos-na-elektrichna-energija-i-upravuvanje-so-elektroenergetskiot-sistem-vo-drzhavna-sopstvenost-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-prenos-na-elektrichna-energija-i-upravuvanje-so-elektroenergetskiot-sistem-vo-drzhavna-sopstvenost-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/ad-za-prenos-na-elektrichna-energija-i-upravuvanje-so-elektroenergetskiot-sistem-vo-drzhavna-sopstvenost-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-prenos-na-elektrichna-energija-i-upravuvanje-so-elektroenergetskiot-sistem-vo-drzhavna-sopstvenost-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-za-prenos-na-elektrichna-energija-i-upravuvanje-so-elektroenergetskiot-sistem-vo-drzhavna-sopstvenost-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-prenos-na-elektrichna-energija-i-upravuvanje-so-elektroenergetskiot-sistem-vo-drzhavna-sopstvenost-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jp-za-drzhavni-patishta-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-drzhavni-patishta-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-za-drzhavni-patishta-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-drzhavni-patishta-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jp-za-drzhavni-patishta-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-drzhavni-patishta-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-za-drzhavni-patishta-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-drzhavni-patishta-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/ad-zheleznici-na-republika-severna-makedonija-transport-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-zheleznici-na-republika-severna-makedonija-transport-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-zheleznici-na-republika-severna-makedonija-transport-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-zheleznici-na-republika-severna-makedonija-transport-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/ad-zheleznici-na-republika-severna-makedonija-transport-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-zheleznici-na-republika-severna-makedonija-transport-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-zheleznici-na-republika-severna-makedonija-transport-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-zheleznici-na-republika-severna-makedonija-transport-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jp-nacionalni-shumi-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-nacionalni-shumi-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-nacionalni-shumi-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-nacionalni-shumi-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jp-nacionalni-shumi-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-nacionalni-shumi-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-nacionalni-shumi-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-nacionalni-shumi-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/ad-poshta-na-republika-severna-makedonija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-poshta-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-poshta-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-poshta-na-republika-severna-makedonija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/ad-poshta-na-republika-severna-makedonija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-poshta-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-poshta-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-poshta-na-republika-severna-makedonija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jp-za-zheleznichka-infrastruktura-zheleznici-na-republika-severna-makedonija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-zheleznichka-infrastruktura-zheleznici-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-za-zheleznichka-infrastruktura-zheleznici-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-zheleznichka-infrastruktura-zheleznici-na-republika-severna-makedonija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jp-za-zheleznichka-infrastruktura-zheleznici-na-republika-severna-makedonija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-zheleznichka-infrastruktura-zheleznici-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-za-zheleznichka-infrastruktura-zheleznici-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-zheleznichka-infrastruktura-zheleznici-na-republika-severna-makedonija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jp-za-odrzhuvanje-i-zashtita-na-magistralnite-i-regionalnite-patishta-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-odrzhuvanje-i-zashtita-na-magistralnite-i-regionalnite-patishta-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-za-odrzhuvanje-i-zashtita-na-magistralnite-i-regionalnite-patishta-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-odrzhuvanje-i-zashtita-na-magistralnite-i-regionalnite-patishta-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jp-za-odrzhuvanje-i-zashtita-na-magistralnite-i-regionalnite-patishta-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-odrzhuvanje-i-zashtita-na-magistralnite-i-regionalnite-patishta-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-za-odrzhuvanje-i-zashtita-na-magistralnite-i-regionalnite-patishta-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-odrzhuvanje-i-zashtita-na-magistralnite-i-regionalnite-patishta-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jrp-makedonska-radiotelevizija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jrp-makedonska-radiotelevizija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jrp-makedonska-radiotelevizija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jrp-makedonska-radiotelevizija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jrp-makedonska-radiotelevizija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jrp-makedonska-radiotelevizija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jrp-makedonska-radiotelevizija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jrp-makedonska-radiotelevizija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jrp-nacionalna-radiotelevizija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jrp-nacionalna-radiotelevizija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jrp-nacionalna-radiotelevizija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jrp-nacionalna-radiotelevizija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jrp-nacionalna-radiotelevizija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jrp-nacionalna-radiotelevizija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jrp-nacionalna-radiotelevizija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jrp-nacionalna-radiotelevizija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jp-nacionalna-radiodifuzija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-nacionalna-radiodifuzija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-nacionalna-radiodifuzija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-nacionalna-radiodifuzija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jp-nacionalna-radiodifuzija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-nacionalna-radiodifuzija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-nacionalna-radiodifuzija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-nacionalna-radiodifuzija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/ad-za-izgradba-i-stopanisuvanje-so-stanben-i-so-deloven-prostor-od-znachenje-za-republikata-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-izgradba-i-stopanisuvanje-so-stanben-i-so-deloven-prostor-od-znachenje-za-republikata-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-za-izgradba-i-stopanisuvanje-so-stanben-i-so-deloven-prostor-od-znachenje-za-republikata-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-izgradba-i-stopanisuvanje-so-stanben-i-so-deloven-prostor-od-znachenje-za-republikata-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/ad-za-izgradba-i-stopanisuvanje-so-stanben-i-so-deloven-prostor-od-znachenje-za-republikata-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-izgradba-i-stopanisuvanje-so-stanben-i-so-deloven-prostor-od-znachenje-za-republikata-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-za-izgradba-i-stopanisuvanje-so-stanben-i-so-deloven-prostor-od-znachenje-za-republikata-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-izgradba-i-stopanisuvanje-so-stanben-i-so-deloven-prostor-od-znachenje-za-republikata-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/ad-za-vrshenje-na-dejnosta-davanje-na-uslugi-vo-vozduhoplovnata-navigacija-m-nav-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-vrshenje-na-dejnosta-davanje-na-uslugi-vo-vozduhoplovnata-navigacija-m-nav-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-za-vrshenje-na-dejnosta-davanje-na-uslugi-vo-vozduhoplovnata-navigacija-m-nav-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-vrshenje-na-dejnosta-davanje-na-uslugi-vo-vozduhoplovnata-navigacija-m-nav-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/ad-za-vrshenje-na-dejnosta-davanje-na-uslugi-vo-vozduhoplovnata-navigacija-m-nav-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-vrshenje-na-dejnosta-davanje-na-uslugi-vo-vozduhoplovnata-navigacija-m-nav-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-za-vrshenje-na-dejnosta-davanje-na-uslugi-vo-vozduhoplovnata-navigacija-m-nav-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-vrshenje-na-dejnosta-davanje-na-uslugi-vo-vozduhoplovnata-navigacija-m-nav-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/ad-vodostopanstvo-na-republika-severna-makedonija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-vodostopanstvo-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-vodostopanstvo-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-vodostopanstvo-na-republika-severna-makedonija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/ad-vodostopanstvo-na-republika-severna-makedonija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-vodostopanstvo-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-vodostopanstvo-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-vodostopanstvo-na-republika-severna-makedonija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jp-strezhevo-bitola/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-strezhevo-bitola/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-strezhevo-bitola/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-strezhevo-bitola/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jp-strezhevo-bitola/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-strezhevo-bitola/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-strezhevo-bitola/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-strezhevo-bitola/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/ad-tec-negotino-negotino/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-tec-negotino-negotino/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-tec-negotino-negotino/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-tec-negotino-negotino/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/ad-tec-negotino-negotino/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-tec-negotino-negotino/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-tec-negotino-negotino/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-tec-negotino-negotino/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/ad-drzhavna-lotarija-na-republika-severna-makedonija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-drzhavna-lotarija-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-drzhavna-lotarija-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-drzhavna-lotarija-na-republika-severna-makedonija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/ad-drzhavna-lotarija-na-republika-severna-makedonija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-drzhavna-lotarija-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-drzhavna-lotarija-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-drzhavna-lotarija-na-republika-severna-makedonija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jp-zletovica-probishtip/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-zletovica-probishtip/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-zletovica-probishtip/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-zletovica-probishtip/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jp-zletovica-probishtip/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-zletovica-probishtip/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-zletovica-probishtip/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-zletovica-probishtip/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/ad-aerodromi-na-republika-severna-makedonija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-aerodromi-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-aerodromi-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-aerodromi-na-republika-severna-makedonija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/ad-aerodromi-na-republika-severna-makedonija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-aerodromi-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-aerodromi-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-aerodromi-na-republika-severna-makedonija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/dooel-boris-trajkovski-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/dooel-boris-trajkovski-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/dooel-boris-trajkovski-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/dooel-boris-trajkovski-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/dooel-boris-trajkovski-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/dooel-boris-trajkovski-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/dooel-boris-trajkovski-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/dooel-boris-trajkovski-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jp-za-vodostopanstvo-lisiche-veles/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-vodostopanstvo-lisiche-veles/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-za-vodostopanstvo-lisiche-veles/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-vodostopanstvo-lisiche-veles/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jp-za-vodostopanstvo-lisiche-veles/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-vodostopanstvo-lisiche-veles/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-za-vodostopanstvo-lisiche-veles/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-vodostopanstvo-lisiche-veles/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-za-stopanisuvanje-so-deloven-prostor-vo-drzhavna-sopstvenost/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jp-sluzhben-vesnik-na-republika-severna-makedonija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-sluzhben-vesnik-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-sluzhben-vesnik-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-sluzhben-vesnik-na-republika-severna-makedonija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jp-sluzhben-vesnik-na-republika-severna-makedonija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-sluzhben-vesnik-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-sluzhben-vesnik-na-republika-severna-makedonija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-sluzhben-vesnik-na-republika-severna-makedonija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jp-studenchica-kichevo/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-studenchica-kichevo/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-studenchica-kichevo/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-studenchica-kichevo/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jp-studenchica-kichevo/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-studenchica-kichevo/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-studenchica-kichevo/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-studenchica-kichevo/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/ad-mediumska-informativna-agencija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-mediumska-informativna-agencija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-mediumska-informativna-agencija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-mediumska-informativna-agencija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/ad-mediumska-informativna-agencija-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-mediumska-informativna-agencija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-mediumska-informativna-agencija-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-mediumska-informativna-agencija-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jp-jasen-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-jasen-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-jasen-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-jasen-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jp-jasen-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-jasen-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-jasen-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-jasen-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jp-za-stopanisuvanje-so-pasishta-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-stopanisuvanje-so-pasishta-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-za-stopanisuvanje-so-pasishta-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-stopanisuvanje-so-pasishta-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jp-za-stopanisuvanje-so-pasishta-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-stopanisuvanje-so-pasishta-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-za-stopanisuvanje-so-pasishta-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-za-stopanisuvanje-so-pasishta-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/ad-nacionalni-energetski-resursi/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-nacionalni-energetski-resursi/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-nacionalni-energetski-resursi/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-nacionalni-energetski-resursi/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/ad-nacionalni-energetski-resursi/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-nacionalni-energetski-resursi/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-nacionalni-energetski-resursi/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-nacionalni-energetski-resursi/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/ad-nomagas-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-nomagas-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-nomagas-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-nomagas-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/ad-nomagas-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/ad-nomagas-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/ad-nomagas-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/ad-nomagas-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jp-agro-berza-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-agro-berza-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-agro-berza-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-agro-berza-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jp-agro-berza-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-agro-berza-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-agro-berza-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-agro-berza-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/jp-kolektorski-sistem-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-kolektorski-sistem-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-kolektorski-sistem-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-kolektorski-sistem-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/jp-kolektorski-sistem-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/jp-kolektorski-sistem-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/jp-kolektorski-sistem-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/jp-kolektorski-sistem-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/mk/company/dooel-naftovod-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/dooel-naftovod-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/dooel-naftovod-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/dooel-naftovod-skopje/" />
   </url>
 <url>
     <loc>https://pretprijatija.gocemitevski.com/en/company/dooel-naftovod-skopje/</loc>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="mk" href="https://pretprijatija.gocemitevski.com/mk/company/dooel-naftovod-skopje/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://pretprijatija.gocemitevski.com/en/company/dooel-naftovod-skopje/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pretprijatija.gocemitevski.com/mk/company/dooel-naftovod-skopje/" />
   </url>
 </urlset>
