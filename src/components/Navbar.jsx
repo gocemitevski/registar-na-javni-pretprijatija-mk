@@ -129,6 +129,13 @@ export default function Navbar({
   const registryPath = `/${currentLang}/registry${navSearch}`;
   const aboutPath = `/${currentLang}/about`;
 
+  const normalizedPath = location.pathname.replace(/\/$/, "");
+  const isHomeActive = normalizedPath === `/${currentLang}`;
+  const isRegistryActive = normalizedPath === `/${currentLang}/registry`;
+  // Tighten the icon-only home link when neither it nor the adjacent Registry
+  // link is active.
+  const collapseHomeRightPadding = !isHomeActive && !isRegistryActive;
+
   const handleYearChange = (e) => {
     const newYear = e.target.value;
     const newYearMoney = allMoney[newYear] || [];
@@ -255,7 +262,7 @@ export default function Navbar({
               <li className="nav-item">
                 <NavLink
                   end
-                  className="nav-link py-3"
+                  className={`nav-link py-3${collapseHomeRightPadding ? " pe-0" : ""}`}
                   to={overviewPath}
                   title={t("nav.home")}
                 >
