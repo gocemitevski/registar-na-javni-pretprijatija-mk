@@ -105,6 +105,39 @@ window.addEventListener(TITLE_UPDATE_EVENT, (event) => {
   });
 });
 
+// A new deployment replaces the hashed lazy chunks. A tab that was opened
+// before the deploy can still request an old chunk and fail until the page is
+// reloaded. Reload once when Vite reports that a dynamic import failed.
+const CHUNK_RELOAD_KEY = "chunk-reload-at";
+
+function getLastChunkReload() {
+  try {
+    const stored = Number(window.sessionStorage.getItem(CHUNK_RELOAD_KEY));
+    if (stored) return stored;
+  } catch {
+    // Fall through to window.name when storage is unavailable.
+  }
+  return Number(window.name) || 0;
+}
+
+function setLastChunkReload(value) {
+  try {
+    window.sessionStorage.setItem(CHUNK_RELOAD_KEY, String(value));
+  } catch {
+    // Ignore storage failures; window.name still prevents a reload loop.
+  }
+  window.name = String(value);
+}
+
+window.addEventListener("vite:preloadError", (event) => {
+  const now = Date.now();
+  if (now - getLastChunkReload() < 10000) return;
+
+  event.preventDefault();
+  setLastChunkReload(now);
+  window.location.reload();
+});
+
 if (window.location.hash.startsWith("#/")) {
   const cleanPath = window.location.hash.slice(1);
   window.history.replaceState(null, "", cleanPath + window.location.search);

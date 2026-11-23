@@ -1,7 +1,11 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { getErrorMessageKey } from "../utils/errorMessages";
 
-const DATA_URL = `${import.meta.env.BASE_URL}data/registar.json`;
+const DATA_VERSION =
+  typeof __ODS_DATE__ === "string" ? encodeURIComponent(__ODS_DATE__) : "";
+const DATA_URL = `${import.meta.env.BASE_URL}data/registar.json${
+  DATA_VERSION ? `?v=${DATA_VERSION}` : ""
+}`;
 
 let dataPromise = null;
 let generation = 0; // bumped on resetData to cancel stale in-flight promises
