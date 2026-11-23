@@ -102,7 +102,7 @@ export default function ComparisonTable({
   };
 
   return (
-    <div className="my-4 my-lg-5">
+    <div className="mt-4 mt-lg-5">
       <h2 className="h5 mb-3">{t("compare.tableTitle")}</h2>
       <div className="row g-2 mb-2">
         <div className="col-md-4">
