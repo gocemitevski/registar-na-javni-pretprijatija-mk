@@ -196,7 +196,7 @@ export const resources = {
           percent: "Промена во %"
         },
         noResults: "Нема претпријатија за прикажување.",
-        missingYear: "Нема податоци за {{year}}"
+        onlyYear: "Само во {{year}}"
       },
       about: {
         intro: "Регистарот на јавни претпријатија и трговски друштва во државна сопственост на Р. С. Македонија е изработен за да овозможи увид во работата на јавните претпријатија и трговските друштва во сопственост на Република Северна Македонија.",
@@ -431,7 +431,7 @@ export const resources = {
           percent: "Change %"
         },
         noResults: "No companies to display.",
-        missingYear: "No data for {{year}}"
+        onlyYear: "Only in {{year}}"
       },
       about: {
         intro: "The Registry of Public Enterprises and Trading Companies in State Ownership of R. N. Macedonia has been created to provide insight into the work of public enterprises and trading companies in state ownership of the Republic of North Macedonia.",

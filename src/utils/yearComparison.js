@@ -1,5 +1,6 @@
 import { MONEY_SHEET_COLUMNS } from "./columns";
 import { formatDecimalNumber } from "./decimalNumbers";
+import { resolveCompanyName } from "./companyAliases";
 
 const METRIC_KEYS = ["income", "expenses", "result"];
 
@@ -65,11 +66,28 @@ export function aggregateYearCompanies(rows = []) {
     const name = row[MONEY_SHEET_COLUMNS.NAME];
     if (!name) return;
 
-    const company = (companies[name] ??= emptyTotals());
+    const canonicalName = resolveCompanyName(name);
+    const company = (companies[canonicalName] ??= emptyTotals());
     addCompanyMetrics(company, row);
   });
 
   return companies;
+}
+
+// Maps each canonical (current) name back to the name used in this year's
+// sheet, so a comparison can display the name that was actually in use then.
+function collectOriginalNames(rows = []) {
+  const names = {};
+
+  rows.forEach((row) => {
+    const name = row[MONEY_SHEET_COLUMNS.NAME];
+    if (!name) return;
+
+    const canonicalName = resolveCompanyName(name);
+    if (!names[canonicalName]) names[canonicalName] = name;
+  });
+
+  return names;
 }
 
 function sumCompanyTotals(companies) {
@@ -95,6 +113,9 @@ export function buildYearComparison(allMoney, baseYear, compareYear) {
   const compareStats = getYearStats(allMoney, compareYear);
   const baseCompanies = aggregateYearCompanies(baseStats.rows);
   const compareCompanies = aggregateYearCompanies(compareStats.rows);
+  const baseNames = collectOriginalNames(baseStats.rows);
+  const compareNames = collectOriginalNames(compareStats.rows);
+  const baseIsNewer = Number(baseYear) > Number(compareYear);
   const baseTotals = sumCompanyTotals(baseCompanies);
   const compareTotals = sumCompanyTotals(compareCompanies);
 
@@ -125,6 +146,11 @@ export function buildYearComparison(allMoney, baseYear, compareYear) {
 
     return {
       name,
+      // Prefer the name from the newer year so a comparison spanning a rename
+      // links to the company page that covers that year.
+      displayName: baseIsNewer
+        ? (baseNames[name] ?? compareNames[name] ?? name)
+        : (compareNames[name] ?? baseNames[name] ?? name),
       base,
       compare,
       deltas,

@@ -68,10 +68,16 @@ export default function ComparisonTable({
     const direction = sortDirection === "asc" ? 1 : -1;
 
     return [...(companies || [])].sort((a, b) => {
+      // Rows present in only one year have no delta to sort by; keep them at
+      // the bottom so they do not interrupt the actual comparisons.
+      const aOneSided = a.status !== "both";
+      const bOneSided = b.status !== "both";
+      if (aOneSided !== bOneSided) return aOneSided ? 1 : -1;
+
       if (sortField === "name") {
         return (
-          getDisplayName(a.name).localeCompare(
-            getDisplayName(b.name),
+          getDisplayName(a.displayName ?? a.name).localeCompare(
+            getDisplayName(b.displayName ?? b.name),
             currentLang,
           ) * direction
         );
@@ -171,23 +177,30 @@ export default function ComparisonTable({
               const compareValue = row.compare?.[metric] ?? null;
               const delta = row.deltas[metric];
               const percent = row.percents[metric];
-              const missingYear =
+              const displayName = row.displayName ?? row.name;
+              const linkName = companyRowsByName[displayName]
+                ? displayName
+                : row.name;
+              const onlyYear =
                 row.status === "onlyBase"
-                  ? compareYear
+                  ? baseYear
                   : row.status === "onlyCompare"
-                    ? baseYear
+                    ? compareYear
                     : null;
 
               return (
                 <tr key={row.name}>
                   <td>
-                    <Link className="fw-semibold" to={getCompanyLink(row.name)}>
-                      {getDisplayName(row.name)}
+                    <Link
+                      className="fw-semibold"
+                      to={getCompanyLink(linkName)}
+                    >
+                      {getDisplayName(displayName)}
                     </Link>
-                    {missingYear && (
+                    {onlyYear && (
                       <span className="badge text-bg-warning text-nowrap d-inline-flex align-items-center gap-1 ms-2">
                         <Icon name="exclamation-triangle-fill" />
-                        {t("compare.missingYear", { year: missingYear })}
+                        {t("compare.onlyYear", { year: onlyYear })}
                       </span>
                     )}
                   </td>
