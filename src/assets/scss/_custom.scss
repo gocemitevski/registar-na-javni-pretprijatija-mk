@@ -133,6 +133,16 @@
   background-color: var(--bs-secondary-bg-subtle, #e2e3e5);
 }
 
+/*
+  Equal-width year badges keep every row's year column the same width, so the
+  director name cards line up even when the range ends with "Денес"/"Today"
+  instead of a four-digit year. Sized in em to scale with the badge font.
+*/
+.directors-timeline-year {
+  min-width: 5em;
+  text-align: center;
+}
+
 .director-details > summary {
   list-style: none;
   cursor: pointer;

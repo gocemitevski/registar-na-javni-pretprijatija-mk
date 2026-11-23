@@ -167,6 +167,7 @@ export const resources = {
         nextCompany: "Следно претпријатие",
         website: "Мрежно место на {{name}}",
         directors: "Директори",
+        present: "Денес",
         noDirectors: "Нема податоци за директорите за избраниот период.",
         directorChanges:
           "Директорот бил променет {{changes}} пати во периодот {{from}}–{{to}} година.",
@@ -407,6 +408,7 @@ export const resources = {
         nextCompany: "Next Company",
         website: "Website of {{name}}",
         directors: "Directors",
+        present: "Today",
         noDirectors: "No directors data available for the selected period.",
         directorChanges:
           "The director has changed {{changes}} times in the period {{from}}–{{to}}.",

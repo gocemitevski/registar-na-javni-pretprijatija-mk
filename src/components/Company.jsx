@@ -260,9 +260,13 @@ function Company() {
   // (return tenures are listed separately, not merged).
   // End year follows timeline semantics: the year the next tenure at that
   // company started (or the latest evidenced year for an ongoing tenure),
-  // so details spans always agree with timeline badges.
+  // so details spans always agree with timeline badges. A final same-year
+  // stint is marked ongoing only when it reaches the dataset's newest year,
+  // matching the timeline's "Денес"/"Today" rule; other same-year stints
+  // render as a single year.
   const directorOtherCompanies = useMemo(() => {
     if (!currentCompany || Object.keys(allMoney).length === 0) return {};
+    const newestYear = availableYears[0];
     const currentName = currentCompany[COMPANY_SHEET_COLUMNS.NAME];
     const rowsByCompany = {};
     availableYears.forEach((y) => {
@@ -302,10 +306,14 @@ function Company() {
       });
       const maxEvYear = rows[rows.length - 1].year;
       tenures.forEach((tenure, i) => {
+        const isLastTenure = i + 1 === tenures.length;
+        const to = isLastTenure ? maxEvYear : tenures[i + 1].year;
         (stintsByDirector[tenure.director] ??= []).push({
           company,
           from: tenure.year,
-          to: i + 1 < tenures.length ? tenures[i + 1].year : maxEvYear,
+          to,
+          ongoing:
+            isLastTenure && tenure.year === to && to === newestYear,
         });
       });
     });
@@ -544,6 +552,18 @@ function Company() {
                     idx < directorsTimeline.length - 1
                       ? directorsTimeline[idx + 1].year
                       : (directorsMaxYear ?? entry.year);
+                  // The incumbent's tenure can start and end in the same year.
+                  // Label the end "Денес"/"Today" only when that year is the
+                  // dataset's newest, so a company that stopped reporting
+                  // cannot imply the director still serves today. Other
+                  // same-year tenures show a single badge; the invisible end
+                  // slot keeps the year column the same width for alignment.
+                  const isOngoingTenure =
+                    idx === directorsTimeline.length - 1 &&
+                    endYear === entry.year &&
+                    endYear === availableYears[0];
+                  const showEndYear =
+                    isOngoingTenure || endYear !== entry.year;
                   const others =
                     directorOtherCompanies[entry.director] ?? [];
                   const otherCompanyCount = new Set(
@@ -577,18 +597,23 @@ function Company() {
                       >
                         {showDirectorRanges ? (
                           <span className="hstack gap-2 flex-shrink-0">
-                            <span className="badge text-bg-light">
+                            <span className="badge text-bg-light directors-timeline-year">
                               {entry.year}
                             </span>
-                            <span className="hstack gap-2 me-1">
+                            <span
+                              className={`hstack gap-2 me-1${showEndYear ? "" : " invisible"}`}
+                              aria-hidden={showEndYear ? undefined : "true"}
+                            >
                               <span className="lh-1">–</span>
-                              <span className="badge text-bg-light">
-                                {endYear}
+                              <span className="badge text-bg-light directors-timeline-year">
+                                {isOngoingTenure
+                                  ? t("company.present")
+                                  : endYear}
                               </span>
                             </span>
                           </span>
                         ) : (
-                          <span className="badge text-bg-light flex-shrink-0 me-1">
+                          <span className="badge text-bg-light flex-shrink-0 me-1 directors-timeline-year">
                             {entry.year}
                           </span>
                         )}
@@ -643,10 +668,16 @@ function Company() {
                                         <span className="badge text-bg-light">
                                           {o.from}
                                         </span>
-                                        <span>–</span>
-                                        <span className="badge text-bg-light">
-                                          {o.to}
-                                        </span>
+                                        {(o.ongoing || o.from !== o.to) && (
+                                          <>
+                                            <span>–</span>
+                                            <span className="badge text-bg-light">
+                                              {o.ongoing
+                                                ? t("company.present")
+                                                : o.to}
+                                            </span>
+                                          </>
+                                        )}
                                       </span>
                                     </li>
                                   );
