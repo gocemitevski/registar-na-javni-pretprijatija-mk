@@ -8,10 +8,10 @@ import { buildComparisonQuery, URL_NORMALIZATION_STATE } from "../utils/url";
 import ComparisonChart from "./ComparisonChart";
 import ComparisonSummary from "./ComparisonSummary";
 import ComparisonTable from "./ComparisonTable";
-import CurrencySwitcher from "./CurrencySwitcher";
 import DataErrorView from "./DataErrorView";
 import Icon from "./Icon";
 import Loading from "./Loading";
+import Navbar from "./Navbar";
 
 function YearComparison() {
   const { t, i18n } = useTranslation();
@@ -29,16 +29,10 @@ function YearComparison() {
     errorInfo,
     retry,
   } = useData();
-  const { baseYear, compareYear, selectedCurrency, setYears } =
-    useComparisonParams(availableYears, allMoney);
-
-  const partialByYear = useMemo(() => {
-    const map = {};
-    availableYears.forEach((year) => {
-      map[year] = getYearStats(allMoney, year).isPartial;
-    });
-    return map;
-  }, [availableYears, allMoney]);
+  const { baseYear, compareYear, selectedCurrency } = useComparisonParams(
+    availableYears,
+    allMoney,
+  );
 
   const comparison = useMemo(() => {
     if (!baseYear || !compareYear) return null;
@@ -96,149 +90,77 @@ function YearComparison() {
 
   if (availableYears.length < 2) {
     return (
-      <main className="container my-5 flex-fill">
-        <div className="alert alert-warning mb-0">
-          {t("compare.notEnoughYears")}
-        </div>
-      </main>
+      <>
+        <Navbar showFilters={false} />
+        <main className="container my-5 flex-fill">
+          <div className="alert alert-warning mb-0">
+            {t("compare.notEnoughYears")}
+          </div>
+        </main>
+      </>
     );
   }
 
-  const pickAlternativeYear = (year) => {
-    const completeAlternative = availableYears.find(
-      (candidate) => candidate !== year && !partialByYear[candidate],
-    );
-    return (
-      completeAlternative ??
-      availableYears.find((candidate) => candidate !== year) ??
-      ""
-    );
-  };
-
-  const handleBaseChange = (event) => {
-    const nextBase = event.target.value;
-    setYears(
-      nextBase,
-      nextBase === compareYear ? pickAlternativeYear(nextBase) : compareYear,
-    );
-  };
-
-  const handleCompareChange = (event) => {
-    const nextCompare = event.target.value;
-    setYears(
-      nextCompare === baseYear ? pickAlternativeYear(nextCompare) : baseYear,
-      nextCompare,
-    );
-  };
-
   return (
-    <main className="container my-5 flex-fill">
-      <div className="row g-3 g-lg-5 align-items-end">
-        <div className="col-lg-7 vstack">
+    <>
+      <Navbar showComparisonFilters={true} />
+      <main className="container my-5 flex-fill">
+        <div className="vstack">
           <h1 className="h3 mb-3">{t("compare.title")}</h1>
           <p className="mb-0">{t("compare.intro")}</p>
         </div>
-        <div className="col-lg-5">
-          <div className="row g-2">
-            <div className="col-md-4">
-              <div className="form-floating">
-                <select
-                  className="form-select"
-                  id="compare-base"
-                  value={baseYear}
-                  onChange={handleBaseChange}
-                >
-                  {availableYears.map((year) => (
-                    <option key={year} value={year}>
-                      {year}
-                      {partialByYear[year]
-                        ? ` (${t("compare.partialShort")})`
-                        : ""}
-                    </option>
-                  ))}
-                </select>
-                <label htmlFor="compare-base">{t("compare.baseYear")}</label>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="form-floating">
-                <select
-                  className="form-select"
-                  id="compare-year"
-                  value={compareYear}
-                  onChange={handleCompareChange}
-                >
-                  {availableYears.map((year) => (
-                    <option key={year} value={year}>
-                      {year}
-                      {partialByYear[year]
-                        ? ` (${t("compare.partialShort")})`
-                        : ""}
-                    </option>
-                  ))}
-                </select>
-                <label htmlFor="compare-year">
-                  {t("compare.compareYear")}
-                </label>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <CurrencySwitcher />
+        {partialYears.length > 0 && (
+          <div
+            className="alert alert-warning hstack gap-2 align-items-start mt-4"
+            role="alert"
+          >
+            <Icon
+              name="exclamation-triangle-fill"
+              className="flex-shrink-0 mt-1"
+            />
+            <div className="vstack gap-1">
+              {partialYears.map(({ year, stats }) => (
+                <p key={year} className="mb-0">
+                  {stats.quarters.length > 0
+                    ? t("compare.partialYear", {
+                        year,
+                        quarters: stats.quarters.join(", "),
+                      })
+                    : t("compare.noYearData", { year })}
+                </p>
+              ))}
             </div>
           </div>
-        </div>
-      </div>
-      {partialYears.length > 0 && (
-        <div
-          className="alert alert-warning hstack gap-2 align-items-start mt-4"
-          role="alert"
-        >
-          <Icon
-            name="exclamation-triangle-fill"
-            className="flex-shrink-0 mt-1"
-          />
-          <div className="vstack gap-1">
-            {partialYears.map(({ year, stats }) => (
-              <p key={year} className="mb-0">
-                {stats.quarters.length > 0
-                  ? t("compare.partialYear", {
-                      year,
-                      quarters: stats.quarters.join(", "),
-                    })
-                  : t("compare.noYearData", { year })}
-              </p>
-            ))}
-          </div>
-        </div>
-      )}
-      {comparison && (
-        <ComparisonSummary
-          totals={comparison.totals}
-          baseYear={baseYear}
-          compareYear={compareYear}
-          currency={selectedCurrency}
-        />
-      )}
-      {comparison && (
-        <>
-          <ComparisonChart
+        )}
+        {comparison && (
+          <ComparisonSummary
             totals={comparison.totals}
             baseYear={baseYear}
             compareYear={compareYear}
             currency={selectedCurrency}
           />
-          <ComparisonTable
-            companies={comparison.companies}
-            totals={comparison.totals}
-            baseYear={baseYear}
-            compareYear={compareYear}
-            companyRows={pretprijatija}
-            currency={selectedCurrency}
-            currentLang={currentLang}
-          />
-        </>
-      )}
-    </main>
+        )}
+        {comparison && (
+          <>
+            <ComparisonChart
+              totals={comparison.totals}
+              baseYear={baseYear}
+              compareYear={compareYear}
+              currency={selectedCurrency}
+            />
+            <ComparisonTable
+              companies={comparison.companies}
+              totals={comparison.totals}
+              baseYear={baseYear}
+              compareYear={compareYear}
+              companyRows={pretprijatija}
+              currency={selectedCurrency}
+              currentLang={currentLang}
+            />
+          </>
+        )}
+      </main>
+    </>
   );
 }
 

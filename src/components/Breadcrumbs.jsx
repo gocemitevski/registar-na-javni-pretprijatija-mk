@@ -18,7 +18,6 @@ function Breadcrumbs() {
 
   const isCompanyPage = location.pathname.includes("/company/");
   const isFilteredPage = location.pathname.includes("/filtered/");
-  const isComparePage = /^\/(mk|en)\/compare\/?$/.test(location.pathname);
 
   const pathParts = location.pathname.split("/").filter(Boolean);
 
@@ -38,7 +37,7 @@ function Breadcrumbs() {
       })()
     : null;
 
-  if (!isCompanyPage && !isFilteredPageWithFilter && !isComparePage) {
+  if (!isCompanyPage && !isFilteredPageWithFilter) {
     return null;
   }
 
@@ -76,8 +75,6 @@ function Breadcrumbs() {
       "...";
     breadcrumbs.push({ label: t("breadcrumbs.registry"), href: `/${currentLang}/registry${location.search}` });
     breadcrumbs.push({ label: companyName, href: null });
-  } else if (isComparePage) {
-    breadcrumbs.push({ label: t("breadcrumbs.compare"), href: null });
   }
 
   return (

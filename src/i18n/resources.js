@@ -78,7 +78,6 @@ export const resources = {
       breadcrumbs: {
         home: "Почетна",
         registry: "Регистар",
-        compare: "Споредба",
         quickFacts: "{{year}} година низ бројки",
         quickFactsQuarter: "Квартал {{quarter}} на {{year}} година низ бројки"
       },
@@ -309,7 +308,6 @@ export const resources = {
       breadcrumbs: {
         home: "Home",
         registry: "Registry",
-        compare: "Comparison",
         quickFacts: "{{year}} in Numbers",
         quickFactsQuarter: "Q{{quarter}} of {{year}} in Numbers",
       },
