@@ -100,7 +100,7 @@ export function computeMeta(location, t) {
     description = t("compare.description");
   } else if (path.includes("/about")) {
     title = `${t("titles.about")} - ${t("app.title_short")}`;
-  } else if (path.match(/^\/(mk|en)$/)) {
+  } else if (path.match(/^\/(mk|en)\/?$/)) {
     title = `${t("titles.home")} - ${t("app.title_short")}`;
   }
 

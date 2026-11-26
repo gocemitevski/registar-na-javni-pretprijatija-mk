@@ -51,7 +51,7 @@ function Breadcrumbs() {
   };
 
   const breadcrumbs = [
-    { label: t("breadcrumbs.home"), href: location.search ? `/${currentLang}${location.search}` : `/${currentLang}` },
+    { label: t("breadcrumbs.home"), href: `/${currentLang}/${location.search}` },
   ];
 
   if (isFilteredPageWithFilter) {
@@ -60,7 +60,7 @@ function Breadcrumbs() {
       ? t("breadcrumbs.quickFactsQuarter", { year: currentYear, quarter: selectedQuarter })
       : t("breadcrumbs.quickFacts", { year: currentYear });
 
-    breadcrumbs.push({ label: sectionTitle, href: `/${currentLang}${location.search}` });
+    breadcrumbs.push({ label: sectionTitle, href: `/${currentLang}/${location.search}` });
     breadcrumbs.push({ label: filterTitles[filter] || filter, href: null });
   } else if (isCompanyPage) {
     const currentCompany = pretprijatija.find(
@@ -73,7 +73,7 @@ function Breadcrumbs() {
       getLocalizedCompanyName(currentCompany, currentLang) ||
       (loading ? "…" : companySlug) ||
       "...";
-    breadcrumbs.push({ label: t("breadcrumbs.registry"), href: `/${currentLang}/registry${location.search}` });
+    breadcrumbs.push({ label: t("breadcrumbs.registry"), href: `/${currentLang}/registry/${location.search}` });
     breadcrumbs.push({ label: companyName, href: null });
   }
 

@@ -112,7 +112,7 @@ function Company() {
     const path = toCleanName(pretprijatija[idx][COMPANY_SHEET_COLUMNS.NAME]);
     if (path) {
       window.scrollTo(0, 0);
-      navigate(`/${currentLang}/company/${path}${location.search}`);
+      navigate(`/${currentLang}/company/${path}/${location.search}`);
     }
   };
 
@@ -652,7 +652,7 @@ function Company() {
                                       {row ? (
                                         <Link
                                           className="fw-bolder"
-                                          to={`/${currentLang}/company/${toCleanName(o.company)}${location.search}`}
+                                          to={`/${currentLang}/company/${toCleanName(o.company)}/${location.search}`}
                                         >
                                           {getLocalizedCompanyName(
                                             row,

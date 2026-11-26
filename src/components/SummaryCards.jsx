@@ -132,7 +132,7 @@ function SummaryCards({ money, selectedYear, selectedQuarter }) {
     } else {
       params.delete("quarter");
     }
-    return `/${currentLang}/filtered/${filter}?${params.toString()}`;
+    return `/${currentLang}/filtered/${filter}/?${params.toString()}`;
   };
 
   const cardValues = [

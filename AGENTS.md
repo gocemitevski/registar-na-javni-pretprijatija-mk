@@ -454,7 +454,8 @@ Defaults to `https://pretprijatija.gocemitevski.com` if not set.
 - Keep exactly one `<h1>` per page. The site header brand is a `<p>`, page titles use `<h1>`, and cards/sections use `<h2>`/`<h3>`. Registry and filtered pages use a visually hidden `<h1>`.
 - Generated pages set `lang`, `hreflang`, and `og:locale`; the client updates them on SPA navigation in `src/hooks/usePageTitle.jsx`.
 - Filtered/list views keep query parameters such as `year` and `currency`, but canonical URLs omit them.
-- The root `/` canonicalizes to `/mk/`. Unknown paths are `noindex`; the generated `404.html` has no canonical/hreflang, and the client-side `NotFound` adds `noindex`.
+- Public URLs use a trailing slash (`/mk/`, `/mk/registry/`, `/mk/company/<slug>/`). GitHub Pages serves directory indexes only in that form and 301s `/mk` → `/mk/`, so canonical tags, `hreflang`, sitemap entries, `Link` targets and `navigate()` calls must all keep the slash. `getPathWithLang` enforces this for generated paths.
+- The root `/` canonicalizes to `/mk/` and redirects client-side to `/mk/`. Unknown paths are `noindex`; the generated `404.html` has no canonical/hreflang, and the client-side `NotFound` adds `noindex`.
 - When adding a route, update `scripts/generate-pages.js` and `scripts/generate-sitemap.js` so the static shell and sitemap stay in sync.
 
 ### Adding a New Route

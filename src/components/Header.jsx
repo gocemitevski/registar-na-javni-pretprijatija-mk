@@ -37,9 +37,7 @@ export default function Header() {
     [pageTitle, shareUrl]
   );
 
-  const homePath = location.search
-    ? `/${currentLang}${location.search}`
-    : `/${currentLang}`;
+  const homePath = `/${currentLang}/${location.search}`;
 
   return (
     <>

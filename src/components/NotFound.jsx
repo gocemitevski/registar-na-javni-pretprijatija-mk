@@ -22,7 +22,7 @@ export default function NotFound() {
     <main className="container my-5 flex-fill">
       <h1 className="h3 mb-3">{t("notFound.title")}</h1>
       <p className="mb-4">{t("notFound.description")}</p>
-      <Link className="btn btn-primary" to={`/${currentLang}`}>
+      <Link className="btn btn-primary" to={`/${currentLang}/`}>
         {t("notFound.home")}
       </Link>
     </main>

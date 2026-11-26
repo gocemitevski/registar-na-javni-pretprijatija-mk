@@ -117,7 +117,7 @@ export default function Navbar({
 
   const compareCurrency = new URLSearchParams(location.search).get("currency");
   const isComparePage = /^\/(mk|en)\/compare\/?$/.test(location.pathname);
-  const comparePath = `/${currentLang}/compare${compareCurrency ? `?currency=${compareCurrency}` : ""}`;
+  const comparePath = `/${currentLang}/compare/${compareCurrency ? `?currency=${compareCurrency}` : ""}`;
   // The comparison page has no single year/quarter, so leaving it keeps only
   // the currency like the comparison link itself.
   const navSearch = isComparePage
@@ -125,9 +125,9 @@ export default function Navbar({
       ? `?currency=${compareCurrency}`
       : ""
     : `?${buildQuery(selectedYear, selectedQuarter, selectedSorting, selectedOrder, location.search)}`;
-  const overviewPath = `/${currentLang}${navSearch}`;
-  const registryPath = `/${currentLang}/registry${navSearch}`;
-  const aboutPath = `/${currentLang}/about`;
+  const overviewPath = `/${currentLang}/${navSearch}`;
+  const registryPath = `/${currentLang}/registry/${navSearch}`;
+  const aboutPath = `/${currentLang}/about/`;
 
   const normalizedPath = location.pathname.replace(/\/$/, "");
   const isHomeActive = normalizedPath === `/${currentLang}`;
@@ -149,11 +149,11 @@ export default function Navbar({
       selectedSorting !== DEFAULT_SORTING ? selectedOrder : DEFAULT_ORDER;
     if (showSortingFilters) {
       navigate(
-        `/${currentLang}/registry?${buildQuery(newYear, quarterToUse, selectedSorting, orderToUse, location.search)}`,
+        `/${currentLang}/registry/?${buildQuery(newYear, quarterToUse, selectedSorting, orderToUse, location.search)}`,
       );
     } else {
       navigate(
-        `/${currentLang}?${buildQuery(newYear, quarterToUse, DEFAULT_SORTING, DEFAULT_ORDER, location.search)}`,
+        `/${currentLang}/?${buildQuery(newYear, quarterToUse, DEFAULT_SORTING, DEFAULT_ORDER, location.search)}`,
       );
     }
   };
@@ -164,11 +164,11 @@ export default function Navbar({
       selectedSorting !== DEFAULT_SORTING ? selectedOrder : DEFAULT_ORDER;
     if (showSortingFilters) {
       navigate(
-        `/${currentLang}/registry?${buildQuery(selectedYear, newQuarter, selectedSorting, orderToUse, location.search)}`,
+        `/${currentLang}/registry/?${buildQuery(selectedYear, newQuarter, selectedSorting, orderToUse, location.search)}`,
       );
     } else {
       navigate(
-        `/${currentLang}?${buildQuery(selectedYear, newQuarter, DEFAULT_SORTING, DEFAULT_ORDER, location.search)}`,
+        `/${currentLang}/?${buildQuery(selectedYear, newQuarter, DEFAULT_SORTING, DEFAULT_ORDER, location.search)}`,
       );
     }
   };
@@ -176,14 +176,14 @@ export default function Navbar({
   const handleSortingChange = (e) => {
     const newSorting = e.target.value;
     navigate(
-      `/${currentLang}/registry?${buildQuery(selectedYear, selectedQuarter, newSorting, DEFAULT_ORDER, location.search)}`,
+      `/${currentLang}/registry/?${buildQuery(selectedYear, selectedQuarter, newSorting, DEFAULT_ORDER, location.search)}`,
     );
   };
 
   const handleOrderChange = (e) => {
     const newOrder = e.target.value;
     navigate(
-      `/${currentLang}/registry?${buildQuery(selectedYear, selectedQuarter, selectedSorting, newOrder, location.search)}`,
+      `/${currentLang}/registry/?${buildQuery(selectedYear, selectedQuarter, selectedSorting, newOrder, location.search)}`,
     );
   };
 
@@ -236,7 +236,7 @@ export default function Navbar({
         comparisonDefaults.compareYear,
         "",
       );
-      navigate(`/${currentLang}/compare${query ? `?${query}` : ""}`);
+      navigate(`/${currentLang}/compare/${query ? `?${query}` : ""}`);
       return;
     }
 
@@ -245,7 +245,7 @@ export default function Navbar({
     params.set("year", defaultYear);
     params.delete("currency");
     if (showSortingFilters) {
-      navigate(`/${currentLang}/registry?${params.toString()}`);
+      navigate(`/${currentLang}/registry/?${params.toString()}`);
     } else {
       navigate(`/${currentLang}/?${params.toString()}`);
     }

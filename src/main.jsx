@@ -69,7 +69,7 @@ function AppContent() {
       <Breadcrumbs />
       <Suspense fallback={<Loading />}>
         <Routes>
-          <Route path="/" element={<Navigate to="/mk" replace />} />
+          <Route path="/" element={<Navigate to="/mk/" replace />} />
           <Route path="/:lang" element={<LangLayout />}>
             <Route path="filtered/:filter" element={<FilteredCompanies />} />
             <Route path="registry" element={<Registry />} />

@@ -45,7 +45,7 @@ export default function Card({ row, numbers, activeSort }) {
         <div className="row g-3">
           <div className="col-lg-6 col-xl-8 vstack">
             <h2 className="card-title fs-5">
-              <Link to={`/${currentLang}/company/${cleanName(transliterate(row[COMPANY_SHEET_COLUMNS.NAME]))}${location.search}`}>
+              <Link to={`/${currentLang}/company/${cleanName(transliterate(row[COMPANY_SHEET_COLUMNS.NAME]))}/${location.search}`}>
                 {getLocalizedCompanyName(row, currentLang)}
               </Link>
             </h2>

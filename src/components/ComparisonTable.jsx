@@ -104,7 +104,7 @@ export default function ComparisonTable({
 
   const getCompanyLink = (name) => {
     const slug = cleanName(transliterate(name));
-    return `/${currentLang}/company/${slug}${companySearch ? `?${companySearch}` : ""}`;
+    return `/${currentLang}/company/${slug}/${companySearch ? `?${companySearch}` : ""}`;
   };
 
   return (

@@ -13,10 +13,10 @@ export default function LanguageSwitcher() {
 
     if (currentLang === "mk" || currentLang === "en") {
       pathParts[0] = lng;
-      const newPath = "/" + pathParts.join("/");
+      const newPath = "/" + pathParts.join("/") + "/";
       navigate(newPath + location.search);
     } else {
-      navigate(`/${lng}${location.search}`);
+      navigate(`/${lng}/${location.search}`);
     }
     i18n.changeLanguage(lng);
   };

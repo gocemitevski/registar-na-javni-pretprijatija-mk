@@ -49,7 +49,7 @@ function Registry() {
       return;
     }
 
-    const targetPath = `/${currentLang}/registry?${buildQuery(selectedYear, selectedQuarter, selectedSorting, selectedOrder, location.search)}`;
+    const targetPath = `/${currentLang}/registry/?${buildQuery(selectedYear, selectedQuarter, selectedSorting, selectedOrder, location.search)}`;
     const currentPath = location.pathname + location.search;
 
     if (currentPath !== targetPath) {

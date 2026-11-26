@@ -51,7 +51,7 @@ function Overview() {
     }
     if (!availableYears.length) return;
 
-    const targetPath = `/${currentLang}?${buildQuery(selectedYear, selectedQuarter, null, null, location.search)}`;
+    const targetPath = `/${currentLang}/?${buildQuery(selectedYear, selectedQuarter, null, null, location.search)}`;
     const currentPath = location.pathname + location.search;
 
     if (currentPath !== targetPath) {
